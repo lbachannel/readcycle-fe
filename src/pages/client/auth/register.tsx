@@ -8,7 +8,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import './register.scss';
 import { registerAPI } from '@/services/api';
 
-
 type FieldType = {
     firstName: string;
     lastName: string;
@@ -64,7 +63,8 @@ const RegisterPage = () => {
         const yob = dayjs(dateOfBirth).format('YYYY-MM-DD');
         const response = await registerAPI(firstName, lastName, email, yob, password, confirmPassword);
         if (response.data) {
-            message.success("Register member successfully");
+            localStorage.setItem('registerSuccess', 'Please check email to verify your account before login.');
+            message.success('Register member successfully');
             navigate("/login");
         } else {
             message.error(response.message && Array.isArray(response.message) ? response.message[0] : response.message);
