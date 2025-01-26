@@ -13,6 +13,8 @@ import LoginPage from 'pages/client/auth/login';
 import RegisterPage from 'pages/client/auth/register';
 import 'styles/reset.scss';
 import { App } from 'antd';
+import VerifySuccessPage from 'pages/client/auth/verify-success';
+import VerifyFailedPage from 'pages/client/auth/verify-failed';
 
 const router = createBrowserRouter([
     {
@@ -41,8 +43,13 @@ const router = createBrowserRouter([
     },
 
     {
-        path: "/register-success",
-        element: <div>Have been send email. Please check email</div>,
+        path: "/verify-email-success",
+        element: <VerifySuccessPage />,
+    },
+
+    {
+        path: "/verify-email-failed",
+        element: <VerifyFailedPage />,
     },
 ]);
 
