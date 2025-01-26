@@ -5,10 +5,12 @@ import {
     createBrowserRouter,
     RouterProvider,
 } from "react-router-dom";
+
 import HomePage from './pages/client/home';
 import BookPage from './pages/client/book';
 import LoginPage from './pages/client/auth/login';
 import RegisterPage from './pages/client/auth/register';
+import './styles/reset.scss';
 
 const router = createBrowserRouter([
     {
