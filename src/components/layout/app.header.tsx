@@ -1,8 +1,8 @@
 const AppHeader = () => {
     return (
-        <>
-            Home page
-        </>
+        <div>
+            app header
+        </div>
     )
 };
 
