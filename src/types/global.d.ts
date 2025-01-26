@@ -17,4 +17,11 @@ declare global {
         },
         result: T[]
     }
+
+    interface IRegister {
+        id: string;
+        name: string;
+        email: string;
+        verificationEmailToken: string;
+    }
 }

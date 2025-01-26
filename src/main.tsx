@@ -12,6 +12,7 @@ import BookPage from 'pages/client/book';
 import LoginPage from 'pages/client/auth/login';
 import RegisterPage from 'pages/client/auth/register';
 import 'styles/reset.scss';
+import { App } from 'antd';
 
 const router = createBrowserRouter([
     {
@@ -38,10 +39,17 @@ const router = createBrowserRouter([
         path: "/register",
         element: <RegisterPage />,
     },
+
+    {
+        path: "/register-success",
+        element: <div>Have been send email. Please check email</div>,
+    },
 ]);
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
-        <RouterProvider router={router} />
+        <App>
+            <RouterProvider router={router} />
+        </App>
     </StrictMode>,
 )

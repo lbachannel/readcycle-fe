@@ -1,10 +1,12 @@
-import { Form, Divider, Input, DatePicker, Button, ConfigProvider, Space } from 'antd';
+import { Form, Divider, Input, DatePicker, Button, ConfigProvider, Space, App, notification } from 'antd';
 import { AntDesignOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
 import type { FormProps } from 'antd';
+import dayjs from 'dayjs';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import './register.scss';
+import { registerAPI } from '@/services/api';
 
 
 type FieldType = {
@@ -52,9 +54,23 @@ const formItemLayout = {
 
 const RegisterPage = () => {
     const [isSubmit, setIsSubmit] = useState(false);
+    const { message } = App.useApp();
     const { styles } = useStyle();
-    const onFinish: FormProps<FieldType>['onFinish'] = async (value) => {
-        console.log(value);
+    const navigate = useNavigate();
+    const [form] = Form.useForm();
+
+    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
+        setIsSubmit(true);
+        const { firstName, lastName, email, dateOfBirth, password, confirmPassword } = values;
+        const yob = dayjs(dateOfBirth).format('YYYY-MM-DD');
+        const response = await registerAPI(firstName, lastName, email, yob, password, confirmPassword);
+        if (response.data) {
+            message.success("Register member successfully");
+            navigate("/login");
+        } else {
+            message.error(response.message && Array.isArray(response.message) ? response.message[0] : response.message);
+        }
+        setIsSubmit(false);
     };
     
     return (
@@ -69,6 +85,7 @@ const RegisterPage = () => {
                             onFinish={onFinish}
                             autoComplete="off"
                             labelAlign="left"
+                            form={form}
                         >
                             <Form.Item<FieldType>
                                 label="Firstname"
