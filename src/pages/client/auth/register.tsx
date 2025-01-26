@@ -57,7 +57,6 @@ const RegisterPage = () => {
     const { message } = App.useApp();
     const { styles } = useStyle();
     const navigate = useNavigate();
-    const [form] = Form.useForm();
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         setIsSubmit(true);
@@ -85,7 +84,6 @@ const RegisterPage = () => {
                             onFinish={onFinish}
                             autoComplete="off"
                             labelAlign="left"
-                            form={form}
                         >
                             <Form.Item<FieldType>
                                 label="Firstname"
