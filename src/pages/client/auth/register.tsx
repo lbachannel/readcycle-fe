@@ -60,8 +60,15 @@ const RegisterPage = () => {
     
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         setIsSubmit(true);
-        const { firstName, lastName, email, dateOfBirth, password, confirmPassword } = values;
-        const yob = dayjs(dateOfBirth).format('YYYY-MM-DD');
+        const { firstName = "", lastName = "", email = "", dateOfBirth = "", password = "", confirmPassword = ""} = values;
+        let yob = "";
+        if (!dateOfBirth) {
+            yob = "";
+        } else if (dayjs(dateOfBirth).format('YYYY-MM-DD') >= dayjs().format('YYYY-MM-DD')) {
+            yob = dayjs().format('YYYY-MM-DD');
+        } else {
+            yob = dayjs(dateOfBirth).format('YYYY-MM-DD');
+        }
         const response = await registerAPI(firstName, lastName, email, yob, password, confirmPassword);
         if (response.data) {
             localStorage.setItem('registerSuccess', 'Please check email to verify your account before login.');
@@ -104,7 +111,6 @@ const RegisterPage = () => {
                             <Form.Item<FieldType>
                                 label="Firstname"
                                 name="firstName"
-                                rules={[{ required: true, message: 'First name is required!' }]}
                             >
                                 <Input />
                             </Form.Item>
@@ -112,7 +118,6 @@ const RegisterPage = () => {
                             <Form.Item<FieldType>
                                 label="Lastname"
                                 name="lastName"
-                                rules={[{ required: true, message: 'Last name is required!' }]}
                             >
                                 <Input />
                             </Form.Item>
@@ -120,7 +125,6 @@ const RegisterPage = () => {
                             <Form.Item<FieldType>
                                 label="Date of birth"
                                 name="dateOfBirth"
-                                rules={[{ required: true, message: 'Date of birth is required!' }]}
                             >
                                 <DatePicker style={{ width: "100%" }} />
                             </Form.Item>
@@ -128,10 +132,6 @@ const RegisterPage = () => {
                             <Form.Item<FieldType>
                                 label="Email"
                                 name="email"
-                                rules={[
-                                    { required: true, message: 'Email is required!' },
-                                    { type: "email", message: "Email invalid format!" }
-                                ]}
                             >
                                 <Input />
                             </Form.Item>
@@ -139,7 +139,6 @@ const RegisterPage = () => {
                             <Form.Item<FieldType>
                                 label="Password"
                                 name="password"
-                                rules={[{ required: true, message: 'Password is required!' }]}
                             >
                                 <Input.Password />
                             </Form.Item>
@@ -147,7 +146,6 @@ const RegisterPage = () => {
                             <Form.Item<FieldType>
                                 label="Confirm password"
                                 name="confirmPassword"
-                                rules={[{ required: true, message: 'Confirm password is required!' }]}
                             >
                                 <Input.Password />
                             </Form.Item>
