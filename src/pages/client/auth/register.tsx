@@ -114,7 +114,7 @@ const RegisterPage = () => {
                                 name="email"
                                 rules={[
                                     { required: true, message: 'Email is required!' },
-                                    { type: "email", message: "Email không đúng định dạng!" }
+                                    { type: "email", message: "Email invalid format!" }
                                 ]}
                             >
                                 <Input />
