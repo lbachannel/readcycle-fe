@@ -1,0 +1,34 @@
+.verify-email {
+    color: var(--color-black);
+    background: var(--color-light);
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        max-width: 80rem;
+        min-height: 100vh;
+        padding: 0 2rem;
+        margin: 0 auto;
+    }
+
+    .main {
+        .wrapper {
+            max-width: 28rem;
+            width: 100%;
+            margin: 2rem auto;
+            padding: 2rem 2.5rem;
+            border: none;
+            outline: none;
+            border-radius: 0.5rem;
+            color: var(--color-black);
+            background: var(--color-white);
+            box-shadow: var(--shadow-large);
+            position: relative;
+        }
+    }
+
+    :where(.css-dev-only-do-not-override-apn68).ant-result .ant-result-icon>.anticon {
+        font-size: 40px;
+    }
+}
