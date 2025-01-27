@@ -1,4 +1,4 @@
-import { Form, Divider, Input, DatePicker, Button, ConfigProvider, Space, App } from 'antd';
+import { Form, Divider, Input, DatePicker, Button, ConfigProvider, Space, App, notification } from 'antd';
 import { AntDesignOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
 import type { FormProps } from 'antd';
@@ -56,7 +56,8 @@ const RegisterPage = () => {
     const { message } = App.useApp();
     const { styles } = useStyle();
     const navigate = useNavigate();
-
+    const [api, contextHolder] = notification.useNotification();
+    
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         setIsSubmit(true);
         const { firstName, lastName, email, dateOfBirth, password, confirmPassword } = values;
@@ -67,7 +68,22 @@ const RegisterPage = () => {
             message.success('Register member successfully');
             navigate("/login");
         } else {
-            message.error(response.message && Array.isArray(response.message) ? response.message[0] : response.message);
+            const errorMessage = Array.isArray(response.message) ? (
+                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
+                    {response.message.map((msg, index) => (
+                        <li key={index}>{msg}</li>
+                    ))}
+                </ul>
+            ) : (
+                <div>{response.message}</div>
+            );
+            api.open({
+                message: response.error,
+                description: errorMessage,
+                type: 'error',
+                showProgress: true,
+                pauseOnHover: true,
+            });
         }
         setIsSubmit(false);
     };
@@ -141,9 +157,14 @@ const RegisterPage = () => {
                                     className: styles.linearGradientButton,
                                 }}
                             >
+                                {contextHolder}
                                 <Space>
                                     <Form.Item>
-                                        <Button type="primary" htmlType="submit" loading={isSubmit} icon={<AntDesignOutlined />}>
+                                        <Button 
+                                            type="primary" 
+                                            htmlType="submit" 
+                                            loading={isSubmit} 
+                                            icon={<AntDesignOutlined />} >
                                             Register
                                         </Button>
                                     </Form.Item>
