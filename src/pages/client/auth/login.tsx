@@ -1,14 +1,15 @@
-import { Form, Divider, Input, Button, ConfigProvider, Space } from 'antd';
+import { Form, Divider, Input, Button, ConfigProvider, Space, App, notification } from 'antd';
 import { AntDesignOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
 import type { FormProps } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './login.scss';
 import { Alert } from 'antd';
+import { loginAPI } from '@/services/api';
 
 type FieldType = {
-    email: string;
+    username: string;
     password: string;
 };
 
@@ -41,6 +42,10 @@ const LoginPage = () => {
     const [isSubmit, setIsSubmit] = useState(false);
     const { styles } = useStyle();
     const [alertMessage, setAlertMessage] = useState("");
+    const { message } = App.useApp();
+    const navigate = useNavigate();
+    const [api, contextHolder] = notification.useNotification();
+
     useEffect(() => {
         const message = localStorage.getItem('registerSuccess');
         if (message) {
@@ -49,7 +54,33 @@ const LoginPage = () => {
         }
     }, []);
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        console.log(values)
+        const { username = "", password = "" } = values;
+        setIsSubmit(true);
+        const response = await loginAPI(username, password);
+        setIsSubmit(false);
+        if (response?.data) {
+            console.log(response.data.access_token);
+            localStorage.setItem('access_token', response.data.access_token);
+            message.success("Login successfully");
+            navigate('/');
+        } else {
+            const errorMessage = Array.isArray(response.message) ? (
+                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
+                    {response.message.map((msg, index) => (
+                        <li key={index}>{msg}</li>
+                    ))}
+                </ul>
+            ) : (
+                <div>{response.message}</div>
+            );
+            api.open({
+                message: response.error,
+                description: errorMessage,
+                type: 'error',
+                showProgress: true,
+                pauseOnHover: true,
+            });
+        }
     };
     
     return (
@@ -59,7 +90,7 @@ const LoginPage = () => {
                     <div className="container">
                         <section className="wrapper">
                             <div className="heading"></div>
-        {alertMessage && <Alert message={alertMessage} type="success" showIcon />}
+                            {alertMessage && <Alert message={alertMessage} type="success" showIcon />}
                             <Form
                                 name="form-register"
                                 onFinish={onFinish}
@@ -69,12 +100,8 @@ const LoginPage = () => {
                                 <Form.Item<FieldType>
                                     labelCol={{ span: 24 }}
                                     label="Email"
-                                    name="email"
-                                    rules={[
-                                        { required: true, message: 'Email is required!' },
-                                        { type: "email", message: "Email không đúng định dạng!" }
-                                    ]}
-                                    >
+                                    name="username"
+                                >
                                     <Input />
                                 </Form.Item>
 
@@ -82,8 +109,7 @@ const LoginPage = () => {
                                     labelCol={{ span: 24 }}
                                     label="Password"
                                     name="password"
-                                    rules={[{ required: true, message: 'Password is required!' }]}
-                                    >
+                                >
                                     <Input.Password />
                                 </Form.Item>
                                 
@@ -91,10 +117,15 @@ const LoginPage = () => {
                                     button={{
                                         className: styles.linearGradientButton,
                                     }}
-                                    >
+                                >
+                                    {contextHolder}
                                     <Space>
                                         <Form.Item>
-                                            <Button type="primary" htmlType="submit" loading={isSubmit} icon={<AntDesignOutlined />}>
+                                            <Button 
+                                                type="primary" 
+                                                htmlType="submit" 
+                                                loading={isSubmit} 
+                                                icon={<AntDesignOutlined />}>
                                                 Login
                                             </Button>
                                         </Form.Item>

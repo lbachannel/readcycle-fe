@@ -24,4 +24,13 @@ declare global {
         email: string;
         verificationEmailToken: string;
     }
+
+    interface ILogin {
+        access_token: string;
+        user: {
+            id: string;
+            email: string;
+            name: string;
+        }
+    }
 }
