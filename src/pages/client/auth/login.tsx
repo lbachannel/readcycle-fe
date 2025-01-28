@@ -7,6 +7,7 @@ import { useEffect, useState } from 'react';
 import './login.scss';
 import { Alert } from 'antd';
 import { loginAPI } from '@/services/api';
+import { useCurrentApp } from '@/components/context/app.context';
 
 type FieldType = {
     username: string;
@@ -43,6 +44,7 @@ const LoginPage = () => {
     const { styles } = useStyle();
     const [alertMessage, setAlertMessage] = useState("");
     const { message } = App.useApp();
+    const { setIsAuthenticated, setUser } = useCurrentApp();
     const navigate = useNavigate();
     const [api, contextHolder] = notification.useNotification();
 
@@ -59,7 +61,8 @@ const LoginPage = () => {
         const response = await loginAPI(username, password);
         setIsSubmit(false);
         if (response?.data) {
-            console.log(response.data.access_token);
+            setIsAuthenticated(true);
+            setUser(response.data.user);
             localStorage.setItem('access_token', response.data.access_token);
             message.success("Login successfully");
             navigate('/');

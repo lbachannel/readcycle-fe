@@ -33,4 +33,10 @@ declare global {
             name: string;
         }
     }
+
+    interface IUser {
+        id: string;
+        email: string;
+        name: string;
+    }
 }
