@@ -39,4 +39,8 @@ declare global {
         email: string;
         name: string;
     }
+
+    interface IGetAccount {
+        user: IUser;
+    }
 }
