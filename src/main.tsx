@@ -16,6 +16,7 @@ import { App } from 'antd';
 import VerifySuccessPage from 'pages/client/auth/verify-success';
 import VerifyFailedPage from 'pages/client/auth/verify-failed';
 import { AppProvider } from 'components/context/app.context';
+import ProtectedRoute from 'components/auth/auth';
 
 const router = createBrowserRouter([
     {
@@ -29,6 +30,14 @@ const router = createBrowserRouter([
             {
                 path: "/books",
                 element: <BookPage />
+            },
+            {
+                path: "/admin",
+                element: (
+                    <ProtectedRoute>
+                        <div>Admin page</div>
+                    </ProtectedRoute>
+                )
             }
         ]
     },

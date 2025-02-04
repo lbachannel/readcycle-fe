@@ -38,6 +38,13 @@ declare global {
         id: string;
         email: string;
         name: string;
+        role: {
+            id: string;
+            name: string;
+            description: string;
+            active: boolean;
+            permissions: [];
+        }
     }
 
     interface IGetAccount {
