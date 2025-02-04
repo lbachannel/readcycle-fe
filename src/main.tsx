@@ -17,6 +17,11 @@ import VerifySuccessPage from 'pages/client/auth/verify-success';
 import VerifyFailedPage from 'pages/client/auth/verify-failed';
 import { AppProvider } from 'components/context/app.context';
 import ProtectedRoute from 'components/auth/auth';
+import ManageBookPage from './pages/admin/manage.book';
+import ManageUserPage from './pages/admin/manage.user';
+import ManageOrderPage from './pages/admin/manage.order';
+import DashBoardPage from './pages/admin/dashboard';
+import LayoutAdmin from './components/layout/layout.admin';
 
 const router = createBrowserRouter([
     {
@@ -30,12 +35,43 @@ const router = createBrowserRouter([
             {
                 path: "/books",
                 element: <BookPage />
-            },
+            }
+        ]
+    },
+
+    {
+        path: "admin",
+        element: <LayoutAdmin />,
+        children: [
             {
-                path: "/admin",
+                index: true,
                 element: (
                     <ProtectedRoute>
-                        <div>Admin page</div>
+                        <DashBoardPage />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: "book",
+                element: (
+                    <ProtectedRoute>
+                        <ManageBookPage />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: "order",
+                element: (
+                    <ProtectedRoute>
+                        <ManageOrderPage />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: "user",
+                element: (
+                    <ProtectedRoute>
+                        <ManageUserPage />
                     </ProtectedRoute>
                 )
             }
@@ -60,7 +96,7 @@ const router = createBrowserRouter([
     {
         path: "/verify-email-failed",
         element: <VerifyFailedPage />,
-    },
+    }
 ]);
 
 createRoot(document.getElementById('root')!).render(
