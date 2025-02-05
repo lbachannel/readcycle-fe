@@ -31,6 +31,17 @@ declare global {
             id: string;
             email: string;
             name: string;
+            role: {
+                id: string;
+                name: string;
+                permissions: {
+                    id: string;
+                    name: string;
+                    apiPath: string;
+                    method: string;
+                    module: string;
+                }[]
+            }
         }
     }
 
@@ -41,9 +52,13 @@ declare global {
         role: {
             id: string;
             name: string;
-            description: string;
-            active: boolean;
-            permissions: [];
+            permissions: {
+                id: string;
+                name: string;
+                apiPath: string;
+                method: string;
+                module: string;
+            }[]
         }
     }
 
