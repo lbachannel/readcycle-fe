@@ -23,6 +23,10 @@ const handleRefreshToken = async (): Promise<string | null> => {
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
     // Do something before request is sent
+    if (!config.headers.Accept && config.headers["Content-Type"]) {
+        config.headers.Accept = "application/json";
+        config.headers["Content-Type"] = "application/json; charset=utf-8";
+    }
     return config;
 }, function (error) {
     // Do something with request error
