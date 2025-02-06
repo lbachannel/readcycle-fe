@@ -14,3 +14,8 @@ export const getAccountAPI = () => {
     const urlBackend = "/api/v1/auth/account";
     return axios.get<IBackendRes<IGetAccount>>(urlBackend);
 }
+
+export const logoutAPI = () => {
+    const urlBackend = "/api/v1/auth/logout";
+    return axios.post<IBackendRes<IRegister>>(urlBackend);
+}

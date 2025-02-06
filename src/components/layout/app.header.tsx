@@ -1,14 +1,14 @@
 import { useState } from 'react';
 import { FaReact } from 'react-icons/fa'
 import { VscSearchFuzzy } from 'react-icons/vsc';
-import { Divider, Drawer } from 'antd';
-import { Dropdown, Space } from 'antd';
+import { Divider, Drawer, Dropdown, Space, App } from 'antd';
 import { useNavigate } from 'react-router';
 import './app.header.scss';
 import { Link } from 'react-router-dom';
 import { useCurrentApp } from 'components/context/app.context';
 import ManageAccount from '../client/account';
 import { LoginOutlined } from '@ant-design/icons';
+import { logoutAPI } from '@/services/api';
 
 interface IProps {
     searchTerm: string;
@@ -18,10 +18,22 @@ interface IProps {
 const AppHeader = (props: IProps) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openManageAccount, setOpenManageAccount] = useState<boolean>(false);
-
     const {
-        isAuthenticated, user
+        isAuthenticated, user, setUser, setIsAuthenticated
     } = useCurrentApp();
+    const { message } = App.useApp();
+
+    const handleLogout = async () => {
+        const res = await logoutAPI();
+        if (res && +res.statusCode === 200) {
+            console.log("run")
+            setUser(null);
+            setIsAuthenticated(false)
+            localStorage.removeItem("access_token");
+            message.success("Logout successfully");
+            navigate('/');
+        }
+    }
 
     const navigate = useNavigate();
 
@@ -36,6 +48,7 @@ const AppHeader = (props: IProps) => {
         {
             label: <label
                 style={{ cursor: 'pointer' }}
+                onClick={() => handleLogout()}
             >Logout</label>,
             key: 'logout',
         },
@@ -104,7 +117,7 @@ const AppHeader = (props: IProps) => {
                 <p>Account management</p>
                 <Divider />
 
-                <p>Logout</p>
+                <p onClick={() => handleLogout()}>Logout</p>
                 <Divider />
             </Drawer>
 
