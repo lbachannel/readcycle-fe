@@ -1,6 +1,6 @@
 import { getAccountAPI } from "@/services/api";
 import { createContext, useContext, useState, useEffect } from "react";
-import PacmanLoader from "react-spinners/PacmanLoader";
+import FadeLoader from "react-spinners/FadeLoader";
 
 interface IAppContext {
     isAuthenticated: boolean;
@@ -47,13 +47,11 @@ export const AppProvider = (props: TProps) => {
                     left: "50%",
                     transform: "translate(-50%, -50%)"
                 }}>
-                    <PacmanLoader
-                        size={30}
-                        color="#36d6b4"
+                    <FadeLoader
+                        color="#243ae5"
                     />
                 </div>
             }
-
         </>
     )
 }
