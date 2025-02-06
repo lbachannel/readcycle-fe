@@ -62,6 +62,17 @@ declare global {
         }
     }
 
+    interface IUserTable {
+        id: string;
+        email: string;
+        name: string;
+        dateOfBirth: Date;
+        role: {
+            id: string;
+            name: string;
+        }
+    }
+
     interface IGetAccount {
         user: IUser;
     }

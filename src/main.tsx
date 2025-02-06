@@ -22,6 +22,8 @@ import ManageUserPage from './pages/admin/manage.user';
 import ManageOrderPage from './pages/admin/manage.order';
 import DashBoardPage from './pages/admin/dashboard';
 import LayoutAdmin from './components/layout/layout.admin';
+import { ConfigProvider } from 'antd/lib';
+import enUS from 'antd/locale/en_US';
 
 const router = createBrowserRouter([
     {
@@ -103,7 +105,9 @@ createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <App>
             <AppProvider>
-                <RouterProvider router={router} />
+                <ConfigProvider locale={enUS}>
+                    <RouterProvider router={router} />
+                </ConfigProvider>
             </AppProvider>
         </App>
     </StrictMode>,
