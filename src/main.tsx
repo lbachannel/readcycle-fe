@@ -22,7 +22,7 @@ import ManageUserPage from './pages/admin/manage.user';
 import ManageOrderPage from './pages/admin/manage.order';
 import DashBoardPage from './pages/admin/dashboard';
 import LayoutAdmin from './components/layout/layout.admin';
-import { ConfigProvider } from 'antd/lib';
+import { ConfigProvider } from 'antd';
 import enUS from 'antd/locale/en_US';
 
 const router = createBrowserRouter([

@@ -1,9 +1,9 @@
 import { getAllUsersAPI } from '@/services/api';
 import { PlusOutlined } from '@ant-design/icons';
-import { CloudUploadOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined, EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
-import { Button } from 'antd';
-import { useRef } from 'react';
+import { Button, Popconfirm } from 'antd';
+import { useRef, useState } from 'react';
 
 const columns: ProColumns<IUserTable>[] = [
     {
@@ -15,15 +15,19 @@ const columns: ProColumns<IUserTable>[] = [
     {
         title: 'Id',
         dataIndex: 'id',
-        copyable: true,
+        hideInSearch: true,
         ellipsis: true,
-        tooltip: "User id"
+        tooltip: "User id",
+        render(dom, entity, index, action, schema) {
+            return (
+                <a href="#">{entity.id}</a>
+            )
+        },
     },
 
     {
         title: "Name",
         dataIndex: "name",
-        copyable: true,
         ellipsis: true,
         tooltip: "User name"
     },
@@ -39,7 +43,6 @@ const columns: ProColumns<IUserTable>[] = [
     {
         title: "Date of birth",
         dataIndex: "dateOfBirth",
-        copyable: true,
         ellipsis: true,
         tooltip: "Date of birth"
     },
@@ -47,16 +50,50 @@ const columns: ProColumns<IUserTable>[] = [
     {
         title: "Role",
         dataIndex: ["role","name"],
-        copyable: true,
         ellipsis: true,
         tooltip: "Role"
+    },
+
+    {
+        title: 'Action',
+        hideInSearch: true,
+        render() {
+            return (
+                <>
+                    <EditTwoTone
+                        twoToneColor="#f57800"
+                        style={{ cursor: "pointer" }}
+                    />
+                    <Popconfirm
+                        placement="leftTop"
+                        title={"Confirm delete user"}
+                        description={"Are you sure you want to delete this user ?"}
+                        okText="Confirm"
+                        cancelText="Cancel"
+                    >
+                        <span style={{ cursor: "pointer", marginLeft: 20 }}>
+                            <DeleteTwoTone
+                                twoToneColor="#ff4d4f"
+                                style={{ cursor: "pointer" }}
+                            />
+                        </span>
+                    </Popconfirm>
+                </>
+            )
+        }
     }
 ];
 
 const TableUser = () => {
     const actionRef = useRef<ActionType>();
 
-    
+    const [meta, setMeta] = useState({
+        current: 1,
+        pageSize: 5,
+        pages: 0,
+        total: 0
+    })
+
     return (
         <>
             <ProTable<IUserTable>
@@ -65,6 +102,9 @@ const TableUser = () => {
                 cardBordered
                 request={async () => {
                     const response = await getAllUsersAPI();
+                    if (response.data) {
+                        setMeta(response.data.meta);
+                    }
                     return {
                         data: response.data?.result,
                         page: 1,
@@ -75,8 +115,18 @@ const TableUser = () => {
                 }}
                 rowKey="_id"
                 pagination={{
-                    pageSize: 5,
-                    onChange: (page) => console.log(page),
+                    current: meta.current,
+                    pageSize: meta.pageSize ?? 5,
+                    showSizeChanger: true,
+                    total: meta.total,
+                    pageSizeOptions: ["5", "10", "20", "50", "100"],
+                    showTotal: (total, range) => {
+                        return (
+                            <div> 
+                                {range[0]}-{range[1]} on {total} rows
+                            </div>
+                        )
+                    }
                 }}
 
                 headerTitle="Table user"
