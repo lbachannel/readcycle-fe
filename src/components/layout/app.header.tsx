@@ -26,7 +26,6 @@ const AppHeader = (props: IProps) => {
     const handleLogout = async () => {
         const res = await logoutAPI();
         if (res && +res.statusCode === 200) {
-            console.log("run")
             setUser(null);
             setIsAuthenticated(false)
             localStorage.removeItem("access_token");
