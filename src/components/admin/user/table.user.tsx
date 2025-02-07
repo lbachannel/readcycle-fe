@@ -26,6 +26,9 @@ const TableUser = () => {
         total: 0
     })
 
+    // open - close create user modal
+    const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
+
     // open - close user details modal
     const [openViewDetails, setOpenViewDetails] = useState<boolean>(false);
 
