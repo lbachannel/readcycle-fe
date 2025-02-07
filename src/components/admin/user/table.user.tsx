@@ -6,6 +6,7 @@ import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { Button, Popconfirm } from 'antd';
 import { useRef, useState } from 'react';
 import DetailsUser from './details.user';
+import CreateUser from './create.user';
 
 type TSearch = {
     name: string;
@@ -21,10 +22,15 @@ const TableUser = () => {
 
     const [meta, setMeta] = useState({
         current: 1,
-        pageSize: 1,
+        pageSize: 5,
         pages: 0,
         total: 0
     })
+
+    // reload table after create
+    const refreshTable = () => {
+        actionRef.current?.reload();
+    }
 
     // open - close create user modal
     const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
@@ -151,12 +157,18 @@ const TableUser = () => {
                             const role = params.role.name;
                             filters.push(`role.name~'${role}'`);
                         }
+
+                        // default table is sorted by desc
+                        query += '&sort=dateOfBirth,desc';
+
                         if (sort && Object.keys(sort).length > 0) {
                             const sortParams = Object.entries(sort)
                                 .map(([field, sort]) => `sort=${field},${sort === 'ascend' ? 'asc' : 'desc'}`)
                                 .join("&");
                             query += `&${sortParams}`;
                         }
+
+
                         if (filters.length > 0) {
                             query += `&filter=${filters.join(" or ")}`;
                         }
@@ -203,6 +215,9 @@ const TableUser = () => {
                     <Button
                         key="button"
                         icon={<PlusOutlined />}
+                        onClick={() => {
+                            setOpenModalCreate(true);
+                        }}
                         type="primary"
                     >
                         Add new
@@ -216,6 +231,12 @@ const TableUser = () => {
                 setOpenViewDetails={setOpenViewDetails}
                 dataViewDetails={dataViewDetails}
                 setDataViewDetails={setDataViewDetails}
+            />
+
+            <CreateUser
+                openModalCreate={openModalCreate}
+                setOpenModalCreate={setOpenModalCreate}
+                refreshTable={refreshTable}
             />
         </>
     );
