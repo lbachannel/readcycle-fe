@@ -102,7 +102,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')!).render(
-    <StrictMode>
+    // <StrictMode>
         <App>
             <AppProvider>
                 <ConfigProvider locale={enUS}>
@@ -110,5 +110,5 @@ createRoot(document.getElementById('root')!).render(
                 </ConfigProvider>
             </AppProvider>
         </App>
-    </StrictMode>,
+    // </StrictMode>,
 )

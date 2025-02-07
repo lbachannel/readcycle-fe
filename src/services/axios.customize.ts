@@ -3,6 +3,7 @@ import { Mutex } from "async-mutex";
 interface AccessTokenResponse {
     access_token: string;
 }
+
 const instance = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL as string,
     withCredentials: true
@@ -22,7 +23,11 @@ const handleRefreshToken = async (): Promise<string | null> => {
 
 // Add a request interceptor
 instance.interceptors.request.use(function (config) {
-    // Do something before request is sent
+    if (!(config.url === "/api/v1/auth/refresh")) {
+        const token = localStorage.getItem("access_token");
+        const auth = token ? `Bearer ${token}` : '';
+        config.headers["Authorization"] = auth;
+    }
     if (!config.headers.Accept && config.headers["Content-Type"]) {
         config.headers.Accept = "application/json";
         config.headers["Content-Type"] = "application/json; charset=utf-8";
