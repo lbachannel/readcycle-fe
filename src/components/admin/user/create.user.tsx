@@ -14,7 +14,7 @@ type FieldType = {
     firstName: string;
     lastName: string;
     email: string;
-    dateOfBirth: Date;
+    dateOfBirth: string;
     password: string;
     confirmPassword: string;
     role: string;
