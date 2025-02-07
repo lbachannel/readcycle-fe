@@ -6,92 +6,6 @@ import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { Button, Popconfirm } from 'antd';
 import { useRef, useState } from 'react';
 
-const columns: ProColumns<IUserTable>[] = [
-    {
-        dataIndex: 'index',
-        valueType: 'indexBorder',
-        width: 48,
-    },
-
-    {
-        title: 'Id',
-        dataIndex: 'id',
-        hideInSearch: true,
-        ellipsis: true,
-        tooltip: "User id",
-        render(dom, entity, index, action, schema) {
-            return (
-                <a href="#">{entity.id}</a>
-            )
-        },
-    },
-
-    {
-        title: "Name",
-        dataIndex: "name",
-        ellipsis: true,
-        tooltip: "User name"
-    },
-
-    {
-        title: "Email",
-        dataIndex: "email",
-        copyable: true,
-        ellipsis: true,
-        tooltip: "Email"
-    },
-
-    {
-        title: "Birthday",
-        dataIndex: "dateOfBirth",
-        valueType: "date",
-        ellipsis: true,
-        tooltip: "Date of birth",
-        sorter: true
-    },
-
-    {
-        title: "Role",
-        dataIndex: ["role","name"],
-        ellipsis: true,
-        tooltip: "Role",
-        valueType: 'select',
-        valueEnum: {
-            admin: { text: 'Admin' },
-            user: { text: 'User' }
-        }, 
-    },
-
-    {
-        title: 'Action',
-        hideInSearch: true,
-        render() {
-            return (
-                <>
-                    <EditTwoTone
-                        twoToneColor="#f57800"
-                        style={{ cursor: "pointer" }}
-                    />
-                    <Popconfirm
-                        placement="leftTop"
-                        title={"Confirm delete user"}
-                        description={"Are you sure you want to delete this user ?"}
-                        okText="Confirm"
-                        cancelText="Cancel"
-                    >
-                        <span style={{ cursor: "pointer", marginLeft: 20 }}>
-                            <DeleteTwoTone
-                                twoToneColor="#ff4d4f"
-                                style={{ cursor: "pointer" }}
-                            />
-                        </span>
-                    </Popconfirm>
-                </>
-            )
-        }
-    }
-];
-
 type TSearch = {
     name: string;
     email: string;
@@ -110,6 +24,92 @@ const TableUser = () => {
         pages: 0,
         total: 0
     })
+
+    const columns: ProColumns<IUserTable>[] = [
+        {
+            dataIndex: 'index',
+            valueType: 'indexBorder',
+            width: 48,
+        },
+    
+        {
+            title: 'Id',
+            dataIndex: 'id',
+            hideInSearch: true,
+            ellipsis: true,
+            tooltip: "User id",
+            render(dom, entity, index, action, schema) {
+                return (
+                    <a href="#">{entity.id}</a>
+                )
+            },
+        },
+    
+        {
+            title: "Name",
+            dataIndex: "name",
+            ellipsis: true,
+            tooltip: "User name"
+        },
+    
+        {
+            title: "Email",
+            dataIndex: "email",
+            copyable: true,
+            ellipsis: true,
+            tooltip: "Email"
+        },
+    
+        {
+            title: "Birthday",
+            dataIndex: "dateOfBirth",
+            valueType: "date",
+            ellipsis: true,
+            tooltip: "Date of birth",
+            sorter: true
+        },
+    
+        {
+            title: "Role",
+            dataIndex: ["role","name"],
+            ellipsis: true,
+            tooltip: "Role",
+            valueType: 'select',
+            valueEnum: {
+                admin: { text: 'Admin' },
+                user: { text: 'User' }
+            }, 
+        },
+    
+        {
+            title: 'Action',
+            hideInSearch: true,
+            render() {
+                return (
+                    <>
+                        <EditTwoTone
+                            twoToneColor="#f57800"
+                            style={{ cursor: "pointer" }}
+                        />
+                        <Popconfirm
+                            placement="leftTop"
+                            title={"Confirm delete user"}
+                            description={"Are you sure you want to delete this user ?"}
+                            okText="Confirm"
+                            cancelText="Cancel"
+                        >
+                            <span style={{ cursor: "pointer", marginLeft: 20 }}>
+                                <DeleteTwoTone
+                                    twoToneColor="#ff4d4f"
+                                    style={{ cursor: "pointer" }}
+                                />
+                            </span>
+                        </Popconfirm>
+                    </>
+                )
+            }
+        }
+    ];
 
     return (
         <>
