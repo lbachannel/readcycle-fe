@@ -1,10 +1,9 @@
-import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import Layout from '@/layout';
 
 import {
     createBrowserRouter,
-    RouterProvider,
+    RouterProvider, 
 } from "react-router-dom";
 
 import HomePage from 'pages/client/home';
@@ -24,6 +23,7 @@ import DashBoardPage from './pages/admin/dashboard';
 import LayoutAdmin from './components/layout/layout.admin';
 import { ConfigProvider } from 'antd';
 import enUS from 'antd/locale/en_US';
+import { StrictMode } from 'react';
 
 const router = createBrowserRouter([
     {
@@ -102,7 +102,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')!).render(
-    // <StrictMode>
+    <StrictMode>
         <App>
             <AppProvider>
                 <ConfigProvider locale={enUS}>
@@ -110,5 +110,5 @@ createRoot(document.getElementById('root')!).render(
                 </ConfigProvider>
             </AppProvider>
         </App>
-    // </StrictMode>,
+    </StrictMode>,
 )
