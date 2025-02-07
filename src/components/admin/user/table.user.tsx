@@ -46,7 +46,8 @@ const columns: ProColumns<IUserTable>[] = [
         dataIndex: "dateOfBirth",
         valueType: "date",
         ellipsis: true,
-        tooltip: "Date of birth"
+        tooltip: "Date of birth",
+        sorter: true
     },
 
     {
@@ -116,7 +117,7 @@ const TableUser = () => {
                 columns={columns}
                 actionRef={actionRef}
                 cardBordered
-                request={async (params) => {
+                request={async (params, sort) => {
                     let query = "";
                     if (params) {
                         query += `page=${(params?.current ?? 1) - 1}&size=${params?.pageSize ?? 5}`;
@@ -136,6 +137,12 @@ const TableUser = () => {
                             const role = params.role.name;
                             filters.push(`role.name~'${role}'`);
                         }
+                        if (sort && Object.keys(sort).length > 0) {
+                            const sortParams = Object.entries(sort)
+                                .map(([field, sort]) => `sort=${field},${sort === 'ascend' ? 'asc' : 'desc'}`)
+                                .join("&");
+                            query += `&${sortParams}`;
+                        }
                         if (filters.length > 0) {
                             query += `&filter=${filters.join(" or ")}`;
                         }
@@ -153,7 +160,7 @@ const TableUser = () => {
                     }
 
                 }}
-                rowKey="_id"
+                rowKey="id"
                 pagination={{
                     current: meta.current,
                     pageSize: meta.pageSize,
