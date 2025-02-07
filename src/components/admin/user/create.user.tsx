@@ -38,10 +38,10 @@ const CreateUser = (props: IProps) => {
 
     const [form] = Form.useForm();
 
-    const [api] = notification.useNotification();
+    const [api, contextHolder] = notification.useNotification();
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        const { firstName, lastName, email, dateOfBirth, password, confirmPassword, role } = values;
+        const { firstName = "", lastName = "", email = "", dateOfBirth = "", password = "", confirmPassword = "", role = ""} = values;
         setIsSubmit(true);
         let yob = "";
         if (!dateOfBirth) {
@@ -153,7 +153,7 @@ const CreateUser = (props: IProps) => {
                     >
                         <Input.Password />
                     </Form.Item>
-
+                    {contextHolder}
                 </Form>
             </Modal>
         </>
