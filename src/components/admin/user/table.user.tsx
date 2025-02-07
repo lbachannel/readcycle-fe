@@ -5,6 +5,7 @@ import { CloudUploadOutlined, EditTwoTone, DeleteTwoTone } from '@ant-design/ico
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { Button, Popconfirm } from 'antd';
 import { useRef, useState } from 'react';
+import DetailsUser from './details.user';
 
 type TSearch = {
     name: string;
@@ -25,6 +26,13 @@ const TableUser = () => {
         total: 0
     })
 
+    // open - close user details modal
+    const [openViewDetails, setOpenViewDetails] = useState<boolean>(false);
+
+    // set user data into Drawer
+    const [dataViewDetails, setDataViewDetails] = useState<IUserTable | null>(null);
+
+    // table: user list
     const columns: ProColumns<IUserTable>[] = [
         {
             dataIndex: 'index',
@@ -38,9 +46,12 @@ const TableUser = () => {
             hideInSearch: true,
             ellipsis: true,
             tooltip: "User id",
-            render(dom, entity, index, action, schema) {
+            render(dom, entity) {
                 return (
-                    <a href="#">{entity.id}</a>
+                    <a onClick={() => {
+                        setOpenViewDetails(true);
+                        setDataViewDetails(entity);
+                    }} href="#">{entity.id}</a>
                 )
             },
         },
@@ -195,6 +206,13 @@ const TableUser = () => {
                     </Button>
 
                 ]}
+            />
+
+            <DetailsUser
+                openViewDetails={openViewDetails}
+                setOpenViewDetails={setOpenViewDetails}
+                dataViewDetails={dataViewDetails}
+                setDataViewDetails={setDataViewDetails}
             />
         </>
     );
