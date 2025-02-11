@@ -142,6 +142,9 @@ const TableUser = () => {
                                 .map(([field, sort]) => `sort=${field},${sort === 'ascend' ? 'asc' : 'desc'}`)
                                 .join("&");
                             query += `&${sortParams}`;
+                        } else {
+                            // default table is sorted by desc
+                            query += '&sort=dateOfBirth,desc';
                         }
                         if (filters.length > 0) {
                             query += `&filter=${filters.join(" or ")}`;
