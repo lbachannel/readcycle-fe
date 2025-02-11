@@ -7,6 +7,7 @@ import { Button, Popconfirm } from 'antd';
 import { useRef, useState } from 'react';
 import DetailsUser from './details.user';
 import CreateUser from './create.user';
+import UpdateUser from './update.user';
 
 type TSearch = {
     name: string;
@@ -31,6 +32,10 @@ const TableUser = () => {
     const refreshTable = () => {
         actionRef.current?.reload();
     }
+
+    // open - close update user modal
+    const [openModalUpdate, setOpenModalUpdate] = useState<boolean>(false);
+    const [dataUpdate, setDataUpdate] = useState<IUserTable | null>(null);
 
     // open - close create user modal
     const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
@@ -94,7 +99,8 @@ const TableUser = () => {
             valueType: "date",
             ellipsis: true,
             tooltip: "Created at",
-            sorter: true
+            sorter: true,
+            hideInSearch: true
         },
     
         {
@@ -112,12 +118,16 @@ const TableUser = () => {
         {
             title: 'Action',
             hideInSearch: true,
-            render() {
+            render(dom, entity, ) {
                 return (
                     <>
                         <EditTwoTone
                             twoToneColor="#f57800"
                             style={{ cursor: "pointer" }}
+                            onClick={() => {
+                                setOpenModalUpdate(true);
+                                setDataUpdate(entity);
+                            }}
                         />
                         <Popconfirm
                             placement="leftTop"
@@ -245,6 +255,14 @@ const TableUser = () => {
                 openModalCreate={openModalCreate}
                 setOpenModalCreate={setOpenModalCreate}
                 refreshTable={refreshTable}
+            />
+
+            <UpdateUser
+                openModalUpdate={openModalUpdate}
+                setOpenModalUpdate={setOpenModalUpdate}
+                refreshTable={refreshTable}
+                setDataUpdate={setDataUpdate}
+                dataUpdate={dataUpdate}
             />
         </>
     );
