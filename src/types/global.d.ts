@@ -67,6 +67,7 @@ declare global {
         email: string;
         name: string;
         dateOfBirth: Date;
+        createdAt: Date;
         role: {
             id: string;
             name: string;
