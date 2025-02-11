@@ -29,5 +29,10 @@ export const getAllUsersAPI = (query: string) => {
 
 export const createUserAPI = (firstName: string, lastName: string, email: string, dateOfBirth: string, password: string, confirmPassword: string, role: string) => {
     const urlBackend = "/api/v1/users";
-    return axios.post<IBackendRes<IUser>>(urlBackend, { firstName, lastName, email, dateOfBirth, password, confirmPassword, role })
+    return axios.post<IBackendRes<IUser>>(urlBackend, { firstName, lastName, email, dateOfBirth, password, confirmPassword, role });
+}
+
+export const updateUserAPI = (id: string, name: string, email: string, dateOfBirth: string, role: string) => {
+    const urlBackend = "/api/v1/users";
+    return axios.put<IBackendRes<IUser>>(urlBackend, { id, name, email, dateOfBirth, role });
 }
