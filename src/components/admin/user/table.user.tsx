@@ -158,9 +158,6 @@ const TableUser = () => {
                             filters.push(`role.name~'${role}'`);
                         }
 
-                        // default table is sorted by desc
-                        query += '&sort=dateOfBirth,desc';
-
                         if (sort && Object.keys(sort).length > 0) {
                             const sortParams = Object.entries(sort)
                                 .map(([field, sort]) => `sort=${field},${sort === 'ascend' ? 'asc' : 'desc'}`)
