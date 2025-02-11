@@ -85,7 +85,15 @@ const TableUser = () => {
             dataIndex: "dateOfBirth",
             valueType: "date",
             ellipsis: true,
-            tooltip: "Date of birth",
+            tooltip: "Date of birth"
+        },
+
+        {
+            title: "Created at",
+            dataIndex: "createdAt",
+            valueType: "date",
+            ellipsis: true,
+            tooltip: "Created at",
             sorter: true
         },
     
@@ -165,7 +173,7 @@ const TableUser = () => {
                             query += `&${sortParams}`;
                         } else {
                             // default table is sorted by desc
-                            query += '&sort=dateOfBirth,desc';
+                            query += '&sort=createdAt,desc';
                         }
 
 
