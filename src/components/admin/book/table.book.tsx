@@ -1,8 +1,8 @@
 import { getAllBooksAPI } from '@/services/api';
 import { DeleteTwoTone, EditTwoTone, PlusOutlined } from '@ant-design/icons';
-import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
-import { App, Button, notification, Popconfirm, Switch } from 'antd';
-import { useRef, useState } from 'react';
+import { ProColumns, ProTable } from '@ant-design/pro-components';
+import { Button, Popconfirm } from 'antd';
+import { useState } from 'react';
 
 type TSearch = {
     title: string;
