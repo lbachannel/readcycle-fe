@@ -1,9 +1,9 @@
-import { getAllUsersAPI } from '@/services/api';
+import { deleteUserAPI, getAllUsersAPI } from '@/services/api';
 import { dateValidate } from '@/services/helper';
 import { PlusOutlined } from '@ant-design/icons';
 import { CloudUploadOutlined, EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
-import { Button, Popconfirm } from 'antd';
+import { App, Button, notification, Popconfirm } from 'antd';
 import { useRef, useState } from 'react';
 import DetailsUser from './details.user';
 import CreateUser from './create.user';
@@ -31,6 +31,37 @@ const TableUser = () => {
     // reload table after create
     const refreshTable = () => {
         actionRef.current?.reload();
+    }
+
+    // handle delete user
+    const [isDeleteUser, setIsDeleteUser] = useState<boolean>(false);
+    const { message } = App.useApp();
+    const [api, contextHolder] = notification.useNotification();
+    const handleDeleteUser = async (id: string) => {
+        setIsDeleteUser(true);
+        const response = await deleteUserAPI(id);
+        if (response && response.data) {
+            message.success("Delete user successfully");
+            refreshTable();
+        } else {
+            const errorMessage = Array.isArray(response.message) ? (
+                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
+                    {response.message.map((msg, index) => (
+                        <li key={index}>{msg}</li>
+                    ))}
+                </ul>
+            ) : (
+                <div>{response.message}</div>
+            );
+            api.open({
+                message: "Delete failed",
+                description: errorMessage,
+                type: 'error',
+                showProgress: true,
+                pauseOnHover: true,
+            });
+        }
+        setIsDeleteUser(false);
     }
 
     // open - close update user modal
@@ -133,8 +164,10 @@ const TableUser = () => {
                             placement="leftTop"
                             title={"Confirm delete user"}
                             description={"Are you sure you want to delete this user ?"}
+                            onConfirm={() => handleDeleteUser(entity.id)}
                             okText="Confirm"
                             cancelText="Cancel"
+                            okButtonProps={{ loading: isDeleteUser }}
                         >
                             <span style={{ cursor: "pointer", marginLeft: 20 }}>
                                 <DeleteTwoTone
@@ -142,6 +175,7 @@ const TableUser = () => {
                                     style={{ cursor: "pointer" }}
                                 />
                             </span>
+                            {contextHolder}
                         </Popconfirm>
                     </>
                 )
