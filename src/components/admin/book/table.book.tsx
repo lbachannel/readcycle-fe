@@ -1,8 +1,8 @@
-import { getAllBooksAPI } from '@/services/api';
+import { getAllBooksAPI, toggleSoftDeleteAPI } from '@/services/api';
 import { DeleteTwoTone, EditTwoTone, PlusOutlined } from '@ant-design/icons';
-import { ProColumns, ProTable } from '@ant-design/pro-components';
-import { Button, Popconfirm } from 'antd';
-import { useState } from 'react';
+import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
+import { App, Button, notification, Popconfirm, Switch } from 'antd';
+import { useRef, useState } from 'react';
 
 type TSearch = {
     title: string;
@@ -16,6 +16,39 @@ const TableBook = () => {
         pages: 0,
         total: 0
     })
+
+    const actionRef = useRef<ActionType>();
+    const { message } = App.useApp();
+    const [api, contextHolder] = notification.useNotification();
+    const [switchState, setSwitchState] = useState<Record<string, boolean>>({});
+
+     // soft deletes
+     const handleSwitchChange = async (id: string, checked: boolean) => {
+        setSwitchState((prev) => ({ ...prev, [id]: checked }));
+        const response = await toggleSoftDeleteAPI(id);
+        if (response && response.data) {
+            message.success(response.data.active ? "On" : "Off");
+
+        } else {
+            setSwitchState((prev) => ({ ...prev, [id]: !checked }));
+            const errorMessage = Array.isArray(response.message) ? (
+                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
+                    {response.message.map((msg, index) => (
+                        <li key={index}>{msg}</li>
+                    ))}
+                </ul>
+            ) : (
+                <div>{response.message}</div>
+            );
+            api.open({
+                message: "Soft delete failed",
+                description: errorMessage,
+                type: 'error',
+                showProgress: true,
+                pauseOnHover: true,
+            });
+        }
+    };
 
     // table: user list
     const columns: ProColumns<IBookTable>[] = [
@@ -56,6 +89,14 @@ const TableBook = () => {
             ellipsis: true,
             tooltip: "Active",
             hideInSearch: true,
+            render: (_, record) => {
+                return (
+                    <Switch
+                        checked={switchState[record.id] ?? record.active} 
+                        onChange={(checked) => handleSwitchChange(record.id, checked)}
+                    />
+                );
+            }
         },
 
         {
@@ -91,6 +132,7 @@ const TableBook = () => {
                                     style={{ cursor: "pointer" }}
                                 />
                             </span>
+                            {contextHolder}
                         </Popconfirm>
                     </>
                 )
@@ -103,6 +145,7 @@ const TableBook = () => {
             <ProTable<IBookTable, TSearch>
                 columns={columns}
                 cardBordered
+                actionRef={actionRef}
                 request={async (params) => {
                     let query = "";
                     if (params) {
