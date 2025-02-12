@@ -47,3 +47,8 @@ export const getAllBooksAPI = (query: string) => {
     const urlBackend = `/api/v1/books?${query}`;
     return axios.get<IBackendRes<IModelPaginate<IBookTable>>>(urlBackend);
 }
+
+export const toggleSoftDeleteAPI = (id: string) => {
+    const urlBackend = `/api/v1/books/${id}`;
+    return axios.put<IBackendRes<IBookTable>>(urlBackend);
+}
