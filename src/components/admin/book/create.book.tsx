@@ -2,7 +2,8 @@ import { createBookAPI, uploadFileAPI } from "@/services/api";
 import { App, Col, Divider, 
     Form, FormProps, GetProp, 
     Input, InputNumber, Modal, 
-    Row, Select, Upload, UploadFile, UploadProps, Image } from "antd";
+    Row, Select, Upload, UploadFile, UploadProps, Image, 
+    notification} from "antd";
 import TextArea from "antd/lib/input/TextArea";
 import { useState } from "react";
 import { UploadRequestOption as RcCustomRequestOptions } from 'rc-upload/lib/interface';
@@ -52,14 +53,43 @@ const CreateBook = (props: IProps) => {
 
     const [fileListThumbnail, setFileListThumbnail] = useState<UploadFile[]>([]);
 
-    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        // const {
-        //     category = "", title = "", author = "", publisher = "",
-        //     thumb = "", description = "", quantity, status = ""
-        // } = values;
+    const [api, contextHolder] = notification.useNotification();
 
+    const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         setIsSubmit(true);
-        console.log(values);
+        const {
+            category = "", title = "", author = "", publisher = "", description = "", quantity = 0, status = ""
+        } = values;
+
+        const thumbnail = fileListThumbnail?.[0]?.name ?? "";
+
+        const response = await createBookAPI(
+            category, title, author, publisher, thumbnail, description, quantity, status
+        )
+        if (response && response.data) {
+            message.success("Create a book successfully");
+            form.resetFields();
+            setFileListThumbnail([]);
+            setOpenModalCreate(false);
+            refreshTable();
+        } else {
+            const errorMessage = Array.isArray(response.message) ? (
+                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
+                    {response.message.map((msg, index) => (
+                        <li key={index}>{msg}</li>
+                    ))}
+                </ul>
+            ) : (
+                <div>{response.message}</div>
+            );
+            api.open({
+                message: response.error,
+                description: errorMessage,
+                type: 'error',
+                showProgress: true,
+                pauseOnHover: true,
+            });
+        }
         setIsSubmit(false);
     }
 
@@ -264,6 +294,8 @@ const CreateBook = (props: IProps) => {
                         src={previewImage}
                     />
                 )}
+
+                {contextHolder}
             </Modal>
         </>
     )
