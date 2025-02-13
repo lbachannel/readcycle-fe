@@ -1,5 +1,9 @@
-import { Descriptions, Drawer } from "antd";
+import { Descriptions, Divider, Drawer, GetProp, Upload, UploadFile, UploadProps, Image } from "antd";
 import dayjs from "dayjs";
+import { useEffect, useState } from "react";
+import { v4 as uuidv4 } from 'uuid';
+
+type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 
 interface IProps {
     openViewDetails: boolean;
@@ -9,11 +13,58 @@ interface IProps {
 }
 
 const DetailsBook = (props: IProps) => {
-    const { openViewDetails, setOpenViewDetails, dataViewDetails, setDataViewDetails } = props;
+    const { 
+        openViewDetails, setOpenViewDetails, 
+        dataViewDetails, setDataViewDetails 
+    } = props;
+
     const onClose = () => {
         setOpenViewDetails(false);
         setDataViewDetails(null);
     }
+    
+    const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+    const [previewOpen, setPreviewOpen] = useState(false);
+    const [previewImage, setPreviewImage] = useState('');
+
+    useEffect(() => {
+        if (dataViewDetails) {
+            let imgThumbnail: any = {};
+            if (dataViewDetails.thumb) {
+                imgThumbnail = {
+                    uid: uuidv4(),
+                    name: dataViewDetails.thumb,
+                    status: 'done',
+                    url: `${import.meta.env.VITE_BACKEND_URL}/upload/${dataViewDetails.thumb}`,
+                }
+            }
+
+            setFileList([imgThumbnail])
+        }
+    }, [dataViewDetails])
+
+    const getBase64 = (file: FileType): Promise<string> =>
+        new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(error);
+    });
+
+    const handlePreview = async (file: UploadFile) => {
+        if (!file.url && !file.preview) {
+            file.preview = await getBase64(file.originFileObj as FileType);
+        }
+
+        setPreviewImage(file.url || (file.preview as string));
+        setPreviewOpen(true);
+    };
+    
+    const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+        setFileList(newFileList);
+    }
+
     return (
         <>
             <Drawer
@@ -75,6 +126,31 @@ const DetailsBook = (props: IProps) => {
                         {dataViewDetails?.updatedBy}
                     </Descriptions.Item>
                 </Descriptions>
+
+                <Divider orientation="left" > Thumbnail </Divider>
+                <Upload
+                    action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
+                    listType="picture-card"
+                    fileList={fileList}
+                    onPreview={handlePreview}
+                    onChange={handleChange}
+                    showUploadList={
+                        { showRemoveIcon: false }
+                    }
+                >
+
+                </Upload>
+                {previewImage && (
+                    <Image
+                        wrapperStyle={{ display: 'none' }}
+                        preview={{
+                            visible: previewOpen,
+                            onVisibleChange: (visible) => setPreviewOpen(visible),
+                            afterOpenChange: (visible) => !visible && setPreviewImage(''),
+                        }}
+                        src={previewImage}
+                    />
+                )}
             </Drawer>
         </>
     )
