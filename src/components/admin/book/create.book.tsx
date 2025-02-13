@@ -161,7 +161,7 @@ const CreateBook = (props: IProps) => {
         if (response && response.data) {
             const uploadedFile: any = {
                 uid: file.uid,
-                name: response.data.fileUploaded, // getfile name from backend
+                name: response.data.fileUploaded, // get file name from backend
                 status: "done",
                 url: `${import.meta.env.VITE_BACKEND_URL}/images/book/${response.data.fileUploaded}`
             }
@@ -188,10 +188,12 @@ const CreateBook = (props: IProps) => {
                     form.resetFields();
                     setFileListThumbnail([]);
                 }}
+                destroyOnClose={true}
                 okText={"Create"}
                 cancelText={"Cancel"}
                 confirmLoading={isSubmit}
                 width={900}
+                maskClosable={false}
             >
                 <Divider />
 
