@@ -3,6 +3,7 @@ import { DeleteTwoTone, EditTwoTone, PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { App, Button, notification, Popconfirm, Switch } from 'antd';
 import { useRef, useState } from 'react';
+import DetailsBook from './details.book';
 
 type TSearch = {
     title: string;
@@ -17,18 +18,28 @@ const TableBook = () => {
         total: 0
     })
 
+    // open - close book details modal
+    const [openViewDetails, setOpenViewDetails] = useState<boolean>(false)
+
+    // set book data into Drawer
+    const [dataViewDetails, setDataViewDetails] = useState<IBookTable | null>(null)
+
     const actionRef = useRef<ActionType>();
     const { message } = App.useApp();
     const [api, contextHolder] = notification.useNotification();
     const [switchState, setSwitchState] = useState<Record<string, boolean>>({});
 
-     // soft deletes
-     const handleSwitchChange = async (id: string, checked: boolean) => {
+    // reload table after create
+    const refreshTable = () => {
+        actionRef.current?.reload();
+    }
+
+    // soft deletes
+    const handleSwitchChange = async (id: string, checked: boolean) => {
         setSwitchState((prev) => ({ ...prev, [id]: checked }));
         const response = await toggleSoftDeleteAPI(id);
         if (response && response.data) {
             message.success(response.data.active ? "On" : "Off");
-
         } else {
             setSwitchState((prev) => ({ ...prev, [id]: !checked }));
             const errorMessage = Array.isArray(response.message) ? (
@@ -48,6 +59,7 @@ const TableBook = () => {
                 pauseOnHover: true,
             });
         }
+        refreshTable();
     };
 
     // table: user list
@@ -57,7 +69,15 @@ const TableBook = () => {
             dataIndex: 'id',
             hideInSearch: true,
             ellipsis: true,
-            tooltip: "Book id"
+            tooltip: "Book id",
+            render(_, entity) {
+                return (
+                    <a onClick={() => {
+                        setOpenViewDetails(true);
+                        setDataViewDetails(entity);
+                    }} href="#">{entity.id}</a>
+                )
+            }
         },
     
         {
@@ -196,6 +216,13 @@ const TableBook = () => {
                         Add new
                     </Button>
                 ]}
+            />
+
+            <DetailsBook 
+                openViewDetails={openViewDetails}
+                setOpenViewDetails={setOpenViewDetails}
+                dataViewDetails={dataViewDetails}
+                setDataViewDetails={setDataViewDetails}
             />
         </>
     );
