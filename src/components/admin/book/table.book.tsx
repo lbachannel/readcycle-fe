@@ -4,6 +4,7 @@ import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { App, Button, notification, Popconfirm, Switch } from 'antd';
 import { useRef, useState } from 'react';
 import DetailsBook from './details.book';
+import CreateBook from './create.book';
 
 type TSearch = {
     title: string;
@@ -17,6 +18,9 @@ const TableBook = () => {
         pages: 0,
         total: 0
     })
+
+    // open - close create book modal
+    const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
 
     // open - close book details modal
     const [openViewDetails, setOpenViewDetails] = useState<boolean>(false)
@@ -211,6 +215,9 @@ const TableBook = () => {
                     <Button
                         key="button"
                         icon={<PlusOutlined />}
+                        onClick={() => {
+                            setOpenModalCreate(true);
+                        }}
                         type="primary"
                     >
                         Add new
@@ -223,6 +230,12 @@ const TableBook = () => {
                 setOpenViewDetails={setOpenViewDetails}
                 dataViewDetails={dataViewDetails}
                 setDataViewDetails={setDataViewDetails}
+            />
+
+            <CreateBook
+                openModalCreate={openModalCreate}
+                setOpenModalCreate={setOpenModalCreate}
+                refreshTable={refreshTable}
             />
         </>
     );

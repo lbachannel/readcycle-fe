@@ -74,22 +74,39 @@ declare global {
         }
     }
 
-        interface IBookTable {
-            id: string;
-            category: string;
-            title: string;
-            author: string;
-            publisher: string;
-            thumb: string;
-            description: string;
-            quantity: number;
-            status: string;
-            active: boolean;
-            createdAt: Date;
-            createdBy: string;
-            updatedAt: Date;
-            updatedBy: string;
-        }
+    interface IBookTable {
+        id: string;
+        category: string;
+        title: string;
+        author: string;
+        publisher: string;
+        thumb: string;
+        description: string;
+        quantity: number;
+        status: string;
+        active: boolean;
+        createdAt: Date;
+        createdBy: string;
+        updatedAt: Date;
+        updatedBy: string;
+    }
+
+    interface IBook {
+        id: string;
+        category: string;
+        title: string;
+        author: string;
+        publisher: string;
+        thumb: string;
+        description: string;
+        quantity: number;
+        status: string;
+        active: boolean;
+        createdAt: Date;
+        createdBy: string;
+        updatedAt: Date;
+        updatedBy: string;
+    }
 
     interface IGetAccount {
         user: IUser;

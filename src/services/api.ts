@@ -52,3 +52,25 @@ export const toggleSoftDeleteAPI = (id: string) => {
     const urlBackend = `/api/v1/books/${id}`;
     return axios.put<IBackendRes<IBookTable>>(urlBackend);
 }
+
+export const createBookAPI = (
+    category: string, title: string, author: string, publisher: string, 
+    thumb: string, description: string, quantity: number, status: string) => {
+    const urlBackend = "/api/v1/books";
+    return axios.post<IBackendRes<IBook>>(urlBackend, {
+        category, title, author, publisher, thumb, description, quantity, status
+    })
+}
+
+export const uploadFileAPI = (file: any) => {
+    const bodyFormData = new FormData();
+    bodyFormData.append('file', file);
+    return axios<IBackendRes<{fileUploaded: string}>>({
+        method: 'post',
+        url: '/api/v1/file/upload',
+        data: bodyFormData,
+        headers: {
+            "Content-Type": "multipart/form-data"
+        },
+    });
+}
