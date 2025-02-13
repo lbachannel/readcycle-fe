@@ -193,6 +193,7 @@ const CreateBook = (props: IProps) => {
                 cancelText={"Cancel"}
                 confirmLoading={isSubmit}
                 width={900}
+                maskClosable={false}
             >
                 <Divider />
 
