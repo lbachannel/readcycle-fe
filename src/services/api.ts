@@ -74,3 +74,8 @@ export const uploadFileAPI = (file: any) => {
         },
     });
 }
+
+export const deleteThumbAPI = (file: string) => {
+    const urlBackend = `/api/v1/file/delete/${file}`;
+    return axios.delete<IBackendRes<String>>(urlBackend);
+}

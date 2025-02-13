@@ -1,4 +1,4 @@
-import { createBookAPI, uploadFileAPI } from "@/services/api";
+import { createBookAPI, deleteThumbAPI, uploadFileAPI } from "@/services/api";
 import { App, Col, Divider, 
     Form, FormProps, GetProp, 
     Input, InputNumber, Modal, 
@@ -108,6 +108,8 @@ const CreateBook = (props: IProps) => {
 
     const handleRemove = async (type: BookUploadType) => {
         if (type === 'thumbnail') {
+            const file = fileListThumbnail?.[0]?.name;
+            await deleteThumbAPI(file);
             setFileListThumbnail([])
         }
     };
