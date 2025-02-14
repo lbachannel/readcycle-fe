@@ -62,6 +62,15 @@ export const createBookAPI = (
     })
 }
 
+export const updateBookAPI = (
+    id: string, category: string, title: string, author: string, publisher: string,
+    thumb: string, description: string, quantity: number, status: string) => {
+    const urlBackend = "/api/v1/books";
+    return axios.put<IBackendRes<IBook>>(urlBackend, {
+        id, category, title, author, publisher, thumb, description, quantity, status
+    })
+}
+
 export const uploadFileAPI = (file: any) => {
     const bodyFormData = new FormData();
     bodyFormData.append('file', file);
