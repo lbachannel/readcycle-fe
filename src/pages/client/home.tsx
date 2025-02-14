@@ -151,7 +151,7 @@ const HomePage = () => {
                                 <div className="column">
                                     <div className='wrapper'>
                                         <div className='thumbnail'>
-                                            <img src="https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/50809.jpg?v=1&w=350&h=510" alt="thumbnail book" />
+                                            <img src="https://m.media-amazon.com/images/I/51erLQfWU8L._SY445_SX342_.jpg" alt="thumbnail book" />
                                         </div>
                                         <div className='text'>Course</div>
                                     </div>
@@ -159,7 +159,7 @@ const HomePage = () => {
                                 <div className="column">
                                     <div className='wrapper'>
                                         <div className='thumbnail'>
-                                            <img src="https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/50809.jpg?v=1&w=350&h=510" alt="thumbnail book" />
+                                            <img src="https://m.media-amazon.com/images/I/713xIQAxCqL._SY466_.jpg" alt="thumbnail book" />
                                         </div>
                                         <div className='text'>Course</div>
                                     </div>
@@ -196,12 +196,18 @@ const HomePage = () => {
                                         <div className='text'>Course</div>
                                     </div>
                                 </div>
-
-
+                                <div className="column">
+                                    <div className='wrapper'>
+                                        <div className='thumbnail'>
+                                            <img src="https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/50809.jpg?v=1&w=350&h=510" alt="thumbnail book" />
+                                        </div>
+                                        <div className='text'>Course</div>
+                                    </div>
+                                </div>
 
                             </Row>
 
-                            <Row style={{ display: "flex", justifyContent: "center" }}>
+                            <Row style={{ display: "flex", justifyContent: "center", margin: "30px" }}>
                                 <Pagination
                                     defaultCurrent={6}
                                     total={500}
