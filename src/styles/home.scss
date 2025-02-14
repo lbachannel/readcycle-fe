@@ -1,0 +1,80 @@
+.homepage-container {
+    .customize-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px 10px;
+
+        .column {
+            width: 30%;
+            border-radius: 12px;
+            &:hover {
+                box-shadow: 0 0.0625rem 20px 0 rgba(0, 0, 0, .05);
+                -webkit-transform: translateY(-0.0625rem);
+                transform: translateY(-0.0625rem);
+            }
+
+            .wrapper {
+                cursor: pointer;
+                border-radius: 12px;
+
+                .text {
+                    padding: 12px;
+                    font-size: 16px;
+                    height: 50px;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+            }
+        }
+
+
+        .thumbnail {
+            position: relative;
+            padding-top: 100%;
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+            background: linear-gradient(90deg, rgba(2, 0, 36, .39), rgba(0, 0, 0, .5) 1.83%, hsla(0, 0%, 100%, .36) 3.21%, rgba(0, 0, 0, .33) 4.72%, rgba(247, 254, 255, .28) 9.84%, hsla(0, 0%, 100%, 0) 47.85%);
+            
+            img {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                object-fit: contain;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            .column {
+                flex: unset;
+                width: calc(50% - 8px);
+                flex-wrap: wrap;
+            }
+        }
+
+        @media screen and (max-width: 800px) and (min-width: 601px) {
+            .column {
+                flex: unset;
+                width: calc(25% - 8px);
+                flex-wrap: wrap;
+            }
+        }
+    }
+
+    :where(.css-dev-only-do-not-override-apn68).ant-btn-variant-solid {
+        color: #fff;
+        background: #6253e1;
+    }
+
+    :where(.css-dev-only-do-not-override-apn68).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
+        color: #6253e1;
+        text-shadow: 0 0 0.25px currentcolor;
+    }
+
+    :where(.css-dev-only-do-not-override-apn68).ant-tabs .ant-tabs-tab:hover {
+        color: #6253e1;
+    }
+}
