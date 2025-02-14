@@ -5,6 +5,7 @@ import { App, Button, notification, Popconfirm, Switch } from 'antd';
 import { useRef, useState } from 'react';
 import DetailsBook from './details.book';
 import CreateBook from './create.book';
+import UpdateBook from './upload.book';
 
 type TSearch = {
     title: string;
@@ -18,6 +19,10 @@ const TableBook = () => {
         pages: 0,
         total: 0
     })
+
+    // open - close update book modal
+    const [openModalUpdate, setOpenModalUpdate] = useState<boolean>(false);
+    const [dataUpdate, setDataUpdate] = useState<IBookTable | null>(null);
 
     // open - close create book modal
     const [openModalCreate, setOpenModalCreate] = useState<boolean>(false);
@@ -136,12 +141,16 @@ const TableBook = () => {
         {
             title: 'Action',
             hideInSearch: true,
-            render() {
+            render(dom, entity) {
                 return (
                     <>
                         <EditTwoTone
                             twoToneColor="#f57800"
                             style={{ cursor: "pointer" }}
+                            onClick={() => {
+                                setOpenModalUpdate(true);
+                                setDataUpdate(entity);
+                            }}
                         />
                         <Popconfirm
                             placement="leftTop"
@@ -236,6 +245,14 @@ const TableBook = () => {
                 openModalCreate={openModalCreate}
                 setOpenModalCreate={setOpenModalCreate}
                 refreshTable={refreshTable}
+            />
+
+            <UpdateBook 
+                openModalUpdate={openModalUpdate}
+                setOpenModalUpdate={setOpenModalUpdate}
+                refreshTable={refreshTable}
+                setDataUpdate={setDataUpdate}
+                dataUpdate={dataUpdate}
             />
         </>
     );

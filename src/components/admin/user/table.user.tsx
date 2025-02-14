@@ -91,7 +91,7 @@ const TableUser = () => {
             hideInSearch: true,
             ellipsis: true,
             tooltip: "User id",
-            render(dom, entity) {
+            render(_, entity) {
                 return (
                     <a onClick={() => {
                         setOpenViewDetails(true);
@@ -149,7 +149,7 @@ const TableUser = () => {
         {
             title: 'Action',
             hideInSearch: true,
-            render(dom, entity, ) {
+            render(_, entity, ) {
                 return (
                     <>
                         <EditTwoTone
