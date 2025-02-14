@@ -119,7 +119,7 @@ const DetailsBook = (props: IProps) => {
                     </Descriptions.Item>
 
                     <Descriptions.Item label="Updated at">
-                        {dataViewDetails?.updatedAt ? dayjs(dataViewDetails.createdAt).format("YYYY-MM-DD HH:mm:ss") : "N/A"}
+                        {dataViewDetails?.updatedAt ? dayjs(dataViewDetails.updatedAt).format("YYYY-MM-DD HH:mm:ss") : "N/A"}
                     </Descriptions.Item>
 
                     <Descriptions.Item label="Updated by">
