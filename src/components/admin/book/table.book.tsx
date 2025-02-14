@@ -1,4 +1,4 @@
-import { getAllBooksAPI, toggleSoftDeleteAPI } from '@/services/api';
+import { deleteBookAPI, getAllBooksAPI, toggleSoftDeleteAPI } from '@/services/api';
 import { DeleteTwoTone, EditTwoTone, PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { App, Button, notification, Popconfirm, Switch } from 'antd';
@@ -71,7 +71,36 @@ const TableBook = () => {
         refreshTable();
     };
 
-    // table: user list
+    // handle delete book
+    const [isDeleteBook, setIsDeleteBook] = useState<boolean>(false);
+    const handleDeleteBook = async (id: string) => {
+        setIsDeleteBook(true);
+        const response = await deleteBookAPI(id);
+        if (response && response.data) {
+            message.success("Delete book successfully");
+            refreshTable();
+        } else {
+            const errorMessage = Array.isArray(response.message) ? (
+                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
+                    {response.message.map((msg, index) => (
+                        <li key={index}>{msg}</li>
+                    ))}
+                </ul>
+            ) : (
+                <div>{response.message}</div>
+            );
+            api.open({
+                message: "Delete failed",
+                description: errorMessage,
+                type: 'error',
+                showProgress: true,
+                pauseOnHover: true,
+            });
+        }
+        setIsDeleteBook(false);
+    }
+
+    // table: book list
     const columns: ProColumns<IBookTable>[] = [
         {
             title: 'Id',
@@ -141,7 +170,7 @@ const TableBook = () => {
         {
             title: 'Action',
             hideInSearch: true,
-            render(dom, entity) {
+            render(_, entity) {
                 return (
                     <>
                         <EditTwoTone
@@ -156,8 +185,10 @@ const TableBook = () => {
                             placement="leftTop"
                             title={"Confirm delete book"}
                             description={"Are you sure you want to delete this book ?"}
+                            onConfirm={() => handleDeleteBook(entity.id)}
                             okText="Confirm"
                             cancelText="Cancel"
+                            okButtonProps={{ loading: isDeleteBook }}
                         >
                             <span style={{ cursor: "pointer", marginLeft: 20 }}>
                                 <DeleteTwoTone
