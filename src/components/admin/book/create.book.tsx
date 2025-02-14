@@ -237,8 +237,8 @@ const CreateBook = (props: IProps) => {
 
                     <Row gutter={16}> 
                         <Col span={12}>
-                            <Form.Item<FieldType> label="Description" name="description" >
-                                <TextArea />
+                            <Form.Item<FieldType> label="Quantity" name="quantity" >
+                                <InputNumber min={1} style={{ width: "100%" }} />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
@@ -250,10 +250,10 @@ const CreateBook = (props: IProps) => {
                             </Form.Item>
                         </Col>
                     </Row>
-                    <Row gutter={16}> 
+                    <Row gutter={16}>
                         <Col span={12}>
-                            <Form.Item<FieldType> label="Quantity" name="quantity" >
-                                <InputNumber min={1} style={{ width: "100%" }} />
+                            <Form.Item<FieldType> label="Description" name="description" >
+                                <TextArea />
                             </Form.Item>
                         </Col>
                         <Col span={12}>
