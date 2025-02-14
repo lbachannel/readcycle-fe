@@ -256,14 +256,6 @@ const TableUser = () => {
 
                 headerTitle="Table user"
                 toolBarRender={() => [
-
-                    <Button
-                        icon={<CloudUploadOutlined />}
-                        type="primary"
-                    >
-                        Import
-                    </Button>,
-
                     <Button
                         key="button"
                         icon={<PlusOutlined />}
