@@ -71,6 +71,11 @@ export const updateBookAPI = (
     })
 }
 
+export const deleteBookAPI = (id: string) => {
+    const urlBackend = `/api/v1/books/${id}`;
+    return axios.delete<IBackendRes<IBook>>(urlBackend);
+}
+
 export const uploadFileAPI = (file: any) => {
     const bodyFormData = new FormData();
     bodyFormData.append('file', file);
