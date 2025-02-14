@@ -8,11 +8,12 @@ import {
     MenuFoldOutlined,
     MenuUnfoldOutlined,
 } from '@ant-design/icons';
-import { Layout, Menu, Dropdown, Space } from 'antd';
-import { Outlet, useLocation } from "react-router-dom";
+import { Layout, Menu, Dropdown, Space, App } from 'antd';
+import { Outlet, useLocation, useNavigate } from "react-router-dom";
 import { Link } from 'react-router-dom';
 import { useCurrentApp } from '../context/app.context';
 import type { MenuProps } from 'antd';
+import { logoutAPI } from '@/services/api';
 type MenuItem = Required<MenuProps>['items'][number];
 
 const { Content, Footer, Sider } = Layout;
@@ -22,10 +23,25 @@ const LayoutAdmin = () => {
     const [collapsed, setCollapsed] = useState(false);
     const [activeMenu, setActiveMenu] = useState('');
     const {
-        user, isAuthenticated
+        user, setUser, isAuthenticated, setIsAuthenticated
     } = useCurrentApp();
 
+    const { message } = App.useApp();
+
     const location = useLocation();
+
+    const navigate = useNavigate();
+
+    const handleLogout = async () => {
+        const res = await logoutAPI();
+        if (res && +res.statusCode === 200) {
+            setUser(null);
+            setIsAuthenticated(false)
+            localStorage.removeItem("access_token");
+            message.success("Logout successfully");
+            navigate('/login');
+        }
+    }
 
     const items: MenuItem[] = [
         {
@@ -80,6 +96,7 @@ const LayoutAdmin = () => {
         {
             label: <label
                 style={{ cursor: 'pointer' }}
+                onClick={() => handleLogout()}
             >Log out</label>,
             key: 'logout',
         },
