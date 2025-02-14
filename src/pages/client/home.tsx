@@ -15,22 +15,12 @@ const HomePage = () => {
     const items = [
         {
             key: "sort=-sold",
-            label: `Phổ biến`,
+            label: `Popular`,
             children: <></>,
         },
         {
             key: 'sort=-updatedAt',
-            label: `Hàng Mới`,
-            children: <></>,
-        },
-        {
-            key: 'sort=price',
-            label: `Giá Thấp Đến Cao`,
-            children: <></>,
-        },
-        {
-            key: 'sort=-price',
-            label: `Giá Cao Đến Thấp`,
+            label: `New book`,
             children: <></>,
         },
     ];
@@ -49,66 +39,105 @@ const HomePage = () => {
 
     return (
         <>
-            <div style={{ background: '#efefef', padding: "20px 50px" }}>
-                <div className="homepage-container" style={{ maxWidth: 1440, margin: '0 auto', overflow: "hidden" }}>
+                <div className="homepage-container">
                     <Row gutter={[20, 20]}>
                         <Col md={6} sm={0} xs={0}>
-                            <div style={{ padding: "20px", background: '#fff', borderRadius: 5 }}>
+                            <div className="filter">
                                 <div style={{ display: 'flex', justifyContent: "space-between" }}>
                                     <span> <FilterTwoTone />
-                                        <span style={{ fontWeight: 500 }}> Bộ lọc tìm kiếm</span>
+                                        <span style={{ fontWeight: 500, color: "#000" }}> Filter</span>
                                     </span>
                                     <ReloadOutlined title="Reset"/>
                                 </div>
-                                <Divider />
+                                <Divider style={{background: "rgb(76 72 72)"}} />
                                 <Form
                                     onFinish={onFinish}
                                     form={form}
                                     onValuesChange={(changedValues, values) => handleChangeFilter(changedValues, values)}
                                 >
                                     <Form.Item
+                                        style={{}}
                                         name="category"
-                                        label="Danh mục sản phẩm"
+                                        label="Category"
                                         labelCol={{ span: 24 }}
+                                        className="category"
                                     >
                                         <Checkbox.Group>
                                             <Row>
                                                 <Col span={24}>
-                                                    <Checkbox value="A" >
+                                                    <Checkbox value="A" className="checkbox">
                                                         A
                                                     </Checkbox>
                                                 </Col>
                                                 <Col span={24}>
-                                                    <Checkbox value="B" >
+                                                    <Checkbox value="B" className="checkbox">
                                                         B
                                                     </Checkbox>
                                                 </Col>
                                                 <Col span={24}>
-                                                    <Checkbox value="C" >
+                                                    <Checkbox value="C" className="checkbox">
                                                         C
                                                     </Checkbox>
                                                 </Col>
                                                 <Col span={24}>
-                                                    <Checkbox value="D" >
+                                                    <Checkbox value="D" className="checkbox">
                                                         D
                                                     </Checkbox>
                                                 </Col>
                                             </Row>
                                         </Checkbox.Group>
                                     </Form.Item>
-                                    <Divider />
+                                    <Divider style={{background: "rgb(76 72 72)"}} />
+                                    <Form.Item
+                                        style={{}}
+                                        name="author"
+                                        label="Author"
+                                        labelCol={{ span: 24 }}
+                                        className="author"
+                                    >
+                                        <Checkbox.Group>
+                                            <Row>
+                                                <Col span={24}>
+                                                    <Checkbox value="A" className="checkbox">
+                                                        A
+                                                    </Checkbox>
+                                                </Col>
+                                                <Col span={24}>
+                                                    <Checkbox value="B" className="checkbox">
+                                                        B
+                                                    </Checkbox>
+                                                </Col>
+                                                <Col span={24}>
+                                                    <Checkbox value="C" className="checkbox">
+                                                        C
+                                                    </Checkbox>
+                                                </Col>
+                                                <Col span={24}>
+                                                    <Checkbox value="D" className="checkbox">
+                                                        D
+                                                    </Checkbox>
+                                                </Col>
+                                            </Row>
+                                        </Checkbox.Group>
+                                    </Form.Item>
+                                    <Divider style={{background: "rgb(76 72 72)"}} />
                                     <div>
-                                        <Button onClick={() => form.submit()}
-                                            style={{ width: "100%" }} type='primary'>Apply</Button>
+                                        <Button 
+                                            onClick={() => form.submit()} 
+                                            className="filter__btn" 
+                                            type='primary'
+                                        >
+                                            Apply
+                                        </Button>
                                     </div>
                                 </Form>
                             </div>
                         </Col>
 
                         <Col md={18} xs={24} >
-                            <Row >
+                            <Row className="tabs">
                                 <Tabs defaultActiveKey="1"
-                                    items={items} />
+                                    items={items} className="tabs__title" />
                             </Row>
                             <Row className='customize-row'>
                                 <div className="column">
@@ -182,7 +211,6 @@ const HomePage = () => {
                         </Col>
                     </Row>
                 </div>
-            </div>
         </>
     )
 };

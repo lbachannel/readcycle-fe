@@ -1,26 +1,74 @@
 .homepage-container {
+    background: #f5f5f5;
+    max-width: 1470;
+    padding: 20px 50px;
+    margin: 0 auto;
+    overflow: hidden;
+    color: var(--color);
+    
+    .filter {
+        padding: 20px;
+        border-radius: 5px;
+        background: #fff;
+
+        &__btn {
+            background: #f5f3f3;
+            width: 100%;
+            box-shadow: none;
+            color: #000;
+            font-weight: 500;
+
+            &:hover {
+                background: #dadada !important;
+                color: #000 !important;
+            }
+        }
+        
+    }
+
+    .author .ant-form-item-label > label,
+    .category .ant-form-item-label > label,
+    .checkbox {
+        color: var(--color);
+    }
+
+    .tabs {
+        margin-bottom: 30px;
+        padding-left: 30px;
+        background: #fff;
+
+        & .ant-tabs-tab {
+            color: var(--color);
+        }
+    }
+
     .customize-row {
         display: flex;
+        justify-content: space-between;
+        align-items: center;
         flex-wrap: wrap;
         gap: 20px 10px;
 
         .column {
             width: 30%;
-            border-radius: 12px;
+            border-top-left-radius: 12px;
+            border-bottom-left-radius: 12px;
             &:hover {
-                box-shadow: 0 0.0625rem 20px 0 rgba(0, 0, 0, .05);
-                -webkit-transform: translateY(-0.0625rem);
-                transform: translateY(-0.0625rem);
+                background: transparent;
+
+                -webkit-transform: translateY(-0.3625rem);
+                transform: translateY(-0.3625rem);
+                color: #1677ff;
             }
 
             .wrapper {
                 cursor: pointer;
-                border-radius: 12px;
-
                 .text {
-                    padding: 12px;
-                    font-size: 16px;
-                    height: 50px;
+                    padding: 12px 12px 5px 12px;
+                    font-size: 1rem;
+                    min-height: 50px;
+                    text-overflow: ellipsis;
+
                     white-space: nowrap;
                     overflow: hidden;
                     text-overflow: ellipsis;
@@ -29,21 +77,22 @@
             }
         }
 
-
         .thumbnail {
             position: relative;
             padding-top: 100%;
             border-top-left-radius: 12px;
-            border-top-right-radius: 12px;
-            background: linear-gradient(90deg, rgba(2, 0, 36, .39), rgba(0, 0, 0, .5) 1.83%, hsla(0, 0%, 100%, .36) 3.21%, rgba(0, 0, 0, .33) 4.72%, rgba(247, 254, 255, .28) 9.84%, hsla(0, 0%, 100%, 0) 47.85%);
-            
+            border-bottom-left-radius: 12px;
             img {
+                padding-right: 42px;
+                border-top-left-radius: 12px;
+                border-bottom-left-radius: 12px;
                 position: absolute;
                 top: 0;
                 left: 0;
                 width: 100%;
                 height: 100%;
                 object-fit: contain;
+                background: linear-gradient(90deg, rgba(2, 0, 36, .39), rgba(0, 0, 0, .5) 1.83%, hsla(0, 0%, 100%, .36) 3.21%, rgba(0, 0, 0, .33) 4.72%, rgba(247, 254, 255, .28) 9.84%, hsla(0, 0%, 100%, 0) 47.85%);
             }
         }
 
@@ -62,19 +111,5 @@
                 flex-wrap: wrap;
             }
         }
-    }
-
-    :where(.css-dev-only-do-not-override-apn68).ant-btn-variant-solid {
-        color: #fff;
-        background: #6253e1;
-    }
-
-    :where(.css-dev-only-do-not-override-apn68).ant-tabs .ant-tabs-tab.ant-tabs-tab-active .ant-tabs-tab-btn {
-        color: #6253e1;
-        text-shadow: 0 0 0.25px currentcolor;
-    }
-
-    :where(.css-dev-only-do-not-override-apn68).ant-tabs .ant-tabs-tab:hover {
-        color: #6253e1;
     }
 }
