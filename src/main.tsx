@@ -11,6 +11,7 @@ import BookPage from 'pages/client/book';
 import LoginPage from 'pages/client/auth/login';
 import RegisterPage from 'pages/client/auth/register';
 import 'styles/reset.scss';
+import 'styles/base.scss';
 import { App } from 'antd';
 import VerifySuccessPage from 'pages/client/auth/verify-success';
 import VerifyFailedPage from 'pages/client/auth/verify-failed';

@@ -1,13 +1,17 @@
 .header-container {
+    background: #fff;
+    color: var(--color);
+
     .page-header {
         display: flex;
+        align-items: center;
         user-select: none;
         -moz-user-select: none;
         -webkit-user-select: none;
-        height: 55px;
+        height: 70px;
         color: #808089;
         width: 100%;
-        max-width: 1440px;
+        max-width: 1470px;
         margin: 0 auto;
         line-height: 55px;
         justify-content: space-around;
@@ -37,7 +41,7 @@
         }
 
         .logo {
-            color: #6253e1;
+            color: #1677ff;
             cursor: pointer;
             display: block;
 
@@ -77,18 +81,24 @@
             .icon-search {
                 position: relative;
                 left: 35px;
+                color: var(--color) !important;
             }
 
 
         }
 
         .input-search {
-            height: 25px;
+            height: 30px;
             outline: none;
+            background: none;
             padding: 5px 35px;
             border-radius: 6px;
-            border: 1px solid #ddd;
+            border: 1px solid #ccc;
             flex: 1;
+            color: var(--color);
+            &::placeholder {
+                color: var(--color);
+            }
         }
     }
 
@@ -112,31 +122,25 @@
 
         &__login {
             padding: 9px 20px;
-            color: #fff;
+            color: var(--color);
             font-weight: 500;
-            background: #6253e1;
-            border-radius: 10px;
         }
 
         &__user {
+            display: flex;
+            align-items: center;
             justify-content: center;
             width: 120px;
-            height: 40px;
-            border: 1px solid #ddd;
-            border-radius: 10px;
-            color: #000;
+            height: 35px;
+            color: var(--color);
+            background: #fff;
+            gap: 5px;
         }
 
         &__user:hover {
-            border: 1px solid #000;
+            color: var(--color);
         }
 
-        .icon-cart {
-            font-size: 20px;
-            top: 5px;
-            position: relative;
-            color: #61dafb;
-        }
     }
 
     @media (max-width: 767.98px) {
@@ -179,4 +183,17 @@
             }
         }
     }
+
+}
+
+@keyframes rotate {
+    to {
+        --angle: 360deg;
+    }
+}
+
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
 }
