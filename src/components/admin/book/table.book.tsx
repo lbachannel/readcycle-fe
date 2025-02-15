@@ -1,4 +1,4 @@
-import { deleteBookAPI, getAllBooksAPI, toggleSoftDeleteAPI } from '@/services/api';
+import { deleteBookAPI, deleteThumbAPI, getAllBooksAPI, toggleSoftDeleteAPI } from '@/services/api';
 import { DeleteTwoTone, EditTwoTone, PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { App, Button, notification, Popconfirm, Switch } from 'antd';
@@ -73,8 +73,10 @@ const TableBook = () => {
 
     // handle delete book
     const [isDeleteBook, setIsDeleteBook] = useState<boolean>(false);
-    const handleDeleteBook = async (id: string) => {
+
+    const handleDeleteBook = async (id: string, thumb: string) => {
         setIsDeleteBook(true);
+        await deleteThumbAPI(thumb);
         const response = await deleteBookAPI(id);
         if (response && response.data) {
             message.success("Delete book successfully");
@@ -185,7 +187,7 @@ const TableBook = () => {
                             placement="leftTop"
                             title={"Confirm delete book"}
                             description={"Are you sure you want to delete this book ?"}
-                            onConfirm={() => handleDeleteBook(entity.id)}
+                            onConfirm={() => handleDeleteBook(entity.id, entity.thumb)}
                             okText="Confirm"
                             cancelText="Cancel"
                             okButtonProps={{ loading: isDeleteBook }}
