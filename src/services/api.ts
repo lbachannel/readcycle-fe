@@ -44,6 +44,13 @@ export const deleteUserAPI = (id: string) => {
 
 // Module books
 export const getAllBooksAPI = (query: string) => {
+    const urlBackend = `/api/v1/admin/books?${query}`;
+    return axios.get<IBackendRes<IModelPaginate<IBookTable>>>(urlBackend, {
+        headers: { delay: 100 }
+    });
+}
+
+export const getAllBooksClientAPI = (query: string) => {
     const urlBackend = `/api/v1/books?${query}`;
     return axios.get<IBackendRes<IModelPaginate<IBookTable>>>(urlBackend, {
         headers: { delay: 100 }
@@ -51,14 +58,14 @@ export const getAllBooksAPI = (query: string) => {
 }
 
 export const toggleSoftDeleteAPI = (id: string) => {
-    const urlBackend = `/api/v1/books/${id}`;
+    const urlBackend = `/api/v1/admin/books/${id}`;
     return axios.put<IBackendRes<IBookTable>>(urlBackend);
 }
 
 export const createBookAPI = (
     category: string, title: string, author: string, publisher: string, 
     thumb: string, description: string, quantity: number, status: string) => {
-    const urlBackend = "/api/v1/books";
+    const urlBackend = "/api/v1/admin/books";
     return axios.post<IBackendRes<IBook>>(urlBackend, {
         category, title, author, publisher, thumb, description, quantity, status
     })
@@ -67,14 +74,14 @@ export const createBookAPI = (
 export const updateBookAPI = (
     id: string, category: string, title: string, author: string, publisher: string,
     thumb: string, description: string, quantity: number, status: string) => {
-    const urlBackend = "/api/v1/books";
+    const urlBackend = "/api/v1/admin/books";
     return axios.put<IBackendRes<IBook>>(urlBackend, {
         id, category, title, author, publisher, thumb, description, quantity, status
     })
 }
 
 export const deleteBookAPI = (id: string) => {
-    const urlBackend = `/api/v1/books/${id}`;
+    const urlBackend = `/api/v1/admin/books/${id}`;
     return axios.delete<IBackendRes<IBook>>(urlBackend);
 }
 

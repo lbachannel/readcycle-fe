@@ -1,4 +1,4 @@
-import { getAllBooksAPI } from "@/services/api";
+import { getAllBooksClientAPI } from "@/services/api";
 import { FilterTwoTone, ReloadOutlined } from "@ant-design/icons";
 import { Button, Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Row, Spin, Tabs } from "antd";
 import { useEffect, useState } from "react";
@@ -29,7 +29,7 @@ const HomePage = () => {
     const fetchBooks = async () => {
         setIsloading(true);
         let query = `page=${current - 1}&size=${pageSize}`;
-        const response = await getAllBooksAPI(query);
+        const response = await getAllBooksClientAPI(query);
         if (response && response.data) {
             setListBook(response.data.result);
             setTotal(response.data.meta.total);
