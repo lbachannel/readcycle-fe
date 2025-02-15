@@ -1,0 +1,16 @@
+.footer {
+    &-copyright {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 25px 0;
+    }
+
+    &__desc {
+        line-height: 1.5;
+    }
+
+    &-text-primary {
+        color: #1677ff;
+    }
+}
