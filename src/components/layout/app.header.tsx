@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { FaReact } from 'react-icons/fa'
 import { VscSearchFuzzy } from 'react-icons/vsc';
-import { Divider, Drawer, Dropdown, Space, App } from 'antd';
+import { Divider, Drawer, Dropdown, Space, App, Avatar } from 'antd';
 import { useNavigate } from 'react-router';
 import './app.header.scss';
 import { Link } from 'react-router-dom';
 import { useCurrentApp } from 'components/context/app.context';
 import ManageAccount from '../client/account';
-import { LoginOutlined } from '@ant-design/icons';
+import { LoginOutlined, UserOutlined } from '@ant-design/icons';
 import { logoutAPI } from '@/services/api';
 
 interface IProps {
@@ -73,7 +73,7 @@ const AppHeader = (props: IProps) => {
                                 <span onClick={() => navigate('/')}>
                                     <FaReact className='rotate icon-react' />Read Cycle</span>
 
-                                <VscSearchFuzzy className='icon-search' />
+                                <VscSearchFuzzy className='icon-search' style={{ color: "#000" }} />
                             </span>
                             <input
                                 className="input-search" type={'text'}
@@ -97,7 +97,7 @@ const AppHeader = (props: IProps) => {
                                     :
                                     <Dropdown menu={{ items }} trigger={['click']}>
                                         <Space className='navigation__user' >
-                                            {user?.name}
+                                            <Avatar shape="square" size="small" icon={<UserOutlined />} /> {user?.name}
                                         </Space>
                                     </Dropdown>
                                 }
