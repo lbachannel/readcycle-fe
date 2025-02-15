@@ -94,20 +94,16 @@ const DetailsBook = (props: IProps) => {
                         {dataViewDetails?.publisher}
                     </Descriptions.Item>
 
-                    <Descriptions.Item label="Active">
-                        {dataViewDetails?.active ? "On" : "Off"}
-                    </Descriptions.Item>
-
-                    <Descriptions.Item label="Description">
-                        {dataViewDetails?.description}
-                    </Descriptions.Item>
-
                     <Descriptions.Item label="Quantity">
                         {dataViewDetails?.quantity}
                     </Descriptions.Item>
 
                     <Descriptions.Item label="Status">
                         {dataViewDetails?.status}
+                    </Descriptions.Item>
+
+                    <Descriptions.Item label="Description" span={3}>
+                        {dataViewDetails?.description}
                     </Descriptions.Item>
 
                     <Descriptions.Item label="Created at">
@@ -124,6 +120,10 @@ const DetailsBook = (props: IProps) => {
 
                     <Descriptions.Item label="Updated by">
                         {dataViewDetails?.updatedBy}
+                    </Descriptions.Item>
+
+                    <Descriptions.Item label="Active">
+                        {dataViewDetails?.active ? "On" : "Off"}
                     </Descriptions.Item>
                 </Descriptions>
 
