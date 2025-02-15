@@ -113,17 +113,17 @@ const HomePage = () => {
                                     <Checkbox.Group>
                                         <Row>
                                             <Col span={24}>
-                                                <Checkbox value="A" className="checkbox">
+                                                <Checkbox value="Computers & Technology" className="checkbox">
                                                     Computers & Technology
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="B" className="checkbox">
+                                                <Checkbox value="Romantic Fantasy" className="checkbox">
                                                     Romantic Fantasy
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="C" className="checkbox">
+                                                <Checkbox value="Travel" className="checkbox">
                                                     Travel
                                                 </Checkbox>
                                             </Col>
@@ -141,52 +141,52 @@ const HomePage = () => {
                                     <Checkbox.Group>
                                         <Row>
                                             <Col span={24}>
-                                                <Checkbox value="A" className="checkbox">
+                                                <Checkbox value="Joshua Bloch" className="checkbox">
                                                     Joshua Bloch
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="B" className="checkbox">
+                                                <Checkbox value="Cay Horstmann" className="checkbox">
                                                     Cay Horstmann
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="C" className="checkbox">
+                                                <Checkbox value="Dr. Edward Lavieri Jr." className="checkbox">
                                                     Dr. Edward Lavieri Jr.
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="D" className="checkbox">
+                                                <Checkbox value="Alan Mycroft" className="checkbox">
                                                     Alan Mycroft
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="D" className="checkbox">
+                                                <Checkbox value="Rebecca Yarros" className="checkbox">
                                                     Rebecca Yarros
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="D" className="checkbox">
+                                                <Checkbox value="Alexandre Dumas" className="checkbox">
                                                     Alexandre Dumas
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="D" className="checkbox">
+                                                <Checkbox value="Jon Krakauer" className="checkbox">
                                                     Jon Krakauer
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="D" className="checkbox">
+                                                <Checkbox value="L. K. Pettigrew" className="checkbox">
                                                     L. K. Pettigrew
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="D" className="checkbox">
+                                                <Checkbox value="Rick Steves" className="checkbox">
                                                     Rick Steves
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
-                                                <Checkbox value="D" className="checkbox">
+                                                <Checkbox value="Joan M Griffin" className="checkbox">
                                                     Joan M Griffin
                                                 </Checkbox>
                                             </Col>
