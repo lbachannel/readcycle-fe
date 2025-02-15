@@ -1,5 +1,7 @@
+import { getAllBooksAPI } from "@/services/api";
 import { FilterTwoTone, ReloadOutlined } from "@ant-design/icons";
-import { Button, Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Rate, Row, Spin, Tabs } from "antd";
+import { Button, Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Row, Spin, Tabs } from "antd";
+import { useEffect, useState } from "react";
 import 'styles/home.scss';
 
 type FieldType = {
@@ -12,6 +14,40 @@ type FieldType = {
 
 const HomePage = () => {
     const [form] = Form.useForm();
+
+    // handle show books
+    const [current, setCurrent] = useState<number>(1);
+    const [pageSize, setPageSize] = useState<number>(8);
+    const [listBook, setListBook] = useState<IBookTable[]>([]);
+    const [total, setTotal] = useState<number>(0);
+    const [isLoading, setIsloading] = useState<boolean>(false);
+
+    useEffect(() => {
+        fetchBooks();
+    }, [current, pageSize])
+
+    const fetchBooks = async () => {
+        setIsloading(true);
+        let query = `page=${current - 1}&size=${pageSize}`;
+        const response = await getAllBooksAPI(query);
+        if (response && response.data) {
+            setListBook(response.data.result);
+            setTotal(response.data.meta.total);
+        }
+        setIsloading(false);
+    }
+
+    const handleOnchangePage = (pagination: { current: number, pageSize: number }) => {
+        if (pagination && pagination.current !== current) {
+            setCurrent(pagination.current);
+        }
+
+        if (pagination && pagination.pageSize !== pageSize) {
+            setPageSize(pagination.pageSize);
+            setCurrent(1);
+        }
+    }
+
     const items = [
         {
             key: "sort=-sold",
@@ -20,10 +56,12 @@ const HomePage = () => {
         },
         {
             key: 'sort=-updatedAt',
-            label: `New book`,
+            label: `New releases`,
             children: <></>,
         },
     ];
+
+
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         console.log(values);
@@ -32,11 +70,6 @@ const HomePage = () => {
     const handleChangeFilter = (changedValues: any, values: any) => {
         console.log(changedValues, values);
     }
-
-    const handleOnchangePage = (pagination: { current: number, pageSize: number }) => {
-        console.log(pagination)
-    }
-
 
     const images = [
         "https://307a0e78.vws.vegacdn.vn/view/v2/image/img.banner_web_v2/0/0/0/3886.jpg?v=1&w=1920&h=600",
@@ -81,22 +114,17 @@ const HomePage = () => {
                                         <Row>
                                             <Col span={24}>
                                                 <Checkbox value="A" className="checkbox">
-                                                    A
+                                                    Computers & Technology
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
                                                 <Checkbox value="B" className="checkbox">
-                                                    B
+                                                    Romantic Fantasy
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
                                                 <Checkbox value="C" className="checkbox">
-                                                    C
-                                                </Checkbox>
-                                            </Col>
-                                            <Col span={24}>
-                                                <Checkbox value="D" className="checkbox">
-                                                    D
+                                                    Travel
                                                 </Checkbox>
                                             </Col>
                                         </Row>
@@ -114,22 +142,52 @@ const HomePage = () => {
                                         <Row>
                                             <Col span={24}>
                                                 <Checkbox value="A" className="checkbox">
-                                                    A
+                                                    Joshua Bloch
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
                                                 <Checkbox value="B" className="checkbox">
-                                                    B
+                                                    Cay Horstmann
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
                                                 <Checkbox value="C" className="checkbox">
-                                                    C
+                                                    Dr. Edward Lavieri Jr.
                                                 </Checkbox>
                                             </Col>
                                             <Col span={24}>
                                                 <Checkbox value="D" className="checkbox">
-                                                    D
+                                                    Alan Mycroft
+                                                </Checkbox>
+                                            </Col>
+                                            <Col span={24}>
+                                                <Checkbox value="D" className="checkbox">
+                                                    Rebecca Yarros
+                                                </Checkbox>
+                                            </Col>
+                                            <Col span={24}>
+                                                <Checkbox value="D" className="checkbox">
+                                                    Alexandre Dumas
+                                                </Checkbox>
+                                            </Col>
+                                            <Col span={24}>
+                                                <Checkbox value="D" className="checkbox">
+                                                    Jon Krakauer
+                                                </Checkbox>
+                                            </Col>
+                                            <Col span={24}>
+                                                <Checkbox value="D" className="checkbox">
+                                                    L. K. Pettigrew
+                                                </Checkbox>
+                                            </Col>
+                                            <Col span={24}>
+                                                <Checkbox value="D" className="checkbox">
+                                                    Rick Steves
+                                                </Checkbox>
+                                            </Col>
+                                            <Col span={24}>
+                                                <Checkbox value="D" className="checkbox">
+                                                    Joan M Griffin
                                                 </Checkbox>
                                             </Col>
                                         </Row>
@@ -150,85 +208,37 @@ const HomePage = () => {
                     </Col>
 
                     <Col md={18} xs={24} >
-                        <Row className="tabs">
-                            <Tabs defaultActiveKey="1"
-                                items={items} className="tabs__title" />
-                        </Row>
-                        <Row className='customize-row'>
-                            <div className="column">
-                                <div className='wrapper'>
-                                    <div className='thumbnail'>
-                                        <img src="https://m.media-amazon.com/images/I/81r5OJ+ZZHL._SY466_.jpg" alt="thumbnail book" />
-                                    </div>
-                                    <div className='text'>Lorem ipsum dolors dolors dolors dolors dolors dolors dolors dolors dolors</div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className='wrapper'>
-                                    <div className='thumbnail'>
-                                        <img src="https://m.media-amazon.com/images/I/51erLQfWU8L._SY445_SX342_.jpg" alt="thumbnail book" />
-                                    </div>
-                                    <div className='text'>Course</div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className='wrapper'>
-                                    <div className='thumbnail'>
-                                        <img src="https://m.media-amazon.com/images/I/713xIQAxCqL._SY466_.jpg" alt="thumbnail book" />
-                                    </div>
-                                    <div className='text'>Course</div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className='wrapper'>
-                                    <div className='thumbnail'>
-                                        <img src="https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/50809.jpg?v=1&w=350&h=510" alt="thumbnail book" />
-                                    </div>
-                                    <div className='text'>Course</div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className='wrapper'>
-                                    <div className='thumbnail'>
-                                        <img src="https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/50809.jpg?v=1&w=350&h=510" alt="thumbnail book" />
-                                    </div>
-                                    <div className='text'>Course</div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className='wrapper'>
-                                    <div className='thumbnail'>
-                                        <img src="https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/50809.jpg?v=1&w=350&h=510" alt="thumbnail book" />
-                                    </div>
-                                    <div className='text'>Lorem ipsum dolor sit amet.</div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className='wrapper'>
-                                    <div className='thumbnail'>
-                                        <img src="https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/50809.jpg?v=1&w=350&h=510" alt="thumbnail book" />
-                                    </div>
-                                    <div className='text'>Course</div>
-                                </div>
-                            </div>
-                            <div className="column">
-                                <div className='wrapper'>
-                                    <div className='thumbnail'>
-                                        <img src="https://307a0e78.vws.vegacdn.vn/view/v2/image/img.book/0/0/1/50809.jpg?v=1&w=350&h=510" alt="thumbnail book" />
-                                    </div>
-                                    <div className='text'>Course</div>
-                                </div>
-                            </div>
+                        <Spin spinning={isLoading} tip="Loading" size="small">
+                            <Row className="tabs">
+                                <Tabs defaultActiveKey="1" items={items} className="tabs__title" />
+                            </Row>
+                            <Row className='customize-row'>
+                                {listBook?.map((item, index) => {
+                                    return (
+                                        <div className="column" key={`book-${index}`}>
+                                            <div className='wrapper'>
+                                                <div className='thumbnail'>
+                                                    <img src={`${import.meta.env.VITE_BACKEND_URL}/upload/${item.thumb}`} alt="thumbnail book" />
+                                                </div>
+                                                <div className='text'>{item.title}</div>
+                                            </div>
+                                        </div>    
+                                    )
+                                })}
+                            </Row>
 
-                        </Row>
-
-                        <Row style={{ display: "flex", justifyContent: "center", margin: "30px" }}>
-                            <Pagination
-                                defaultCurrent={6}
-                                total={500}
-                                responsive
-                            />
-                        </Row>
+                            <Row style={{ display: "flex", justifyContent: "center", margin: "30px" }}>
+                                <Pagination
+                                    current={current}
+                                    total={total}
+                                    pageSize={pageSize}
+                                    responsive
+                                    onChange={(page, size) => handleOnchangePage({
+                                        current: page, pageSize: size
+                                    })}
+                                />
+                            </Row>
+                        </Spin>
                     </Col>
                 </Row>
             </div>

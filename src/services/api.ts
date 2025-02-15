@@ -45,7 +45,9 @@ export const deleteUserAPI = (id: string) => {
 // Module books
 export const getAllBooksAPI = (query: string) => {
     const urlBackend = `/api/v1/books?${query}`;
-    return axios.get<IBackendRes<IModelPaginate<IBookTable>>>(urlBackend);
+    return axios.get<IBackendRes<IModelPaginate<IBookTable>>>(urlBackend, {
+        headers: { delay: 100 }
+    });
 }
 
 export const toggleSoftDeleteAPI = (id: string) => {
