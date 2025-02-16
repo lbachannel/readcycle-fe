@@ -1,7 +1,9 @@
+import TableDashBoard from "@/components/admin/dashboard/table.dashboard";
+
 const DashBoardPage = () => {
     return (
         <div>
-            DashBoardPage
+            <TableDashBoard />
         </div>
     )
 }

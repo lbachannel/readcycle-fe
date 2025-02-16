@@ -111,4 +111,11 @@ declare global {
     interface IGetAccount {
         user: IUser;
     }
+
+    interface IActivityLogTable {
+        modifiedTime: Date;
+        modifiedBy: string;
+        activeType: string;
+        description: [];
+    }
 }
