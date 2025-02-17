@@ -113,8 +113,8 @@ declare global {
     }
 
     interface IActivityLogTable {
-        modifiedTime: Date;
-        modifiedBy: string;
+        executionTime: Date;
+        username: string;
         activeType: string;
         description: [];
     }

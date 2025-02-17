@@ -166,7 +166,7 @@ const LayoutAdmin = () => {
                     <Content style={{ padding: '15px' }}>
                         <Outlet />
                     </Content>
-                    <Footer style={{ padding: 0, textAlign: "center" }}>
+                    <Footer style={{ padding: "25px", textAlign: "center", background: "#fff" }}>
                         © Copyright belongs to AnLB | Powered by AnLB
                     </Footer>
                 </Layout>
