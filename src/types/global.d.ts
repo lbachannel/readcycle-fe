@@ -111,4 +111,11 @@ declare global {
     interface IGetAccount {
         user: IUser;
     }
+
+    interface IActivityLogTable {
+        executionTime: Date;
+        username: string;
+        activeType: string;
+        description: [];
+    }
 }
