@@ -119,10 +119,6 @@ const HomePage = () => {
                 setFilter(`&filter=${encodeURIComponent(filterAuthorParam)}`);
             }
         }
-
-        // case 1: cate + author
-        // case 2: cate
-        // case 3: author
     }
 
     const images = [
