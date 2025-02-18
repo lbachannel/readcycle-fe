@@ -17,6 +17,7 @@ const HomePage = () => {
 
     // handle filter books
     const [sortQuery, setSortQuery] = useState<string>("");
+    const [filter, setFilter] = useState<string>("");
 
     // handle show books
     const [current, setCurrent] = useState<number>(1);
@@ -27,13 +28,17 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchBooks();
-    }, [current, pageSize, sortQuery])
+    }, [current, pageSize, sortQuery, filter])
 
     const fetchBooks = async () => {
         setIsloading(true);
         let query = `page=${current - 1}&size=${pageSize}`;
         if (sortQuery) {
             query += `${sortQuery}`;
+        }
+
+        if (filter) {
+            query += `${filter}`;
         }
         const response = await getAllBooksClientAPI(query);
         if (response && response.data) {
@@ -75,6 +80,49 @@ const HomePage = () => {
 
     const handleChangeFilter = (changedValues: any, values: any) => {
         console.log(changedValues, values);
+        let filterCateParam = "";
+        let filterAuthorParam = "";
+        let flag = true;
+        if (values.category && values.category.length !== 0) {
+            const categories = values.category;
+            if (categories && categories.length > 0) {
+                const listCategories = Array.from(categories).map(item => `'${item}'`).join(", ");
+                filterCateParam = `category in [${listCategories}]`;
+            } else {
+                setFilter("");
+            }
+        } else {
+            flag = false;
+        }
+
+        if (values.author && values.author.length !== 0) {
+            const authors = values.author;
+            if (authors && authors.length > 0) {
+                const listAuthor = Array.from(authors).map(item => `'${item}'`).join(", ");
+                filterAuthorParam = `author in [${listAuthor}]`;
+                // setFilter(`&filter=${encodeURIComponent(filterParam)}`);
+            } else {
+                setFilter("");
+            }
+        } else {
+            flag = false;
+        }
+
+        if (flag) {
+            setFilter(`&filter=${encodeURIComponent(`${filterCateParam} or ${filterAuthorParam}`)}`);
+        } else {
+            if (filterCateParam) {
+                setFilter(`&filter=${encodeURIComponent(filterCateParam)}`);
+            }
+
+            if (filterAuthorParam) {
+                setFilter(`&filter=${encodeURIComponent(filterAuthorParam)}`);
+            }
+        }
+
+        // case 1: cate + author
+        // case 2: cate
+        // case 3: author
     }
 
     const images = [
@@ -101,7 +149,13 @@ const HomePage = () => {
                                 <span> <FilterTwoTone />
                                     <span style={{ fontWeight: 500, color: "#000" }}> Filter</span>
                                 </span>
-                                <ReloadOutlined title="Reset"/>
+                                <ReloadOutlined 
+                                    title="Reset"
+                                    onClick={() => {
+                                        form.resetFields();
+                                        setFilter("");
+                                    }}
+                                />
                             </div>
                             <Divider style={{background: "rgb(76 72 72)"}} />
                             <Form
