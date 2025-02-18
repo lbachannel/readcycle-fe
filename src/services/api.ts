@@ -103,6 +103,15 @@ export const deleteThumbAPI = (file: string) => {
     return axios.delete<IBackendRes<String>>(urlBackend);
 }
 
+export const getBookByIdAPI = (id: string) => {
+    const urlBackend = `/api/v1/books/${id}`;
+    return axios.get<IBackendRes<IBookTable>>(urlBackend, {
+        headers: {
+            delay: 100
+        }
+    });
+}
+
 // Activity log
 export const getAllActivityLogAPI = (query: string) => {
     const urlBackend = `/api/v1/admin/activity-log?${query}`;
