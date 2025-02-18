@@ -19,7 +19,7 @@ import { AppProvider } from 'components/context/app.context';
 import ProtectedRoute from 'components/auth/auth';
 import ManageBookPage from './pages/admin/manage.book';
 import ManageUserPage from './pages/admin/manage.user';
-import ManageOrderPage from './pages/admin/manage.order';
+import ManageBorrowBookPage from './pages/admin/manage.borrow';
 import DashBoardPage from './pages/admin/dashboard';
 import LayoutAdmin from './components/layout/layout.admin';
 import { ConfigProvider } from 'antd';
@@ -63,10 +63,10 @@ const router = createBrowserRouter([
                 )
             },
             {
-                path: "order",
+                path: "borrow",
                 element: (
                     <ProtectedRoute>
-                        <ManageOrderPage />
+                        <ManageBorrowBookPage />
                     </ProtectedRoute>
                 )
             },

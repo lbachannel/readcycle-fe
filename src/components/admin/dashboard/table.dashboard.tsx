@@ -46,6 +46,7 @@ const TableDashBoard = () => {
                 book: { text: 'Book' },
                 user: { text: 'User' }
             },
+
             fieldProps: {
                 style: { marginLeft: 10 },
                 onChange: handleActivityGroupChange
@@ -135,6 +136,9 @@ const TableDashBoard = () => {
                 cardBordered
                 onReset={handleReset}
                 actionRef={actionRef}
+                search={{
+                    labelWidth: 100
+                }}
                 request={async (params) => {
                     let query = "";
                     if (params) {
