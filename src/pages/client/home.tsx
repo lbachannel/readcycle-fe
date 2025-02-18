@@ -15,6 +15,9 @@ type FieldType = {
 const HomePage = () => {
     const [form] = Form.useForm();
 
+    // handle filter books
+    const [sortQuery, setSortQuery] = useState<string>("");
+
     // handle show books
     const [current, setCurrent] = useState<number>(1);
     const [pageSize, setPageSize] = useState<number>(8);
@@ -24,11 +27,14 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchBooks();
-    }, [current, pageSize])
+    }, [current, pageSize, sortQuery])
 
     const fetchBooks = async () => {
         setIsloading(true);
         let query = `page=${current - 1}&size=${pageSize}`;
+        if (sortQuery) {
+            query += `${sortQuery}`;
+        }
         const response = await getAllBooksClientAPI(query);
         if (response && response.data) {
             setListBook(response.data.result);
@@ -50,12 +56,12 @@ const HomePage = () => {
 
     const items = [
         {
-            key: "sort=-sold",
+            key: "",
             label: `Popular`,
             children: <></>,
         },
         {
-            key: 'sort=-updatedAt',
+            key: '&sort=createdAt,desc',
             label: `New releases`,
             children: <></>,
         },
@@ -208,7 +214,12 @@ const HomePage = () => {
                     <Col md={18} xs={24} >
                         <Spin spinning={isLoading} tip="Loading" size="small">
                             <Row className="tabs">
-                                <Tabs defaultActiveKey="1" items={items} className="tabs__title" />
+                                <Tabs 
+                                    defaultActiveKey="1" 
+                                    items={items} 
+                                    className="tabs__title"
+                                    style={{ overflowX: "auto"}}
+                                    onChange={ value => setSortQuery(value) } />
                             </Row>
                             <Row className='customize-row'>
                                 {listBook?.map((item, index) => {
