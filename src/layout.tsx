@@ -10,7 +10,7 @@ function Layout() {
             <AppHeader 
                 searchTerm={searchTerm}
                 setSearchTerm={setSearchTerm}/>
-            <Outlet />
+            <Outlet context={[searchTerm, setSearchTerm]} />
 
             <AppFooter />
         </>

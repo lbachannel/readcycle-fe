@@ -2,6 +2,7 @@ import { getAllBooksClientAPI } from "@/services/api";
 import { FilterTwoTone, ReloadOutlined } from "@ant-design/icons";
 import { Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Row, Spin, Tabs } from "antd";
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import 'styles/home.scss';
 
 type FieldType = {
@@ -13,6 +14,7 @@ type FieldType = {
 };
 
 const HomePage = () => {
+    const [searchTerm] = useOutletContext() as any;
     const [form] = Form.useForm();
 
     // handle filter books
@@ -28,17 +30,28 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchBooks();
-    }, [current, pageSize, sortQuery, filter])
+    }, [current, pageSize, sortQuery, filter, searchTerm])
 
     const fetchBooks = async () => {
         setIsloading(true);
         let query = `page=${current - 1}&size=${pageSize}`;
+        let flag = true;
         if (sortQuery) {
             query += `${sortQuery}`;
+            flag = false;
         }
 
         if (filter) {
             query += `${filter}`;
+            flag = false;
+        }
+
+        if (searchTerm) {
+            if (flag) {
+                query += `&filter=title~'${searchTerm}'`;
+            } else {
+                query += ` or title~'${searchTerm}'`;
+            }
         }
         const response = await getAllBooksClientAPI(query);
         if (response && response.data) {
