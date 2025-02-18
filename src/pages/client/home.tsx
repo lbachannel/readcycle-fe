@@ -251,16 +251,6 @@ const HomePage = () => {
                                         </Row>
                                     </Checkbox.Group>
                                 </Form.Item>
-                                <Divider style={{background: "rgb(76 72 72)"}} />
-                                <div>
-                                    <Button 
-                                        onClick={() => form.submit()} 
-                                        className="filter__btn" 
-                                        type='primary'
-                                    >
-                                        Apply
-                                    </Button>
-                                </div>
                             </Form>
                         </div>
                     </Col>
