@@ -2,7 +2,6 @@ import { getAllActivityLogAPI } from "@/services/api";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
 import dayjs from "dayjs";
 import { useRef, useState } from "react";
-import 'styles/dashboard.scss';
 type TSearch = {
     activityGroup: string;
     activityType: string[];
