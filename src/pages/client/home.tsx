@@ -113,7 +113,6 @@ const HomePage = () => {
             if (authors && authors.length > 0) {
                 const listAuthor = Array.from(authors).map(item => `'${item}'`).join(", ");
                 filterAuthorParam = `author in [${listAuthor}]`;
-                // setFilter(`&filter=${encodeURIComponent(filterParam)}`);
             } else {
                 setFilter("");
             }
