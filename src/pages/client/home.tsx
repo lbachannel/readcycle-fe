@@ -2,7 +2,7 @@ import { getAllBooksClientAPI } from "@/services/api";
 import { FilterTwoTone, ReloadOutlined } from "@ant-design/icons";
 import { Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Row, Spin, Tabs } from "antd";
 import { useEffect, useState } from "react";
-import { useOutletContext } from "react-router-dom";
+import { useNavigate, useOutletContext } from "react-router-dom";
 import 'styles/home.scss';
 
 type FieldType = {
@@ -16,6 +16,7 @@ type FieldType = {
 const HomePage = () => {
     const [searchTerm] = useOutletContext() as any;
     const [form] = Form.useForm();
+    const navigate = useNavigate();
 
     // handle filter books
     const [sortQuery, setSortQuery] = useState<string>("");
@@ -276,7 +277,7 @@ const HomePage = () => {
                             <Row className='customize-row'>
                                 {listBook?.map((item, index) => {
                                     return (
-                                        <div className="column" key={`book-${index}`}>
+                                        <div className="column" key={`book-${index}`} onClick={() => navigate(`/book/${item.id}`)}>
                                             <div className='wrapper'>
                                                 <div className='thumbnail'>
                                                     <img src={`${import.meta.env.VITE_BACKEND_URL}/upload/${item.thumb}`} alt="thumbnail book" />
