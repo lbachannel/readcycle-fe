@@ -104,7 +104,6 @@ const HomePage = () => {
                                 onValuesChange={(changedValues, values) => handleChangeFilter(changedValues, values)}
                             >
                                 <Form.Item
-                                    style={{}}
                                     name="category"
                                     label="Category"
                                     labelCol={{ span: 24 }}
@@ -132,7 +131,6 @@ const HomePage = () => {
                                 </Form.Item>
                                 <Divider style={{background: "rgb(76 72 72)"}} />
                                 <Form.Item
-                                    style={{}}
                                     name="author"
                                     label="Author"
                                     labelCol={{ span: 24 }}

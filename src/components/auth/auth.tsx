@@ -1,6 +1,6 @@
 import { useCurrentApp } from "components/context/app.context";
 import { Button, Result } from 'antd';
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 interface IProps {
     children: React.ReactNode
@@ -29,8 +29,9 @@ const ProtectedRoute = (props: IProps) => {
                         status="403"
                         title="403"
                         subTitle="Sorry, you are not authorized to access this page."
-                        extra={<Button type="primary">Back Home</Button>}
-                    />
+                        extra={<Link style={{ background: "#1677ff" , padding: "10px 20px", color: "#fff", borderRadius: "5px"}} to='/'>Back Home</Link>}
+                        />
+                        
                 )
             }
         }
