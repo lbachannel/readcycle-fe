@@ -1,7 +1,8 @@
 import { getAllBooksClientAPI } from "@/services/api";
 import { FilterTwoTone, ReloadOutlined } from "@ant-design/icons";
-import { Button, Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Row, Spin, Tabs } from "antd";
+import { Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Row, Spin, Tabs } from "antd";
 import { useEffect, useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import 'styles/home.scss';
 
 type FieldType = {
@@ -13,7 +14,12 @@ type FieldType = {
 };
 
 const HomePage = () => {
+    const [searchTerm] = useOutletContext() as any;
     const [form] = Form.useForm();
+
+    // handle filter books
+    const [sortQuery, setSortQuery] = useState<string>("");
+    const [filter, setFilter] = useState<string>("");
 
     // handle show books
     const [current, setCurrent] = useState<number>(1);
@@ -24,11 +30,29 @@ const HomePage = () => {
 
     useEffect(() => {
         fetchBooks();
-    }, [current, pageSize])
+    }, [current, pageSize, sortQuery, filter, searchTerm])
 
     const fetchBooks = async () => {
         setIsloading(true);
         let query = `page=${current - 1}&size=${pageSize}`;
+        let flag = true;
+        if (sortQuery) {
+            query += `${sortQuery}`;
+            flag = false;
+        }
+
+        if (filter) {
+            query += `${filter}`;
+            flag = false;
+        }
+
+        if (searchTerm) {
+            if (flag) {
+                query += `&filter=title~'${searchTerm}'`;
+            } else {
+                query += ` or title~'${searchTerm}'`;
+            }
+        }
         const response = await getAllBooksClientAPI(query);
         if (response && response.data) {
             setListBook(response.data.result);
@@ -50,12 +74,12 @@ const HomePage = () => {
 
     const items = [
         {
-            key: "sort=-sold",
+            key: "",
             label: `Popular`,
             children: <></>,
         },
         {
-            key: 'sort=-updatedAt',
+            key: '&sort=createdAt,desc',
             label: `New releases`,
             children: <></>,
         },
@@ -69,6 +93,44 @@ const HomePage = () => {
 
     const handleChangeFilter = (changedValues: any, values: any) => {
         console.log(changedValues, values);
+        let filterCateParam = "";
+        let filterAuthorParam = "";
+        let flag = true;
+        if (values.category && values.category.length !== 0) {
+            const categories = values.category;
+            if (categories && categories.length > 0) {
+                const listCategories = Array.from(categories).map(item => `'${item}'`).join(", ");
+                filterCateParam = `category in [${listCategories}]`;
+            } else {
+                setFilter("");
+            }
+        } else {
+            flag = false;
+        }
+
+        if (values.author && values.author.length !== 0) {
+            const authors = values.author;
+            if (authors && authors.length > 0) {
+                const listAuthor = Array.from(authors).map(item => `'${item}'`).join(", ");
+                filterAuthorParam = `author in [${listAuthor}]`;
+            } else {
+                setFilter("");
+            }
+        } else {
+            flag = false;
+        }
+
+        if (flag) {
+            setFilter(`&filter=${encodeURIComponent(`${filterCateParam} or ${filterAuthorParam}`)}`);
+        } else {
+            if (filterCateParam) {
+                setFilter(`&filter=${encodeURIComponent(filterCateParam)}`);
+            }
+
+            if (filterAuthorParam) {
+                setFilter(`&filter=${encodeURIComponent(filterAuthorParam)}`);
+            }
+        }
     }
 
     const images = [
@@ -95,7 +157,13 @@ const HomePage = () => {
                                 <span> <FilterTwoTone />
                                     <span style={{ fontWeight: 500, color: "#000" }}> Filter</span>
                                 </span>
-                                <ReloadOutlined title="Reset"/>
+                                <ReloadOutlined 
+                                    title="Reset"
+                                    onClick={() => {
+                                        form.resetFields();
+                                        setFilter("");
+                                    }}
+                                />
                             </div>
                             <Divider style={{background: "rgb(76 72 72)"}} />
                             <Form
@@ -191,16 +259,6 @@ const HomePage = () => {
                                         </Row>
                                     </Checkbox.Group>
                                 </Form.Item>
-                                <Divider style={{background: "rgb(76 72 72)"}} />
-                                <div>
-                                    <Button 
-                                        onClick={() => form.submit()} 
-                                        className="filter__btn" 
-                                        type='primary'
-                                    >
-                                        Apply
-                                    </Button>
-                                </div>
                             </Form>
                         </div>
                     </Col>
@@ -208,7 +266,12 @@ const HomePage = () => {
                     <Col md={18} xs={24} >
                         <Spin spinning={isLoading} tip="Loading" size="small">
                             <Row className="tabs">
-                                <Tabs defaultActiveKey="1" items={items} className="tabs__title" />
+                                <Tabs 
+                                    defaultActiveKey="1" 
+                                    items={items} 
+                                    className="tabs__title"
+                                    style={{ overflowX: "auto"}}
+                                    onChange={ value => setSortQuery(value) } />
                             </Row>
                             <Row className='customize-row'>
                                 {listBook?.map((item, index) => {
