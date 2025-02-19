@@ -41,7 +41,7 @@ const BookDetails = (props: IProps) => {
             const carts = JSON.parse(cartStorage) as ICart[];
             // check exist
             let isExistIndex = carts.findIndex(c => c.id === currentBook.id);
-            let isExistCategory = carts.every(c => c.details.category === currentBook.category);
+            const isExistCategory = carts.find(c => c.details.category === currentBook.category);
             if (isExistIndex > -1 || isExistCategory) {
                 message.warning("You are only allowed to borrow one type of book.");
                 return;
