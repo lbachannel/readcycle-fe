@@ -1,7 +1,7 @@
 import { deleteUserAPI, getAllUsersAPI } from '@/services/api';
 import { dateValidate } from '@/services/helper';
 import { PlusOutlined } from '@ant-design/icons';
-import { CloudUploadOutlined, EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
+import { EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { App, Button, notification, Popconfirm } from 'antd';
 import { useRef, useState } from 'react';
