@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { FaReact } from 'react-icons/fa'
 import { VscSearchFuzzy } from 'react-icons/vsc';
-import { Divider, Drawer, Dropdown, Space, App, Avatar } from 'antd';
+import { Divider, Drawer, Dropdown, Space, App, Avatar, Badge, Popover } from 'antd';
 import { useNavigate } from 'react-router';
 import './app.header.scss';
 import { Link } from 'react-router-dom';
 import { useCurrentApp } from 'components/context/app.context';
 import ManageAccount from '../client/account';
-import { LoginOutlined, UserOutlined } from '@ant-design/icons';
+import { LoginOutlined, ReadOutlined, UserOutlined } from '@ant-design/icons';
 import { logoutAPI } from '@/services/api';
 
 interface IProps {
@@ -86,6 +86,27 @@ const AppHeader = (props: IProps) => {
                     </div>
                     <nav className="page-header__bottom">
                         <ul id="navigation" className="navigation">
+                            <li className="navigation__item">
+                                {
+                                    <Popover
+                                        className="popover-carts"
+                                        placement="topRight"
+                                        rootClassName="popover-carts"
+                                        title={"Book"}
+                                        arrow={true}>
+                                        <Badge
+                                            count={0}
+                                            size={"small"}
+                                            showZero
+                                            
+                                            style={{background: "#1677ff"}}
+                                        >
+                                            <ReadOutlined className='icon-cart' />
+                                        </Badge>
+                                    </Popover>
+                                    
+                                }
+                            </li>
                             <li className="navigation__item mobile">
                                 <Divider type='vertical' />
                             </li>
