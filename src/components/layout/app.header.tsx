@@ -19,7 +19,7 @@ const AppHeader = (props: IProps) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openManageAccount, setOpenManageAccount] = useState<boolean>(false);
     const {
-        isAuthenticated, user, setUser, setIsAuthenticated
+        isAuthenticated, user, setUser, setIsAuthenticated, carts
     } = useCurrentApp();
     const { message } = App.useApp();
 
@@ -29,6 +29,7 @@ const AppHeader = (props: IProps) => {
             setUser(null);
             setIsAuthenticated(false)
             localStorage.removeItem("access_token");
+            localStorage.removeItem("carts");
             message.success("Logout successfully");
             navigate('/');
         }
@@ -92,11 +93,10 @@ const AppHeader = (props: IProps) => {
                                         className="popover-carts"
                                         placement="topRight"
                                         rootClassName="popover-carts"
-                                        title={"Book"}
                                         arrow={true}>
                                         <Badge
-                                            count={0}
-                                            size={"small"}
+                                            count={carts?.length ?? 0}
+                                            size={"default"}
                                             showZero
                                             
                                             style={{background: "#1677ff"}}
