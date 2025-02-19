@@ -118,4 +118,10 @@ declare global {
         activeType: string;
         description: [];
     }
+
+    interface ICart {
+        id: string;
+        quantity: number;
+        details: IBookTable;
+    }
 }
