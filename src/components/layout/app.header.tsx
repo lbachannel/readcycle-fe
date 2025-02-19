@@ -98,10 +98,10 @@ const AppHeader = (props: IProps) => {
                                             count={carts?.length ?? 0}
                                             size={"default"}
                                             showZero
-                                            
+                                            onClick={() => navigate('/borrow-book')}
                                             style={{background: "#1677ff"}}
                                         >
-                                            <ReadOutlined className='icon-cart' />
+                                            <ReadOutlined className='icon-cart' onClick={() => navigate('/borrow-book')} />
                                         </Badge>
                                     </Popover>
                                     
