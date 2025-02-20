@@ -19,7 +19,7 @@ const AppHeader = (props: IProps) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openManageAccount, setOpenManageAccount] = useState<boolean>(false);
     const {
-        isAuthenticated, user, setUser, setIsAuthenticated, carts
+        isAuthenticated, user, setUser, setIsAuthenticated, carts, setCarts
     } = useCurrentApp();
     const { message } = App.useApp();
 
@@ -30,6 +30,7 @@ const AppHeader = (props: IProps) => {
             setIsAuthenticated(false)
             localStorage.removeItem("access_token");
             localStorage.removeItem("carts");
+            setCarts([]);
             message.success("Logout successfully");
             navigate('/');
         }
