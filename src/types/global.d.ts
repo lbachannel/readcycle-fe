@@ -122,6 +122,7 @@ declare global {
     interface ICart {
         id: string;
         quantity: number;
+        user: IUser;
         details: IBookTable;
     }
 }
