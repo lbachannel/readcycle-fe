@@ -56,7 +56,7 @@ const BorrowBookDetails = () => {
 
                                         <div className='borrow-book_content'>
                                             <div className="borrow-book_category">
-                                                {item?.details?.category} | {item.details.id}
+                                                {item?.details?.category}
                                             </div>
                                             <div className="borrow-book_name">
                                                 {item?.details?.title}
