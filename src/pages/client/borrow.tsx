@@ -1,7 +1,7 @@
 import BorrowBookDetails from "@/components/client/borrow";
 import ConfirmInFo from "@/components/client/borrow/info";
 import { useCurrentApp } from "@/components/context/app.context";
-import { Breadcrumb, Row, Steps } from "antd";
+import { Breadcrumb, Button, Result, Row, Steps } from "antd";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -55,6 +55,28 @@ const BorrowBookPage = () => {
 
                 {currentStep === 1 &&
                     <ConfirmInFo setCurrentStep={setCurrentStep} />
+                }
+
+                {currentStep === 2 &&
+                    <Result
+                        status="success"
+                        title="Borrow books successfully"
+                        subTitle="The system has recorded your book borrowing information."
+                        style={{ height: "70vh", display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}
+                        extra={[
+                            <Button key="home">
+                                <Link to={"/"} type="primary">
+                                    Home
+                                </Link>
+                            </Button>,
+
+                            <Button key="history">
+                                <Link to={"/"} type="primary">
+                                    Borrow history
+                                </Link>
+                            </Button>,
+                        ]}
+                    />
                 }
             </div>
         </>

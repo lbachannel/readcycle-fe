@@ -1,6 +1,7 @@
 import { useCurrentApp } from "@/components/context/app.context";
+import { createBorrowBookAPI } from "@/services/api";
 import { RollbackOutlined } from "@ant-design/icons";
-import { Button, Col, Empty, Form, Input, Row } from "antd";
+import { Button, Col, Empty, Form, FormProps, Input, message, Row } from "antd";
 import { useEffect, useState } from "react";
 
 interface IProps {
@@ -8,24 +9,46 @@ interface IProps {
 }
 
 type FieldType = {
-    fullName: string;
     username: string;
 };
 
 const ConfirmInFo = (props: IProps) => {
     const { setCurrentStep } = props;
-    const { carts, user } = useCurrentApp();
+    const { carts, setCarts, user } = useCurrentApp();
     const [form] = Form.useForm();
     const [isSubmit, setIsSubmit] = useState(false);
 
     useEffect(() => {
         if (user) {
             form.setFieldsValue({
-                fullName: user.name,
                 username: user.email
             })
         }
     }, [user])
+
+    // handle borrow
+    const handleBorrowBook: FormProps<FieldType>['onFinish'] = async (values) => {
+        const { username } = values;
+
+        const details = carts.map(item => item.details);
+
+        setIsSubmit(true);
+
+        const response = await createBorrowBookAPI(
+            username, details
+        );
+
+        if (response) {
+            localStorage.removeItem("carts");
+            setCarts([]);
+            message.success("Borrow books successfully");
+            setCurrentStep(2);
+        } else {
+            message.error("Borrow books failed");
+        }
+
+        setIsSubmit(false);
+    }
 
     return (
         <div style={{ background: '#efefef' }}>
@@ -74,25 +97,17 @@ const ConfirmInFo = (props: IProps) => {
                             <Form
                                 form={form}
                                 name="payment-form"
-
+                                onFinish={handleBorrowBook}
                                 autoComplete="off"
                                 layout='vertical'
                             >
                                 <div className='order-sum'>
 
-
-                                    <Form.Item<FieldType>
-                                        label="Fullname"
-                                        name="fullName"
-                                    >
-                                        <Input />
-                                    </Form.Item>
-
                                     <Form.Item<FieldType>
                                         label="Email"
                                         name="username"
                                     >
-                                        <Input />
+                                        <Input readOnly />
                                     </Form.Item>
 
                                     <div className='borrow-book__sum'>

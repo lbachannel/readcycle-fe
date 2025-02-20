@@ -12,13 +12,10 @@ const BorrowBookDetails = (props: IProps) => {
     const { carts, setCarts } = useCurrentApp();
 
     const handleRemoveBorrowBook = async (id: string) => {
-        console.log(id)
+
         const cartStorage = localStorage.getItem("carts");
         if (cartStorage) {
             const carts = JSON.parse(cartStorage) as ICart[];
-            const isDeleteCart = carts.filter(item => item.id === id);
-            console.log(isDeleteCart)
-
             await deleteCartAPI(id);
             const newCarts = carts.filter(item => item.id !== id);
             localStorage.setItem("carts", JSON.stringify(newCarts));

@@ -141,3 +141,10 @@ export const deleteCartAPI = (id: string) => {
     const urlBackend = `/api/v1/carts/${id}`;
     return axios.delete<IBackendRes<String>>(urlBackend);
 }
+
+export const createBorrowBookAPI = (username: string, details: any) => {
+    const urlBackend = "/api/v1/borrow";
+    return axios.post<IBackendRes<IBorrow>>(urlBackend, {
+        username, details
+    });
+}

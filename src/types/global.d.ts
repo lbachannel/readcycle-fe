@@ -125,4 +125,9 @@ declare global {
         user: IUser;
         details: IBookTable;
     }
+
+    interface IBorrow {
+        username: string;
+        details: IBookTable;
+    }
 }
