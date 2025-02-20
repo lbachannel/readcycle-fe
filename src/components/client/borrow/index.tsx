@@ -1,4 +1,5 @@
 import { useCurrentApp } from "@/components/context/app.context";
+import { deleteCartAPI } from "@/services/api";
 import { Breadcrumb, Button, Col, Empty, Row } from "antd";
 import { Link } from "react-router-dom";
 import 'styles/borrow-book.scss';
@@ -7,10 +8,15 @@ import 'styles/borrow-book.scss';
 const BorrowBookDetails = () => {
     const { carts, setCarts } = useCurrentApp();
 
-    const handleRemoveBorrowBook = (id: string) => {
+    const handleRemoveBorrowBook = async (id: string) => {
+        console.log(id)
         const cartStorage = localStorage.getItem("carts");
         if (cartStorage) {
             const carts = JSON.parse(cartStorage) as ICart[];
+            const isDeleteCart = carts.filter(item => item.id === id);
+            console.log(isDeleteCart)
+
+            await deleteCartAPI(id);
             const newCarts = carts.filter(item => item.id !== id);
             localStorage.setItem("carts", JSON.stringify(newCarts));
             setCarts(newCarts);
@@ -50,7 +56,7 @@ const BorrowBookDetails = () => {
 
                                         <div className='borrow-book_content'>
                                             <div className="borrow-book_category">
-                                                {item?.details?.category}
+                                                {item?.details?.category} | {item.details.id}
                                             </div>
                                             <div className="borrow-book_name">
                                                 {item?.details?.title}

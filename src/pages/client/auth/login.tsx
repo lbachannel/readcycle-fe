@@ -6,7 +6,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './login.scss';
 import { Alert } from 'antd';
-import { loginAPI } from '@/services/api';
+import { getCartsAPI, loginAPI } from '@/services/api';
 import { useCurrentApp } from '@/components/context/app.context';
 
 type FieldType = {
@@ -44,7 +44,7 @@ const LoginPage = () => {
     const { styles } = useStyle();
     const [alertMessage, setAlertMessage] = useState("");
     const { message } = App.useApp();
-    const { setIsAuthenticated, setUser } = useCurrentApp();
+    const { setIsAuthenticated, setUser, setCarts } = useCurrentApp();
     const navigate = useNavigate();
     const [api, contextHolder] = notification.useNotification();
 
@@ -64,6 +64,29 @@ const LoginPage = () => {
             setIsAuthenticated(true);
             setUser(response.data.user);
             localStorage.setItem('access_token', response.data.access_token);
+            const responseCarts = await getCartsAPI();
+            if (responseCarts) {
+                console.log(responseCarts.data)
+                localStorage.setItem("carts", JSON.stringify(responseCarts.data));
+ 
+                const carts = localStorage.getItem("carts");
+                if (carts) {
+                    try {
+                        const parsedCarts = JSON.parse(carts);
+                        if (Array.isArray(parsedCarts)) {
+                            setCarts(parsedCarts);
+                        } else {
+                            setCarts([]);
+                        }
+                    } catch (error) {
+                        setCarts([]);
+                    }
+                } else {
+                    // localStorage there are no data, set arr empty
+                    setCarts([]);
+                }
+            }
+
             message.success("Login successfully");
             navigate('/');
         } else {

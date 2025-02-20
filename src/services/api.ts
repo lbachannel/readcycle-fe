@@ -131,3 +131,13 @@ export const addToCartAPI = (
         active
     })
 }
+
+export const getCartsAPI = () => {
+    const urlBackend = "/api/v1/carts";
+    return axios.get<IBackendRes<ICart>>(urlBackend);
+}
+
+export const deleteCartAPI = (id: string) => {
+    const urlBackend = `/api/v1/carts/${id}`;
+    return axios.delete<IBackendRes<String>>(urlBackend);
+}

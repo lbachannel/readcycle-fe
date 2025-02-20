@@ -40,6 +40,7 @@ const BookDetails = (props: IProps) => {
         const cartStorage = localStorage.getItem("carts");
         if (cartStorage && currentBook) {
             const carts = JSON.parse(cartStorage) as ICart[];
+            
             // check exist
             let isExistIndex = carts.findIndex(c => c.id === currentBook.id);
             const isExistCategory = carts.find(c => c.details.category === currentBook.category);
@@ -47,8 +48,17 @@ const BookDetails = (props: IProps) => {
                 message.warning("You are only allowed to borrow one type of book.");
                 return;
             } else {
+                const repsonse = await addToCartAPI(
+                    currentBook!.id, currentBook!.category, currentBook!.title,
+                    currentBook!.author, currentBook!.publisher, currentBook!.thumb,
+                    currentBook!.description, currentBook!.quantity, currentBook!.status,
+                    currentBook!.active
+                );
+                if (!(repsonse && repsonse.data)) {
+                    return;
+                }
                 carts.push({
-                    id: currentBook.id,
+                    id: repsonse.data.id,
                     quantity: currentQuantity,
                     details: currentBook,
                     user: user
@@ -59,8 +69,17 @@ const BookDetails = (props: IProps) => {
             setCarts(carts);
         } else {
             // create
+            const repsonse = await addToCartAPI(
+                currentBook!.id, currentBook!.category, currentBook!.title,
+                currentBook!.author, currentBook!.publisher, currentBook!.thumb,
+                currentBook!.description, currentBook!.quantity, currentBook!.status,
+                currentBook!.active
+            );
+            if (!(repsonse && repsonse.data)) {
+                return;
+            }
             const data = [{
-                id: currentBook?.id!,
+                id: repsonse.data.id,
                 quantity: currentQuantity,
                 details: currentBook!,
                 user: user
@@ -70,17 +89,6 @@ const BookDetails = (props: IProps) => {
 
             // sync React Context
             setCarts(data);
-        }
-
-        const repsonse = await addToCartAPI(
-            currentBook!.id, currentBook!.category, currentBook!.title,
-            currentBook!.author, currentBook!.publisher, currentBook!.thumb,
-            currentBook!.description, currentBook!.quantity, currentBook!.status,
-            currentBook!.active
-        );
-        if (!(repsonse && repsonse.data)) {
-            message.error("Add to cart failed");
-            return;
         }
         message.success("Add to cart successfully");
     }
