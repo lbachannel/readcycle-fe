@@ -1,11 +1,14 @@
 import { useCurrentApp } from "@/components/context/app.context";
 import { deleteCartAPI } from "@/services/api";
-import { Breadcrumb, Button, Col, Empty, Row } from "antd";
-import { Link } from "react-router-dom";
+import { Button, Col, Empty, Row } from "antd";
 import 'styles/borrow-book.scss';
 
+interface IProps {
+    setCurrentStep: (v: number) => void;
+}
 
-const BorrowBookDetails = () => {
+const BorrowBookDetails = (props: IProps) => {
+    const { setCurrentStep } = props;
     const { carts, setCarts } = useCurrentApp();
 
     const handleRemoveBorrowBook = async (id: string) => {
@@ -23,21 +26,14 @@ const BorrowBookDetails = () => {
         }
     }
 
+    const handleConfirmInfoStep = () => {
+        setCurrentStep(1);
+    }
+
 
     return (
-        <div style={{ background: '#efefef', padding: "20px 0" }}>
-            <Breadcrumb
-                className="breadcrumb"
-                separator=">"
-                items={[
-                    {
-                        title: <Link to={"/"}>Home</Link>,
-                    },
-                    {
-                        title: 'Borrow books',
-                    }
-                ]}
-            />
+        <div style={{ background: '#efefef' }}>
+            
             <div className="borrow-container">
                 {carts.length === 0 &&
                     <Empty
@@ -46,6 +42,7 @@ const BorrowBookDetails = () => {
                     />
                 }
                 <Row gutter={[20, 0]}>
+                    
                     <Col md={18} xs={24}>
                         {carts?.map((item, index) => {
                             return (
@@ -87,8 +84,9 @@ const BorrowBookDetails = () => {
                             <div className='borrow-book__sum'>
                                 <Button
                                     color="primary" variant="solid"
+                                    onClick={() => handleConfirmInfoStep()}
                                 >
-                                    Borrow ({carts?.length ?? 0})
+                                    Confirm info ({carts?.length ?? 0})
                                 </Button>
 
                             </div>

@@ -4,6 +4,11 @@
     margin-bottom: 20px;
 }
 
+.steps {
+    background: #fff;
+    padding: 20px;
+}
+
 .borrow-container {
     overflow: hidden;
 
@@ -14,7 +19,6 @@
         gap: 30px;
         background: #fff;
         padding: 20px;
-        border-radius: 5px;
         min-height: calc(100vh - 270px);
         margin-bottom: 20px;
 
@@ -70,7 +74,6 @@
             flex-direction: column;
             background-color: white;
             padding: 20px;
-            border-radius: 5px;
             gap: 20px;
         }
     }
