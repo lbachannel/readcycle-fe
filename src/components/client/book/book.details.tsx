@@ -6,6 +6,7 @@ import 'styles/book.scss';
 import { Link } from "react-router-dom";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { useCurrentApp } from "@/components/context/app.context";
+import { addToCartAPI } from "@/services/api";
 
 interface IProps {
     currentBook: IBookTable | null;
@@ -30,7 +31,7 @@ const BookDetails = (props: IProps) => {
         setIsOpenModalGallery(true);
     }
 
-    const handleAddToCart = () => {
+    const handleAddToCart = async () => {
         if (!user) {
             message.error("You have to login to add to cart");
             return;
@@ -50,6 +51,7 @@ const BookDetails = (props: IProps) => {
                     id: currentBook.id,
                     quantity: currentQuantity,
                     details: currentBook,
+                    user: user
                 })
             }
 
@@ -60,7 +62,8 @@ const BookDetails = (props: IProps) => {
             const data = [{
                 id: currentBook?.id!,
                 quantity: currentQuantity,
-                details: currentBook!
+                details: currentBook!,
+                user: user
             }]
 
             localStorage.setItem("carts", JSON.stringify(data))
@@ -69,6 +72,16 @@ const BookDetails = (props: IProps) => {
             setCarts(data);
         }
 
+        const repsonse = await addToCartAPI(
+            currentBook!.id, currentBook!.category, currentBook!.title,
+            currentBook!.author, currentBook!.publisher, currentBook!.thumb,
+            currentBook!.description, currentBook!.quantity, currentBook!.status,
+            currentBook!.active
+        );
+        if (!(repsonse && repsonse.data)) {
+            message.error("Add to cart failed");
+            return;
+        }
         message.success("Add to cart successfully");
     }
 
