@@ -1,7 +1,7 @@
 import { useCurrentApp } from "@/components/context/app.context";
 import { createBorrowBookAPI, deleteCartsAPI } from "@/services/api";
 import { RollbackOutlined } from "@ant-design/icons";
-import { Button, Col, Empty, Form, FormProps, Input, message, Row } from "antd";
+import { Button, Col, Empty, Form, FormProps, Input, message, notification, Row } from "antd";
 import { useEffect, useState } from "react";
 
 interface IProps {
@@ -17,6 +17,7 @@ const ConfirmInFo = (props: IProps) => {
     const { carts, setCarts, user } = useCurrentApp();
     const [form] = Form.useForm();
     const [isSubmit, setIsSubmit] = useState(false);
+    const [api, contextHolder] = notification.useNotification();
 
     useEffect(() => {
         if (user) {
@@ -38,7 +39,7 @@ const ConfirmInFo = (props: IProps) => {
             username, details
         );
 
-        if (response) {
+        if (response && response.data) {
             const ids = carts.map(item => item.id);
             await deleteCartsAPI(ids);
             
@@ -47,7 +48,22 @@ const ConfirmInFo = (props: IProps) => {
             message.success("Borrow books successfully");
             setCurrentStep(2);
         } else {
-            message.error("Borrow books failed");
+            const errorMessage = Array.isArray(response.message) ? (
+                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
+                    {response.message.map((msg, index) => (
+                        <li key={index}>{msg}</li>
+                    ))}
+                </ul>
+            ) : (
+                <div>{response.message}</div>
+            );
+            api.open({
+                message: "Borrow book failed",
+                description: errorMessage,
+                type: 'error',
+                showProgress: true,
+                pauseOnHover: true,
+            });
         }
 
         setIsSubmit(false);
@@ -124,6 +140,7 @@ const ConfirmInFo = (props: IProps) => {
 
                                     </div>
                                 </div>
+                                {contextHolder}
                             </Form>
                     
                             <div style={{padding: "20px",  marginTop: "20px", textAlign: "center" }}>

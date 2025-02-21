@@ -265,6 +265,11 @@ const HomePage = () => {
                                                     Joan M Griffin
                                                 </Checkbox>
                                             </Col>
+                                            <Col span={24}>
+                                                <Checkbox value="Elle Kennedy" className="checkbox">
+                                                    Elle Kennedy
+                                                </Checkbox>
+                                            </Col>
                                         </Row>
                                     </Checkbox.Group>
                                 </Form.Item>
