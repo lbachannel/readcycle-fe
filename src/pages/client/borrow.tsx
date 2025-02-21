@@ -28,7 +28,26 @@ const BorrowBookPage = () => {
 
                 <div className="borrow-container">
                     <Row gutter={[20, 0]}>
-                        {carts.length !== 0 &&
+                        {carts.length !== 0 && 
+                            <Steps
+                                className="steps"
+                                size="small"
+                                current={currentStep}
+                                items={[
+                                    {
+                                        title: "Borrow books",
+                                    },
+                                    {
+                                        title: "Confirm info",
+                                    },
+                                    {
+                                        title: "Done",
+                                    },
+                                ]}
+                            />
+                        }
+
+                        {currentStep === 2 && 
                             <Steps
                                 className="steps"
                                 size="small"
