@@ -97,8 +97,11 @@ const HomePage = () => {
         let filterCateParam = "";
         let filterAuthorParam = "";
         let flag = true;
-        if (values.category && values.category.length !== 0) {
+
+        if (values.category && values.category.length) {
+            setCurrent(0);
             const categories = values.category;
+            
             if (categories && categories.length > 0) {
                 const listCategories = Array.from(categories).map(item => `'${item}'`).join(", ");
                 filterCateParam = `category in [${listCategories}]`;
@@ -109,7 +112,8 @@ const HomePage = () => {
             flag = false;
         }
 
-        if (values.author && values.author.length !== 0) {
+        if (values.author && values.author.length) {
+            setCurrent(0);
             const authors = values.author;
             if (authors && authors.length > 0) {
                 const listAuthor = Array.from(authors).map(item => `'${item}'`).join(", ");
@@ -124,6 +128,9 @@ const HomePage = () => {
         if (flag) {
             setFilter(`&filter=${encodeURIComponent(`${filterCateParam} or ${filterAuthorParam}`)}`);
         } else {
+            if (!values.category.length) {
+                setFilter("")
+            }
             if (filterCateParam) {
                 setFilter(`&filter=${encodeURIComponent(filterCateParam)}`);
             }
