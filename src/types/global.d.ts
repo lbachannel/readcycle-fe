@@ -118,4 +118,16 @@ declare global {
         activeType: string;
         description: [];
     }
+
+    interface ICart {
+        id: string;
+        quantity: number;
+        user: IUser;
+        details: IBookTable;
+    }
+
+    interface IBorrow {
+        username: string;
+        details: IBookTable;
+    }
 }

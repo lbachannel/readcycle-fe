@@ -119,3 +119,37 @@ export const getAllActivityLogAPI = (query: string) => {
         headers: { delay: 100 }
     });
 }
+
+// Add to cart
+export const addToCartAPI = (
+    id: string, category: string, title: string, author: string, publisher: string,
+    thumb: string, description: string, quantity: number, status: string,
+    active: boolean) => {
+    const urlBackend = "/api/v1/add-to-cart";
+    return axios.post<IBackendRes<ICart>>(urlBackend, {
+        id, category, title, author, publisher, thumb, description, quantity, status,
+        active
+    })
+}
+
+export const getCartsAPI = () => {
+    const urlBackend = "/api/v1/carts";
+    return axios.get<IBackendRes<ICart>>(urlBackend);
+}
+
+export const deleteCartAPI = (id: string) => {
+    const urlBackend = `/api/v1/carts/${id}`;
+    return axios.delete<IBackendRes<String>>(urlBackend);
+}
+
+export const createBorrowBookAPI = (username: string, details: any) => {
+    const urlBackend = "/api/v1/borrow";
+    return axios.post<IBackendRes<IBorrow>>(urlBackend, {
+        username, details
+    });
+}
+
+export const deleteCartsAPI = (ids: any) => {
+    const urlBackend = "/api/v1/remove-carts";
+    return axios.post<IBackendRes<String>>(urlBackend, ids);
+}

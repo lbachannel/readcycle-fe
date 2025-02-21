@@ -25,6 +25,7 @@ import LayoutAdmin from './components/layout/layout.admin';
 import { ConfigProvider } from 'antd';
 import enUS from 'antd/locale/en_US';
 import { StrictMode } from 'react';
+import BorrowBookPage from './pages/client/borrow';
 
 const router = createBrowserRouter([
     {
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
             {
                 path: "/book/:id",
                 element: <BookPage />
+            },
+            {
+                path: "/borrow-book",
+                element: <BorrowBookPage/>
             }
         ]
     },

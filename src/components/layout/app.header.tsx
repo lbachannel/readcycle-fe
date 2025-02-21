@@ -1,13 +1,13 @@
 import { useState } from 'react';
 import { FaReact } from 'react-icons/fa'
 import { VscSearchFuzzy } from 'react-icons/vsc';
-import { Divider, Drawer, Dropdown, Space, App, Avatar } from 'antd';
+import { Divider, Drawer, Dropdown, Space, App, Avatar, Badge, Popover } from 'antd';
 import { useNavigate } from 'react-router';
 import './app.header.scss';
 import { Link } from 'react-router-dom';
 import { useCurrentApp } from 'components/context/app.context';
 import ManageAccount from '../client/account';
-import { LoginOutlined, UserOutlined } from '@ant-design/icons';
+import { LoginOutlined, ReadOutlined, UserOutlined } from '@ant-design/icons';
 import { logoutAPI } from '@/services/api';
 
 interface IProps {
@@ -19,7 +19,7 @@ const AppHeader = (props: IProps) => {
     const [openDrawer, setOpenDrawer] = useState(false);
     const [openManageAccount, setOpenManageAccount] = useState<boolean>(false);
     const {
-        isAuthenticated, user, setUser, setIsAuthenticated
+        isAuthenticated, user, setUser, setIsAuthenticated, carts, setCarts
     } = useCurrentApp();
     const { message } = App.useApp();
 
@@ -29,6 +29,8 @@ const AppHeader = (props: IProps) => {
             setUser(null);
             setIsAuthenticated(false)
             localStorage.removeItem("access_token");
+            localStorage.removeItem("carts");
+            setCarts([]);
             message.success("Logout successfully");
             navigate('/');
         }
@@ -86,6 +88,26 @@ const AppHeader = (props: IProps) => {
                     </div>
                     <nav className="page-header__bottom">
                         <ul id="navigation" className="navigation">
+                            <li className="navigation__item">
+                                {
+                                    <Popover
+                                        className="popover-carts"
+                                        placement="topRight"
+                                        rootClassName="popover-carts"
+                                        arrow={true}>
+                                        <Badge
+                                            count={carts?.length ?? 0}
+                                            size={"default"}
+                                            showZero
+                                            onClick={() => navigate('/borrow-book')}
+                                            style={{background: "#1677ff"}}
+                                        >
+                                            <ReadOutlined className='icon-cart' onClick={() => navigate('/borrow-book')} />
+                                        </Badge>
+                                    </Popover>
+                                    
+                                }
+                            </li>
                             <li className="navigation__item mobile">
                                 <Divider type='vertical' />
                             </li>

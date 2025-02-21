@@ -117,7 +117,7 @@
                 opacity: 1;
             }
 
-
+            
         }
 
         &__login {
@@ -139,6 +139,11 @@
 
         &__user:hover {
             color: var(--color);
+        }
+
+
+        .icon-cart {
+            font-size: 23px;
         }
 
     }

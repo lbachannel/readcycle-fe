@@ -1,9 +1,12 @@
-import { Breadcrumb, Col, Divider, Row } from "antd";
+import { App, Breadcrumb, Col, Divider, Row } from "antd";
 import { useEffect, useRef, useState } from "react";
 import ImageGallery from 'react-image-gallery';
 import ModalGallery from "./modal.gallery";
 import 'styles/book.scss';
 import { Link } from "react-router-dom";
+import { PlusCircleOutlined } from "@ant-design/icons";
+import { useCurrentApp } from "@/components/context/app.context";
+import { addToCartAPI } from "@/services/api";
 
 interface IProps {
     currentBook: IBookTable | null;
@@ -11,22 +14,83 @@ interface IProps {
 
 const BookDetails = (props: IProps) => {
     const { currentBook } = props;
-
     const [imageGallery, setImageGallery] = useState<{
         original: string;
         originalClass: string;
     }[]>([])
 
+    const [currentQuantity] = useState<number>(1);
+    const { setCarts, user } = useCurrentApp();
+    const { message } = App.useApp();
     const [isOpenModalGallery, setIsOpenModalGallery] = useState<boolean>(false);
-
     const refGallery = useRef<ImageGallery>(null);
 
+
+    // handle add to cart
     const handleOnClickImage = () => {
         setIsOpenModalGallery(true);
     }
 
-    const handleAddToCart = (isBuy = false) => {
-        console.log(isBuy);
+    const handleAddToCart = async () => {
+        if (!user) {
+            message.error("You have to login to add to cart");
+            return;
+        }
+        // update localStorage
+        const cartStorage = localStorage.getItem("carts");
+        if (cartStorage && currentBook) {
+            const carts = JSON.parse(cartStorage) as ICart[];
+            
+            // check exist
+            let isExistIndex = carts.findIndex(c => c.id === currentBook.id);
+            const isExistCategory = carts.find(c => c.details.category === currentBook.category);
+            if (isExistIndex > -1 || isExistCategory) {
+                message.warning("You are only allowed to borrow one type of book.");
+                return;
+            } else {
+                const repsonse = await addToCartAPI(
+                    currentBook!.id, currentBook!.category, currentBook!.title,
+                    currentBook!.author, currentBook!.publisher, currentBook!.thumb,
+                    currentBook!.description, currentBook!.quantity, currentBook!.status,
+                    currentBook!.active
+                );
+                if (!(repsonse && repsonse.data)) {
+                    return;
+                }
+                carts.push({
+                    id: repsonse.data.id,
+                    quantity: currentQuantity,
+                    details: currentBook,
+                    user: user
+                })
+            }
+
+            localStorage.setItem("carts", JSON.stringify(carts));
+            setCarts(carts);
+        } else {
+            // create
+            const repsonse = await addToCartAPI(
+                currentBook!.id, currentBook!.category, currentBook!.title,
+                currentBook!.author, currentBook!.publisher, currentBook!.thumb,
+                currentBook!.description, currentBook!.quantity, currentBook!.status,
+                currentBook!.active
+            );
+            if (!(repsonse && repsonse.data)) {
+                return;
+            }
+            const data = [{
+                id: repsonse.data.id,
+                quantity: currentQuantity,
+                details: currentBook!,
+                user: user
+            }]
+
+            localStorage.setItem("carts", JSON.stringify(data))
+
+            // sync React Context
+            setCarts(data);
+        }
+        message.success("Add to cart successfully");
     }
 
     useEffect(() => {
@@ -43,6 +107,8 @@ const BookDetails = (props: IProps) => {
             setImageGallery(images);
         }
     }, [currentBook])
+
+
     
     return (
         <>
@@ -119,8 +185,23 @@ const BookDetails = (props: IProps) => {
                                         </div>
                                     </div>
                                     <div className='borrow'>
+                                        {currentBook?.status === "UNAVAILABLE" || currentBook?.quantity === 0 ?
                                         <button
-                                            onClick={() => handleAddToCart(true)}
+                                            disabled
+                                            onClick={() => handleAddToCart()}
+                                            className='now'
+                                            style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", background: "#ccc", border: "none", cursor: "default"}}>
+                                            <PlusCircleOutlined />Add to cart
+                                        </button> : 
+                                        <button
+                                            onClick={() => handleAddToCart()}
+                                            className='now'
+                                            style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "5px"}}>
+                                            <PlusCircleOutlined />Add to cart
+                                        </button>
+                                        }
+                                        <button
+                                            // onClick={() => handleAddToCart(true)}
                                             className='now'>Borrow book</button>
                                     </div>
                                 </Col>
