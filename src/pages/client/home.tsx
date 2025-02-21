@@ -145,7 +145,8 @@ const HomePage = () => {
         "https://307a0e78.vws.vegacdn.vn/view/v2/image/img.banner_web_v2/0/0/0/3886.jpg?v=1&w=1920&h=600",
         "https://307a0e78.vws.vegacdn.vn/view/v2/image/img.banner_web_v2/0/0/0/3922.jpg?v=1&w=1920&h=600",
         "https://307a0e78.vws.vegacdn.vn/view/v2/image/img.banner_web_v2/0/0/0/3877.jpg?v=1&w=1920&h=600",
-        "https://307a0e78.vws.vegacdn.vn/view/v2/image/img.banner_web_v2/0/0/0/3889.jpg?v=1&w=1920&h=600"
+        "https://307a0e78.vws.vegacdn.vn/view/v2/image/img.banner_web_v2/0/0/0/3889.jpg?v=1&w=1920&h=600",
+        "https://307a0e78.vws.vegacdn.vn/view/v2/image/img.banner_web_v2/0/0/0/3895.jpg?v=1&w=1920&h=600"
     ];
 
     return (

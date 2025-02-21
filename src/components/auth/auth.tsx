@@ -1,5 +1,5 @@
 import { useCurrentApp } from "components/context/app.context";
-import { Button, Result } from 'antd';
+import { Result } from 'antd';
 import { Link, useLocation } from "react-router-dom";
 
 interface IProps {
@@ -17,7 +17,7 @@ const ProtectedRoute = (props: IProps) => {
                 status="404"
                 title="404"
                 subTitle="Sorry, the page you visited does not exist."
-                extra={<Button type="primary">Back Home</Button>}
+                extra={<Link style={{ background: "#1677ff" , padding: "10px 20px", color: "#fff", borderRadius: "5px"}} to='/'>Back Home</Link>}
             />
         )
     } else {
