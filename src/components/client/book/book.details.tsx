@@ -185,12 +185,21 @@ const BookDetails = (props: IProps) => {
                                         </div>
                                     </div>
                                     <div className='borrow'>
+                                        {currentBook?.status === "UNAVAILABLE" || currentBook?.quantity === 0 ?
+                                        <button
+                                            disabled
+                                            onClick={() => handleAddToCart()}
+                                            className='now'
+                                            style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "5px", background: "#ccc", border: "none", cursor: "default"}}>
+                                            <PlusCircleOutlined />Add to cart
+                                        </button> : 
                                         <button
                                             onClick={() => handleAddToCart()}
                                             className='now'
                                             style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "5px"}}>
                                             <PlusCircleOutlined />Add to cart
                                         </button>
+                                        }
                                         <button
                                             // onClick={() => handleAddToCart(true)}
                                             className='now'>Borrow book</button>
