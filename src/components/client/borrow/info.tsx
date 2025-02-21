@@ -1,5 +1,5 @@
 import { useCurrentApp } from "@/components/context/app.context";
-import { createBorrowBookAPI } from "@/services/api";
+import { createBorrowBookAPI, deleteCartsAPI } from "@/services/api";
 import { RollbackOutlined } from "@ant-design/icons";
 import { Button, Col, Empty, Form, FormProps, Input, message, Row } from "antd";
 import { useEffect, useState } from "react";
@@ -39,6 +39,9 @@ const ConfirmInFo = (props: IProps) => {
         );
 
         if (response) {
+            const ids = carts.map(item => item.id);
+            await deleteCartsAPI(ids);
+            
             localStorage.removeItem("carts");
             setCarts([]);
             message.success("Borrow books successfully");

@@ -148,3 +148,8 @@ export const createBorrowBookAPI = (username: string, details: any) => {
         username, details
     });
 }
+
+export const deleteCartsAPI = (ids: any) => {
+    const urlBackend = "/api/v1/remove-carts";
+    return axios.post<IBackendRes<String>>(urlBackend, ids);
+}
