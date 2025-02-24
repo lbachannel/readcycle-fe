@@ -1,5 +1,6 @@
 import { getAllActivityLogAPI } from "@/services/api";
 import { ActionType, ProColumns, ProTable } from "@ant-design/pro-components";
+import { Button } from "antd";
 import dayjs from "dayjs";
 import { useRef, useState } from "react";
 type TSearch = {
@@ -137,7 +138,15 @@ const TableDashBoard = () => {
                 onReset={handleReset}
                 actionRef={actionRef}
                 search={{
-                    labelWidth: 100
+                    labelWidth: 100,
+                    optionRender: ({ resetText }, { form }) => [
+                        <Button onClick={() => form?.resetFields()} key="reset">
+                            {resetText}
+                        </Button>,
+                        <Button type="primary" onClick={() => form?.submit()} key="search">
+                            Search
+                        </Button>
+                    ]
                 }}
                 request={async (params) => {
                     let query = "";

@@ -212,6 +212,17 @@ const TableBook = () => {
                 columns={columns}
                 cardBordered
                 actionRef={actionRef}
+                search={{
+                    labelWidth: 100,
+                    optionRender: ({ resetText }, { form }) => [
+                        <Button onClick={() => form?.resetFields()} key="reset">
+                            {resetText}
+                        </Button>,
+                        <Button type="primary" onClick={() => form?.submit()} key="search">
+                            Search
+                        </Button>
+                    ]
+                }}
                 request={async (params) => {
                     let query = "";
                     if (params) {
