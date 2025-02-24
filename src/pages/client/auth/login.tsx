@@ -66,7 +66,6 @@ const LoginPage = () => {
             localStorage.setItem('access_token', response.data.access_token);
             const responseCarts = await getCartsAPI();
             if (responseCarts) {
-                console.log(responseCarts.data)
                 localStorage.setItem("carts", JSON.stringify(responseCarts.data));
  
                 const carts = localStorage.getItem("carts");
@@ -86,9 +85,12 @@ const LoginPage = () => {
                     setCarts([]);
                 }
             }
-
             message.success("Login successfully");
-            navigate('/');
+            if (response.data.user.role.name === "admin") {
+                navigate('/admin');
+            } else {
+                navigate('/');
+            }
         } else {
             const errorMessage = Array.isArray(response.message) ? (
                 <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
