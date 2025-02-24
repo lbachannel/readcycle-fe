@@ -144,7 +144,7 @@ const TableBook = () => {
             hideInSearch: true
         },
         {
-            title: "Soft delete (on/off)",
+            title: "Enable",
             dataIndex: "active",
             ellipsis: true,
             tooltip: "Active",
