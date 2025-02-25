@@ -112,6 +112,19 @@ export const getBookByIdAPI = (id: string) => {
     });
 }
 
+export const bulkCreateBooksAPI = (data: {
+    title: string;
+    category: string;
+    author: string;
+    publisher: string;
+    quantity: number;
+    status: string;
+    active: boolean;
+}[]) => {
+    const urlBackend = "/api/v1/books/bulk-create";
+    return axios.post<IBackendRes<IResponseImport>>(urlBackend, data);
+}
+
 // Activity log
 export const getAllActivityLogAPI = (query: string) => {
     const urlBackend = `/api/v1/admin/activity-log?${query}`;

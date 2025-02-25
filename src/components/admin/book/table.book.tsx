@@ -1,11 +1,12 @@
 import { deleteBookAPI, deleteThumbAPI, getAllBooksAPI, toggleSoftDeleteAPI } from '@/services/api';
-import { DeleteTwoTone, EditTwoTone, PlusOutlined } from '@ant-design/icons';
+import { CloudUploadOutlined, DeleteTwoTone, EditTwoTone, ExportOutlined, PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { App, Button, notification, Popconfirm, Switch } from 'antd';
 import { useRef, useState } from 'react';
 import DetailsBook from './details.book';
 import CreateBook from './create.book';
 import UpdateBook from './upload.book';
+import ImportBook from './data/import.book';
 
 type TSearch = {
     title: string;
@@ -19,6 +20,9 @@ const TableBook = () => {
         pages: 0,
         total: 0
     })
+
+    // open - close import book modal
+    const [openModalImport, setOpenModalImport] = useState<boolean>(false);
 
     // open - close update book modal
     const [openModalUpdate, setOpenModalUpdate] = useState<boolean>(false);
@@ -266,6 +270,19 @@ const TableBook = () => {
                 headerTitle="Table book"
                 toolBarRender={() => [
                     <Button
+                        icon={<ExportOutlined />}
+                        type="primary"
+                    >
+                        Export
+                    </Button>,
+                    <Button
+                        icon={<CloudUploadOutlined />}
+                        type="primary"
+                        onClick={() => setOpenModalImport(true)}
+                    >
+                        Import
+                    </Button>,
+                    <Button
                         key="button"
                         icon={<PlusOutlined />}
                         onClick={() => {
@@ -297,6 +314,12 @@ const TableBook = () => {
                 refreshTable={refreshTable}
                 setDataUpdate={setDataUpdate}
                 dataUpdate={dataUpdate}
+            />
+
+            <ImportBook
+                openModalImport={openModalImport}
+                setOpenModalImport={setOpenModalImport}
+                refreshTable={refreshTable}
             />
         </>
     );

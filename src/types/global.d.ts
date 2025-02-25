@@ -130,4 +130,10 @@ declare global {
         username: string;
         details: IBookTable;
     }
+
+    interface IResponseImport {
+        countSuccess: number;
+        countError: number;
+        detail: any;
+    }
 }
