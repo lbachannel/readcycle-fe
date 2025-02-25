@@ -7,6 +7,7 @@ import DetailsBook from './details.book';
 import CreateBook from './create.book';
 import UpdateBook from './upload.book';
 import ImportBook from './data/import.book';
+import { CSVLink } from 'react-csv';
 
 type TSearch = {
     title: string;
@@ -20,6 +21,9 @@ const TableBook = () => {
         pages: 0,
         total: 0
     })
+
+    // export books
+    const [currentDataTable, setCurrentDataTable] = useState<IBookTable[]>([]);
 
     // open - close import book modal
     const [openModalImport, setOpenModalImport] = useState<boolean>(false);
@@ -242,6 +246,7 @@ const TableBook = () => {
                     const response = await getAllBooksAPI(query);
                     if (response.data) {
                         setMeta(response.data.meta);
+                        setCurrentDataTable(response.data.result ?? []);
                     }
                     return {
                         data: response.data?.result,
@@ -269,12 +274,17 @@ const TableBook = () => {
 
                 headerTitle="Table book"
                 toolBarRender={() => [
-                    <Button
-                        icon={<ExportOutlined />}
-                        type="primary"
+                    <CSVLink
+                        data={currentDataTable}
+                        filename="export-books.csv"
                     >
-                        Export
-                    </Button>,
+                        <Button
+                            icon={<ExportOutlined />}
+                            type="primary"
+                        >
+                            Export
+                        </Button>
+                    </CSVLink>,
                     <Button
                         icon={<CloudUploadOutlined />}
                         type="primary"
