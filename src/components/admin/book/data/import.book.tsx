@@ -8,7 +8,7 @@ interface IProps {
     setOpenModalImport: (v: boolean) => void;
 }
 
-const ImportUser = (props: IProps) => {
+const ImportBook = (props: IProps) => {
     const { setOpenModalImport, openModalImport } = props;
     const { message } = App.useApp();
 
@@ -87,4 +87,4 @@ const ImportUser = (props: IProps) => {
     )
 }
 
-export default ImportUser;
+export default ImportBook;
