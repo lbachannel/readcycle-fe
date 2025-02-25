@@ -1,9 +1,9 @@
-import { deleteUserAPI, getAllUsersAPI } from '@/services/api';
+import { deleteUserAPI, getAllUsersAPI, toggleSoftDeleteUserAPI } from '@/services/api';
 import { dateValidate } from '@/services/helper';
 import { PlusOutlined } from '@ant-design/icons';
 import { EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
-import { App, Button, notification, Popconfirm } from 'antd';
+import { App, Button, notification, Popconfirm, Switch } from 'antd';
 import { useRef, useState } from 'react';
 import DetailsUser from './details.user';
 import CreateUser from './create.user';
@@ -20,6 +20,7 @@ type TSearch = {
 
 const TableUser = () => {
     const actionRef = useRef<ActionType>();
+    const [switchState, setSwitchState] = useState<Record<string, boolean>>({});
 
     const [meta, setMeta] = useState({
         current: 1,
@@ -31,6 +32,34 @@ const TableUser = () => {
     // reload table after create
     const refreshTable = () => {
         actionRef.current?.reload();
+    }
+
+    // soft deletes
+    const handleSwitchChange = async(id: string, checked: boolean) => {
+        setSwitchState((prev) => ({ ...prev, [id]: checked }));
+        const response = await toggleSoftDeleteUserAPI(id);
+        if (response && response.data) {
+            message.success(response.data.active ? "On" : "Off");
+        } else {
+            setSwitchState((prev) => ({ ...prev, [id]: !checked }));
+            const errorMessage = Array.isArray(response.message) ? (
+                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
+                    {response.message.map((msg, index) => (
+                        <li key={index}>{msg}</li>
+                    ))}
+                </ul>
+            ) : (
+                <div>{response.message}</div>
+            );
+            api.open({
+                message: "Soft delete failed",
+                description: errorMessage,
+                type: 'error',
+                showProgress: true,
+                pauseOnHover: true,
+            });
+        }
+        refreshTable();
     }
 
     // handle delete user
@@ -144,6 +173,22 @@ const TableUser = () => {
                 admin: { text: 'Admin' },
                 user: { text: 'User' }
             }, 
+        },
+
+        {
+            title: "Enable",
+            dataIndex: "active",
+            ellipsis: true,
+            tooltip: "Active",
+            hideInSearch: true,
+            render: (_, record) => {
+                return (
+                    <Switch
+                        checked={switchState[record.id] ?? record.active} 
+                        onChange={(checked) => handleSwitchChange(record.id, checked)}
+                    />
+                );
+            }
         },
     
         {

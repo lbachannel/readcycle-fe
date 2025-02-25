@@ -42,6 +42,11 @@ export const deleteUserAPI = (id: string) => {
     return axios.delete<IBackendRes<IUser>>(urlBackend);
 }
 
+export const toggleSoftDeleteUserAPI = (id: string) => {
+    const urlBackend = `/api/v1/users/${id}`;
+    return axios.put<IBackendRes<IUserTable>>(urlBackend);
+}
+
 // Module books
 export const getAllBooksAPI = (query: string) => {
     const urlBackend = `/api/v1/admin/books?${query}`;

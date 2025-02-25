@@ -71,7 +71,8 @@ declare global {
         role: {
             id: string;
             name: string;
-        }
+        };
+        active: boolean;
     }
 
     interface IBookTable {
