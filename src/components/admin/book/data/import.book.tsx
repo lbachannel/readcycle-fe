@@ -3,6 +3,7 @@ import { App, Modal, Table, Upload, UploadProps } from "antd";
 import { useState } from "react";
 import Exceljs from 'exceljs';
 import { Buffer } from 'buffer';
+import { bulkCreateBooksAPI } from "@/services/api";
 
 const { Dragger } = Upload;
 
@@ -18,15 +19,17 @@ interface IDataImport {
     category: string;
     author: string;
     publisher: string;
+    description: string;
     quantity: number;
     status: string;
     active: boolean;
 }
 
 const ImportBook = (props: IProps) => {
-    const { setOpenModalImport, openModalImport } = props;
-    const { message } = App.useApp();
+    const { setOpenModalImport, openModalImport, refreshTable } = props;
+    const { message, notification } = App.useApp();
     const [dataImport, setDataImport] = useState<IDataImport[]>([]);
+    const [isSubmit, setIsSubmit] = useState<boolean>(false);
 
     const propsUpload: UploadProps = {
         name: "file",
@@ -72,6 +75,7 @@ const ImportBook = (props: IProps) => {
                             let obj: any = {};
                             for (let i = 1; i < keys.length; i++) {
                                 obj[keys[i]] = values[i];
+                                // obj.id = i;
                             }
                             jsonData.push(obj);
                         })
@@ -91,20 +95,46 @@ const ImportBook = (props: IProps) => {
         },
     }
 
+    const handleImport = async () => {
+        setIsSubmit(true);
+        const dataSubmit = dataImport.map(item => ({
+            title: item.title,
+            category: item.category,
+            author: item.author,
+            publisher: item.publisher,
+            description: item.description,
+            quantity: item.quantity,
+            status: item.status,
+            active: item.active
+        }))
+        const response = await bulkCreateBooksAPI(dataSubmit);
+        if (response.data) {
+            notification.success({
+                message: "Bulk Create Users",
+                description: `Success = ${response.data.countSuccess}. Error = ${response.data.countError}`
+            })
+        }
+        setIsSubmit(false);
+        setOpenModalImport(false);
+        setDataImport([]);
+        refreshTable();
+    }
+
     return (
         <>
             <Modal 
                 title="Import data book"
-                width={"80vw"}
+                width={"90vw"}
                 open={openModalImport}
-                onOk={() => setOpenModalImport(false)}
+                onOk={() => handleImport()}
                 onCancel={() => {
                     setOpenModalImport(false);
                     setDataImport([])
                 }}
                 okText="Import data"
                 okButtonProps={{
-                    disabled: dataImport.length > 0 ? false : true
+                    disabled: dataImport.length > 0 ? false : true,
+                    loading: isSubmit
                 }}
                 //do not close when click outside
                 maskClosable={false}
@@ -122,6 +152,7 @@ const ImportBook = (props: IProps) => {
                 </Dragger>
                 <div style={{ paddingTop: 20 }}>
                     <Table
+                        rowKey={"id"}
                         title={() => <span>Data upload:</span>}
                         dataSource={dataImport}
                         columns={[
