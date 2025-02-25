@@ -6,6 +6,7 @@ import { useRef, useState } from 'react';
 import DetailsBook from './details.book';
 import CreateBook from './create.book';
 import UpdateBook from './upload.book';
+import ImportBook from './data/import.book';
 
 type TSearch = {
     title: string;
@@ -313,6 +314,11 @@ const TableBook = () => {
                 refreshTable={refreshTable}
                 setDataUpdate={setDataUpdate}
                 dataUpdate={dataUpdate}
+            />
+
+            <ImportBook
+                openModalImport={openModalImport}
+                setOpenModalImport={setOpenModalImport}
             />
         </>
     );
