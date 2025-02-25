@@ -319,6 +319,7 @@ const TableBook = () => {
             <ImportBook
                 openModalImport={openModalImport}
                 setOpenModalImport={setOpenModalImport}
+                refreshTable={refreshTable}
             />
         </>
     );
