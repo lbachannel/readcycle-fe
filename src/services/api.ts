@@ -16,6 +16,11 @@ export const logoutAPI = () => {
     return axios.post<IBackendRes<IRegister>>(urlBackend);
 }
 
+export const changePasswordAPI = (username: string, password: string, newPassword: string, confirmNewPassword: string) => {
+    const urlBackend = "/api/v1/auth/change-password";
+    return axios.post<IBackendRes<String>>(urlBackend, { username, password, newPassword, confirmNewPassword })
+}
+
 // Module users
 export const registerAPI = (firstName: string, lastName: string, email: string, dateOfBirth: string, password: string, confirmPassword: string) => {
     const urlBackend = "/api/v1/user/register";
