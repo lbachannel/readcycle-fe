@@ -1,5 +1,6 @@
 import { Result } from 'antd';
 import './verify-email.scss';
+import { Link } from 'react-router-dom';
 const VerifySuccessPage = () => {
     return (
         <>
@@ -12,6 +13,10 @@ const VerifySuccessPage = () => {
                                 title="Email Verified"
                                 subTitle="Your account has been verified successfully"
                             />
+                            <Link
+
+                                style={{padding: "10px 20px", background: "#f2f5f9", display: "block", textAlign: "center"}}
+                                to={"/"}>Change your password</Link>
                         </section>
                     </div>
                 </main>
