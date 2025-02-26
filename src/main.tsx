@@ -26,6 +26,7 @@ import { ConfigProvider } from 'antd';
 import enUS from 'antd/locale/en_US';
 import { StrictMode } from 'react';
 import BorrowBookPage from './pages/client/borrow';
+import ChangePasswordPage from './pages/client/auth/change-password';
 
 const router = createBrowserRouter([
     {
@@ -94,6 +95,11 @@ const router = createBrowserRouter([
     {
         path: "/register",
         element: <RegisterPage />,
+    },
+
+    {
+        path: "/change-password",
+        element: <ChangePasswordPage />,
     },
 
     {
