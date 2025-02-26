@@ -15,8 +15,6 @@ type FieldType = {
     lastName: string;
     email: string;
     dateOfBirth: string;
-    password: string;
-    confirmPassword: string;
     role: string;
 }
 
@@ -41,7 +39,7 @@ const CreateUser = (props: IProps) => {
     const [api, contextHolder] = notification.useNotification();
 
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
-        const { firstName = "", lastName = "", email = "", dateOfBirth = "", password = "", confirmPassword = "", role = ""} = values;
+        const { firstName = "", lastName = "", email = "", dateOfBirth = "", role = ""} = values;
         setIsSubmit(true);
         let yob = "";
         if (!dateOfBirth) {
@@ -51,7 +49,7 @@ const CreateUser = (props: IProps) => {
         } else {
             yob = dayjs(dateOfBirth).format('YYYY-MM-DD');
         }
-        const response = await createUserAPI(firstName, lastName, email, yob, password, confirmPassword, role);
+        const response = await createUserAPI(firstName, lastName, email, yob, role);
         if (response && response.data) {
             message.success("Create user successfully");
             form.resetFields();
@@ -138,20 +136,6 @@ const CreateUser = (props: IProps) => {
                             <Select.Option value="admin">Admin</Select.Option>
                             <Select.Option value="user">User</Select.Option>
                         </Select>
-                    </Form.Item>
-
-                    <Form.Item<FieldType>
-                        label="Password"
-                        name="password"
-                    >
-                        <Input.Password />
-                    </Form.Item>
-
-                    <Form.Item<FieldType>
-                        label="Confirm password"
-                        name="confirmPassword"
-                    >
-                        <Input.Password />
                     </Form.Item>
                     {contextHolder}
                 </Form>
