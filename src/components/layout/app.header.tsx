@@ -60,6 +60,11 @@ const AppHeader = (props: IProps) => {
             label: <Link to='/admin'>Admin page</Link>,
             key: 'admin',
         })
+    } else {
+        items.unshift({
+            label: <Link to='/history'>Books history</Link>,
+            key: 'user',
+        })
     }
 
     return (

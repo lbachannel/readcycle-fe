@@ -90,7 +90,7 @@ const BorrowBookPage = () => {
                             </Button>,
 
                             <Button key="history">
-                                <Link to={"/"} type="primary">
+                                <Link to={"/history"} type="primary">
                                     Borrow history
                                 </Link>
                             </Button>,

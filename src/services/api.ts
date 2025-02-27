@@ -67,6 +67,16 @@ export const getAllBooksClientAPI = (query: string) => {
     });
 }
 
+export const getAllBooksHistoryAPI = (query: string) => {
+    const urlBackend = `/api/v1/history?${query}`;
+    return axios.get<IBackendRes<IModelPaginate<IBorrowTable>>>(urlBackend)
+}
+
+export const returnBookAPI = (id: string, book: IBook, status: string, user: IUser) => {
+    const urlBackend = `/api/v1/return-book`;
+    return axios.put<IBackendRes<IBorrowTable>>(urlBackend, {id, book, status, user});
+}
+
 export const toggleSoftDeleteAPI = (id: string) => {
     const urlBackend = `/api/v1/admin/books/${id}`;
     return axios.put<IBackendRes<IBookTable>>(urlBackend);
