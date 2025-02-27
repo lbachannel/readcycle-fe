@@ -68,6 +68,11 @@ const LayoutAdmin = () => {
             icon: <ExceptionOutlined />
         },
         {
+            label: <Link to='/admin/activity-logs'>Activity logs</Link>,
+            key: '/admin/activity-logs',
+            icon: <ExceptionOutlined />
+        },
+        {
             label: <Link to='/admin/borrow'>Borrow - return</Link>,
             key: '/admin/borrow',
             icon: <DollarCircleOutlined />

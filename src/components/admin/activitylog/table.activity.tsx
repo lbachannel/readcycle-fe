@@ -7,7 +7,7 @@ type TSearch = {
     activityGroup: string;
     activityType: string[];
 }
-const TableDashBoard = () => {
+const TableActivity = () => {
 
     const [activityGroup, setActivityGroup] = useState<string>('');
     const [activityType, setActivityType] = useState<string[]>([]);
@@ -206,4 +206,4 @@ const TableDashBoard = () => {
     )
 }
 
-export default TableDashBoard;
+export default TableActivity;

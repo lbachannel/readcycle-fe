@@ -27,6 +27,7 @@ import enUS from 'antd/locale/en_US';
 import { StrictMode } from 'react';
 import BorrowBookPage from './pages/client/borrow';
 import ChangePasswordPage from './pages/client/auth/change-password';
+import ManageActivityPage from './pages/admin/manage.activity';
 
 const router = createBrowserRouter([
     {
@@ -81,6 +82,15 @@ const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <ManageUserPage />
+                    </ProtectedRoute>
+                )
+            },
+
+            {
+                path: "activity-logs",
+                element: (
+                    <ProtectedRoute>
+                        <ManageActivityPage />
                     </ProtectedRoute>
                 )
             }
