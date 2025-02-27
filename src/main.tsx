@@ -28,6 +28,7 @@ import { StrictMode } from 'react';
 import BorrowBookPage from './pages/client/borrow';
 import ChangePasswordPage from './pages/client/auth/change-password';
 import ManageActivityPage from './pages/admin/manage.activity';
+import BooksHistoryPage from './pages/client/history';
 
 const router = createBrowserRouter([
     {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
             {
                 path: "/book/:id",
                 element: <BookPage />
+            },
+            {
+                path: "/history",
+                element: <BooksHistoryPage />
             },
             {
                 path: "/borrow-book",

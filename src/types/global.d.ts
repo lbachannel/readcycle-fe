@@ -92,6 +92,13 @@ declare global {
         updatedBy: string;
     }
 
+    interface IBorrowTable {
+        id: string;
+        status: string;
+        book: IBook;
+        user: IUser;
+    }
+
     interface IBook {
         id: string;
         category: string;
