@@ -1,4 +1,4 @@
-import { Form, Divider, Input, Button, ConfigProvider, Space, App, notification } from 'antd';
+import { Form, Divider, Input, Button, ConfigProvider, Space, App } from 'antd';
 import { AntDesignOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
 import type { FormProps } from 'antd';
@@ -46,7 +46,6 @@ const LoginPage = () => {
     const { message } = App.useApp();
     const { setIsAuthenticated, setUser, setCarts } = useCurrentApp();
     const navigate = useNavigate();
-    const [api, contextHolder] = notification.useNotification();
 
     useEffect(() => {
         const message = localStorage.getItem('registerSuccess');
@@ -55,6 +54,9 @@ const LoginPage = () => {
             localStorage.removeItem('registerSuccess');
         }
     }, []);
+
+    const [form] = Form.useForm();
+
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         const { username = "", password = "" } = values;
         setIsSubmit(true);
@@ -92,22 +94,21 @@ const LoginPage = () => {
                 navigate('/');
             }
         } else {
-            const errorMessage = Array.isArray(response.message) ? (
-                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
-                    {response.message.map((msg, index) => (
-                        <li key={index}>{msg}</li>
-                    ))}
-                </ul>
-            ) : (
-                <div>{response.message}</div>
-            );
-            api.open({
-                message: response.error,
-                description: errorMessage,
-                type: 'error',
-                showProgress: true,
-                pauseOnHover: true,
-            });
+            if (response?.message) {
+                form.setFields([
+                    { name: "username", errors: [] },
+                    { name: "password", errors: [] }
+                ]);
+
+                const messages = Array.isArray(response.message) ? response.message : [response.message];
+            
+                form.setFields(
+                    messages.map(msg => ({
+                        name: msg.toLowerCase().includes("password") ? "password" : "username",
+                        errors: [msg],
+                    }))
+                );
+            }
         }
     };
     
@@ -120,10 +121,12 @@ const LoginPage = () => {
                             <div className="heading"></div>
                             {alertMessage && <Alert message={alertMessage} type="success" showIcon />}
                             <Form
+                                form={form}
                                 name="form-register"
                                 onFinish={onFinish}
                                 autoComplete="off"
                                 labelAlign="left"
+                                
                                 >
                                 <Form.Item<FieldType>
                                     labelCol={{ span: 24 }}
@@ -146,7 +149,6 @@ const LoginPage = () => {
                                         className: styles.linearGradientButton,
                                     }}
                                 >
-                                    {contextHolder}
                                     <Space>
                                         <Form.Item>
                                             <Button 
