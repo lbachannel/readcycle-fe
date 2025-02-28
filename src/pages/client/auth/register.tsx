@@ -1,4 +1,4 @@
-import { Form, Divider, Input, DatePicker, Button, ConfigProvider, Space, App, notification } from 'antd';
+import { Form, Divider, Input, DatePicker, Button, ConfigProvider, Space, App        } from 'antd';
 import { AntDesignOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
 import type { FormProps } from 'antd';
@@ -56,7 +56,8 @@ const RegisterPage = () => {
     const { message } = App.useApp();
     const { styles } = useStyle();
     const navigate = useNavigate();
-    const [api, contextHolder] = notification.useNotification();
+
+    const [form] = Form.useForm();
     
     const onFinish: FormProps<FieldType>['onFinish'] = async (values) => {
         setIsSubmit(true);
@@ -75,22 +76,33 @@ const RegisterPage = () => {
             message.success('Register member successfully');
             navigate("/login");
         } else {
-            const errorMessage = Array.isArray(response.message) ? (
-                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
-                    {response.message.map((msg, index) => (
-                        <li key={index}>{msg}</li>
-                    ))}
-                </ul>
-            ) : (
-                <div>{response.message}</div>
-            );
-            api.open({
-                message: response.error,
-                description: errorMessage,
-                type: 'error',
-                showProgress: true,
-                pauseOnHover: true,
-            });
+
+            if (response?.message) {
+                form.setFields([
+                    { name: "firstName", errors: [] },
+                    { name: "lastName", errors: [] },
+                    { name: "email", errors: [] },
+                    { name: "dateOfBirth", errors: [] },
+                    { name: "password", errors: [] },
+                    { name: "confirmPassword", errors: [] }
+                ]);
+
+                const messages = Array.isArray(response.message) ? response.message : [response.message];
+
+                form.setFields(
+                    messages.map(msg => {
+                        return {
+                            name: msg.includes("First name") ? "firstName" :
+                                    msg.includes("Last name") ? "lastName" :
+                                    msg.includes("Email") ? "email" : 
+                                    msg.includes("Invalid email") ? "email" : 
+                                    msg.includes("Date of birth") ? "dateOfBirth" :
+                                    msg.includes("Password") ? "password" : "confirmPassword",
+                            errors: [msg],
+                        };
+                    })
+                );
+            }
         }
         setIsSubmit(false);
     };
@@ -102,6 +114,7 @@ const RegisterPage = () => {
                     <section className="wrapper">
                         <div className="heading"></div>
                         <Form
+                            form={form}
                             {...formItemLayout}
                             name="form-register"
                             onFinish={onFinish}
@@ -155,7 +168,6 @@ const RegisterPage = () => {
                                     className: styles.linearGradientButton,
                                 }}
                             >
-                                {contextHolder}
                                 <Space>
                                     <Form.Item>
                                         <Button 
