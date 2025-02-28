@@ -97,6 +97,7 @@ declare global {
         status: string;
         book: IBook;
         user: IUser;
+        updatedAt: Date;
     }
 
     interface IBook {
