@@ -120,7 +120,7 @@ const BooksHistoryPage = () => {
                                                         <div className='action' >
                                                             {item.status === "RETURNED" 
                                                             ?
-                                                            "" 
+                                                            `Return date: ${new Date(item.updatedAt).toISOString().slice(0, 16).replace("T", " ")}` 
                                                             :
                                                             <button className="borrow-book__btn" onClick={() => handleReturnBook(item.id, item.book, item.status, item.user)}>
                                                                 Return
