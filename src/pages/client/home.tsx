@@ -1,7 +1,7 @@
-import { getAllBooksClientAPI } from "@/services/api";
+import { getAllBooksClientV2API } from "@/services/api";
 import { FilterTwoTone, ReloadOutlined } from "@ant-design/icons";
 import { Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Row, Spin, Tabs } from "antd";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import 'styles/home.scss';
 
@@ -49,12 +49,12 @@ const HomePage = () => {
 
         if (searchTerm) {
             if (flag) {
-                query += `&filter=title~'${searchTerm}'`;
+                query += `&title.contains=${searchTerm}`;
             } else {
-                query += ` or title~'${searchTerm}'`;
+                query += `&title.contains=${searchTerm}`;
             }
         }
-        const response = await getAllBooksClientAPI(query);
+        const response = await getAllBooksClientV2API(query);
         if (response && response.data) {
             setListBook(response.data.result);
             setTotal(response.data.meta.total);
@@ -92,54 +92,31 @@ const HomePage = () => {
         console.log(values);
     }
 
-    const handleChangeFilter = (changedValues: any, values: any) => {
-        console.log(changedValues, values);
-        let filterCateParam = "";
-        let filterAuthorParam = "";
-        let flag = true;
+    const previousFilter = useRef<string>("");
 
-        if (values.category && values.category.length) {
-            setCurrent(0);
-            const categories = values.category;
-            
-            if (categories && categories.length > 0) {
-                const listCategories = Array.from(categories).map(item => `'${item}'`).join(", ");
-                filterCateParam = `category in [${listCategories}]`;
-            } else {
-                setFilter("");
-            }
-        } else {
-            flag = false;
+    const handleChangeFilter = () => {
+        let filterParts: string[] = [];
+        setCurrent(0);
+
+        const values = form.getFieldsValue();
+
+        if (values.category?.length) {
+            const filterCateParam = `category.in=${encodeURIComponent(values.category.join(","))}`;
+            filterParts.push(filterCateParam);
         }
 
-        if (values.author && values.author.length) {
-            setCurrent(0);
-            const authors = values.author;
-            if (authors && authors.length > 0) {
-                const listAuthor = Array.from(authors).map(item => `'${item}'`).join(", ");
-                filterAuthorParam = `author in [${listAuthor}]`;
-            } else {
-                setFilter("");
-            }
-        } else {
-            flag = false;
+        if (values.author?.length) {
+            const filterAuthorParam = `author.in=${encodeURIComponent(values.author.join(","))}`;
+            filterParts.push(filterAuthorParam);
         }
 
-        if (flag) {
-            setFilter(`&filter=${encodeURIComponent(`${filterCateParam} or ${filterAuthorParam}`)}`);
-        } else {
-            if (!values.category.length) {
-                setFilter("")
-            }
-            if (filterCateParam) {
-                setFilter(`&filter=${encodeURIComponent(filterCateParam)}`);
-            }
+        const newFilter = filterParts.length ? `&${filterParts.join("&")}` : "";
 
-            if (filterAuthorParam) {
-                setFilter(`&filter=${encodeURIComponent(filterAuthorParam)}`);
-            }
-        }
-    }
+        setFilter(newFilter);
+
+        previousFilter.current = newFilter;
+    };
+
 
     const images = [
         "https://307a0e78.vws.vegacdn.vn/view/v2/image/img.banner_web_v2/0/0/0/3886.jpg?v=1&w=1920&h=600",
@@ -178,7 +155,7 @@ const HomePage = () => {
                             <Form
                                 onFinish={onFinish}
                                 form={form}
-                                onValuesChange={(changedValues, values) => handleChangeFilter(changedValues, values)}
+                                onValuesChange={() => handleChangeFilter()}
                             >
                                 <Form.Item
                                     name="category"
