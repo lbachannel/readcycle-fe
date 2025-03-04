@@ -67,6 +67,12 @@ export const getAllBooksClientAPI = (query: string) => {
     });
 }
 
+// upgrade
+export const getAllBooksClientV2API = (query: string) => {
+    const urlBackend = `/api/v2/books?${query}`;
+    return axios.get<IBackendRes<IModelPaginate<IBookTable>>>(urlBackend)
+}
+
 export const getAllBooksHistoryAPI = (query: string) => {
     const urlBackend = `/api/v1/history?${query}`;
     return axios.get<IBackendRes<IModelPaginate<IBorrowTable>>>(urlBackend)
