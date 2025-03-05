@@ -32,6 +32,11 @@ export const getAllUsersAPI = (query: string) => {
     return axios.get<IBackendRes<IModelPaginate<IUserTable>>>(urlBackend);
 }
 
+export const getAllUsersV2API = (query: string) => {
+    const urlBackend = `/api/v2/users?${query}`;
+    return axios.get<IBackendRes<IModelPaginate<IUserTable>>>(urlBackend);
+}
+
 export const createUserAPI = (firstName: string, lastName: string, email: string, dateOfBirth: string, role: string) => {
     const urlBackend = "/api/v1/users";
     return axios.post<IBackendRes<IUser>>(urlBackend, { firstName, lastName, email, dateOfBirth, role });
@@ -53,7 +58,7 @@ export const toggleSoftDeleteUserAPI = (id: string) => {
 }
 
 // Module books
-export const getAllBooksAPI = (query: string) => {
+export const getAllBooksAdminAPI = (query: string) => {
     const urlBackend = `/api/v1/admin/books?${query}`;
     return axios.get<IBackendRes<IModelPaginate<IBookTable>>>(urlBackend, {
         headers: { delay: 100 }

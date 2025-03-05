@@ -1,4 +1,4 @@
-import { deleteBookAPI, deleteThumbAPI, getAllBooksAPI, toggleSoftDeleteAPI } from '@/services/api';
+import { deleteBookAPI, deleteThumbAPI, getAllBooksAdminAPI, toggleSoftDeleteAPI } from '@/services/api';
 import { CloudUploadOutlined, DeleteTwoTone, EditTwoTone, ExportOutlined, PlusOutlined } from '@ant-design/icons';
 import { ActionType, ProColumns, ProTable } from '@ant-design/pro-components';
 import { App, Button, notification, Popconfirm, Switch } from 'antd';
@@ -237,13 +237,14 @@ const TableBook = () => {
                         query += `page=${(params?.current ?? 1) - 1}&size=${params?.pageSize ?? 5}`;
                         
                         if (params.title) {
-                            query += `&filter=title~'${params.title}'`;
+                            query += `&title.contains=${params.title}`;
                         }
 
                         query += '&sort=createdAt,desc';
                         
                     }
-                    const response = await getAllBooksAPI(query);
+                    const response = await getAllBooksAdminAPI(query);
+
                     if (response.data) {
                         setMeta(response.data.meta);
                         setCurrentDataTable(response.data.result ?? []);

@@ -1,4 +1,4 @@
-import { deleteUserAPI, getAllUsersAPI, toggleSoftDeleteUserAPI } from '@/services/api';
+import { deleteUserAPI, getAllUsersV2API, toggleSoftDeleteUserAPI } from '@/services/api';
 import { dateValidate } from '@/services/helper';
 import { PlusOutlined } from '@ant-design/icons';
 import { EditTwoTone, DeleteTwoTone } from '@ant-design/icons';
@@ -252,18 +252,18 @@ const TableUser = () => {
                         
                         const filters = [];
                         if (params.name) {
-                            filters.push(`name~'${params.name}'`)
+                            filters.push(`&name.contains=${params.name}`)
                         }
                         if (params.email) {
-                            filters.push(`email~'${params.email}'`);
+                            filters.push(`&email.contains=${params.email}`);
                         }
                         if (params.dateOfBirth) {
                             const yob = dateValidate(params.dateOfBirth);
-                            filters.push(`dateOfBirth:'${yob}'`);
+                            filters.push(`&dateOfBirth.equals=${yob}`);
                         }
                         if (params.role) {
                             const role = params.role.name;
-                            filters.push(`role.name~'${role}'`);
+                            filters.push(`&role.equals=${role}`);
                         }
 
                         if (sort && Object.keys(sort).length > 0) {
@@ -278,11 +278,12 @@ const TableUser = () => {
 
 
                         if (filters.length > 0) {
-                            query += `&filter=${filters.join(" or ")}`;
+                            query += `${filters.join("")}`;
                         }
                         
                     }
-                    const response = await getAllUsersAPI(query);
+                    // const response = await getAllUsersAPI(query);
+                    const response = await getAllUsersV2API(query);
                     if (response.data) {
                         setMeta(response.data.meta);
                     }
