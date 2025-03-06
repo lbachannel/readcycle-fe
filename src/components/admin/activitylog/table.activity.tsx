@@ -85,9 +85,9 @@ const TableActivity = () => {
                 mode: "multiple",
             },
             valueEnum: activityGroup === 'book'
-            ? { 'Create book': { text: 'Create book' }, 'Update book': { text: 'Update book' }, 'Delete book': { text: 'Delete book' } }
+            ? { 'Create book': { text: 'Create book' }, 'Update book': { text: 'Update book' }, 'Delete book': { text: 'Delete book' }, 'Toggle soft delete book': { text: 'Toggle soft delete book'} }
             : activityGroup === 'user'
-                ? { 'Create user': { text: 'Create user' }, 'Update user': { text: 'Update user' }, 'Delete user': { text: 'Delete user' } }
+                ? { 'Create user': { text: 'Create user' }, 'Update user': { text: 'Update user' }, 'Delete user': { text: 'Delete user' }, 'Toggle soft delete user': { text: 'Toggle soft delete user'} }
                 : {},
         },
         {
