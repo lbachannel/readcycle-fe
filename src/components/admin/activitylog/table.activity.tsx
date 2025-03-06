@@ -155,28 +155,32 @@ const TableActivity = () => {
                         query += '&sort=executionTime,desc';
                         if (activityGroup) {
                             if (activityGroup === "book") {
-                                query += `&filter=activityGroup~'${activityGroup}'`;
+                                query += `&activityGroup.equals=${activityGroup.charAt(0).toLocaleUpperCase() + activityGroup.slice(1)}`;
                             }
                             if (activityGroup === "user") {
-                                query += `&filter=activityGroup~'${activityGroup}'`;
+                                query += `&activityGroup.equals=${activityGroup.charAt(0).toLocaleUpperCase() + activityGroup.slice(1)}`;
                             }
                         }
 
                         if (activityType && activityType.length > 0 ) {
                             const arrActivityType = Array.isArray(activityType) ? activityType : [activityType];
                             if (arrActivityType.length > 1) {
-                                const filterValue = arrActivityType.map(type => `'${type}'`).join(", ");
-                                const filterParam = `activityType in [${filterValue}]`;
-                                query += `&filter=${encodeURIComponent(filterParam)}`;
+                                const filterValue = arrActivityType.map(type => `${type}`).join(",");
+                                const filterParam = `&activityType.in=${filterValue}`;
+                                query += `${filterParam}`;
                             } else {
-                                query += `&filter=activityType~'${arrActivityType[0]}'`;
+                                const filterValue = activityType;
+                                const filterParam = `&activityType.equals=${encodeURIComponent(filterValue.toString())}`;
+                                query += `${filterParam}`;
                             }
                         }
                     }
+
                     const response = await getAllActivityLogAPI(query);
                     if (response.data) {
                         setMeta(response.data.meta);
                     }
+                    
                     return {
                         data: response.data?.result,
                         page: 1,
