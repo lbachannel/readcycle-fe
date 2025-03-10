@@ -29,6 +29,7 @@ import BorrowBookPage from './pages/client/borrow';
 import ChangePasswordPage from './pages/client/auth/change-password';
 import ManageActivityPage from './pages/admin/manage.activity';
 import BooksHistoryPage from './pages/client/history';
+import ManageMaintenancePage from './pages/admin/manage.maintenance';
 
 const router = createBrowserRouter([
     {
@@ -96,6 +97,15 @@ const router = createBrowserRouter([
                 element: (
                     <ProtectedRoute>
                         <ManageActivityPage />
+                    </ProtectedRoute>
+                )
+            },
+
+            {
+                path: "maintenance",
+                element: (
+                    <ProtectedRoute>
+                        <ManageMaintenancePage />
                     </ProtectedRoute>
                 )
             }

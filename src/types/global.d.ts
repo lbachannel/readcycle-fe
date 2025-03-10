@@ -145,4 +145,9 @@ declare global {
         countError: number;
         detail: any;
     }
+
+    interface IMaintenance {
+        inMaintenance: boolean;
+        from: Date;
+    }
 }
