@@ -4,7 +4,6 @@ import { useEffect, useState } from "react";
 
 const Maintenance = () => {
     const [switchState, setSwitchState] = useState<boolean>(false);
-    // const [maintenance, setMaintenance] = useState<IMaintenance | null>(null);
     const { message } = App.useApp();
 
     // maintenance
