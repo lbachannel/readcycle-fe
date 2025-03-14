@@ -29,6 +29,8 @@ import BorrowBookPage from './pages/client/borrow';
 import ChangePasswordPage from './pages/client/auth/change-password';
 import ManageActivityPage from './pages/admin/manage.activity';
 import BooksHistoryPage from './pages/client/history';
+import ManageMaintenancePage from './pages/admin/manage.maintenance';
+import MaintenancePage from './pages/client/maintenance';
 
 const router = createBrowserRouter([
     {
@@ -98,6 +100,15 @@ const router = createBrowserRouter([
                         <ManageActivityPage />
                     </ProtectedRoute>
                 )
+            },
+
+            {
+                path: "maintenance",
+                element: (
+                    <ProtectedRoute>
+                        <ManageMaintenancePage />
+                    </ProtectedRoute>
+                )
             }
         ]
     },
@@ -125,6 +136,11 @@ const router = createBrowserRouter([
     {
         path: "/verify-email-failed",
         element: <VerifyFailedPage />,
+    },
+
+    {
+        path: "/maintenance",
+        element: <MaintenancePage />,
     }
 ]);
 

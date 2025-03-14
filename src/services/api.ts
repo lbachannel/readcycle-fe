@@ -197,3 +197,14 @@ export const deleteCartsAPI = (ids: any) => {
     const urlBackend = "/api/v1/remove-carts";
     return axios.post<IBackendRes<String>>(urlBackend, ids);
 }
+
+// Maintenance
+export const getMaintenanceStatus = () => {
+    const urlBackend = `/api/admin/maintenance`;
+    return axios.get<IBackendRes<IMaintenance>>(urlBackend);
+}
+
+export const toggleMaintenance = (maintenanceMode: boolean) => {
+    const urlBackend = `/api/admin/toggle-maintenance`;
+    return axios.put<IBackendRes<IMaintenance>>(urlBackend, {maintenanceMode});
+}

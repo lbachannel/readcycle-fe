@@ -145,4 +145,8 @@ declare global {
         countError: number;
         detail: any;
     }
+
+    interface IMaintenance {
+        maintenanceMode: boolean;
+    }
 }

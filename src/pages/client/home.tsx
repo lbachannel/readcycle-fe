@@ -58,6 +58,8 @@ const HomePage = () => {
         if (response && response.data) {
             setListBook(response.data.result);
             setTotal(response.data.meta.total);
+        } else {
+            navigate("/maintenance")
         }
         setIsloading(false);
     }

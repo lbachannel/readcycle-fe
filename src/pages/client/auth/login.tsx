@@ -1,4 +1,4 @@
-import { Form, Divider, Input, Button, ConfigProvider, Space, App } from 'antd';
+import { Form, Divider, Input, Button, ConfigProvider, Space, App, notification } from 'antd';
 import { AntDesignOutlined } from '@ant-design/icons';
 import { createStyles } from 'antd-style';
 import type { FormProps } from 'antd';
@@ -46,6 +46,7 @@ const LoginPage = () => {
     const { message } = App.useApp();
     const { setIsAuthenticated, setUser, setCarts } = useCurrentApp();
     const navigate = useNavigate();
+    const [api, contextHolder] = notification.useNotification();
 
     useEffect(() => {
         const message = localStorage.getItem('registerSuccess');
@@ -61,6 +62,28 @@ const LoginPage = () => {
         const { username = "", password = "" } = values;
         setIsSubmit(true);
         const response = await loginAPI(username, password);
+        if (response.error === "Maintenance mode, we will be back soon") {
+            const errorMessage = Array.isArray(response.error) ? (
+                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
+                    {response.error.map((msg, index) => (
+                        <li key={index}>{msg}</li>
+                    ))}
+                </ul>
+            ) : (
+                <div>{response.error}</div>
+            );
+            api.open({
+                message: "503",
+                description: errorMessage,
+                type: 'error',
+                showProgress: true,
+                pauseOnHover: true,
+            });
+            setIsSubmit(false);
+            return;
+        }
+            
+        
         setIsSubmit(false);
         if (response?.data) {
             setIsAuthenticated(true);
@@ -170,6 +193,8 @@ const LoginPage = () => {
                                         <Link to='/register' > Register </Link>
                                     </span>
                                 </p>
+
+                                {contextHolder}
                             </Form>
                         </section>
                     </div>
