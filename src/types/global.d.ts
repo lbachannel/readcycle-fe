@@ -147,7 +147,6 @@ declare global {
     }
 
     interface IMaintenance {
-        inMaintenance: boolean;
-        from: Date;
+        maintenanceMode: boolean;
     }
 }

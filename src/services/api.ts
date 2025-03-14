@@ -200,6 +200,11 @@ export const deleteCartsAPI = (ids: any) => {
 
 // Maintenance
 export const getMaintenanceStatus = () => {
-    const urlBackend = `/api/maintenance`;
+    const urlBackend = `/api/admin/maintenance`;
     return axios.get<IBackendRes<IMaintenance>>(urlBackend);
+}
+
+export const toggleMaintenance = (maintenanceMode: boolean) => {
+    const urlBackend = `/api/admin/toggle-maintenance`;
+    return axios.put<IBackendRes<IMaintenance>>(urlBackend, {maintenanceMode});
 }

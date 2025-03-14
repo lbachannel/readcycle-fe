@@ -1,6 +1,6 @@
 import { getAllBooksClientV2API } from "@/services/api";
 import { FilterTwoTone, ReloadOutlined } from "@ant-design/icons";
-import { Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Row, Spin, Tabs } from "antd";
+import { Button, Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Result, Row, Spin, Tabs } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import 'styles/home.scss';
@@ -58,6 +58,8 @@ const HomePage = () => {
         if (response && response.data) {
             setListBook(response.data.result);
             setTotal(response.data.meta.total);
+        } else {
+            navigate("/maintenance")
         }
         setIsloading(false);
     }

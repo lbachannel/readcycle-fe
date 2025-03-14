@@ -30,6 +30,7 @@ import ChangePasswordPage from './pages/client/auth/change-password';
 import ManageActivityPage from './pages/admin/manage.activity';
 import BooksHistoryPage from './pages/client/history';
 import ManageMaintenancePage from './pages/admin/manage.maintenance';
+import MaintenancePage from './pages/client/maintenance';
 
 const router = createBrowserRouter([
     {
@@ -135,6 +136,11 @@ const router = createBrowserRouter([
     {
         path: "/verify-email-failed",
         element: <VerifyFailedPage />,
+    },
+
+    {
+        path: "/maintenance",
+        element: <MaintenancePage />,
     }
 ]);
 

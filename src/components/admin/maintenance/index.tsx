@@ -1,4 +1,4 @@
-import { getMaintenanceStatus } from "@/services/api";
+import { getMaintenanceStatus, toggleMaintenance } from "@/services/api";
 import { App, Switch } from "antd";
 import { useEffect, useState } from "react";
 
@@ -11,14 +11,29 @@ const Maintenance = () => {
         const fetMaintenanceStatus = async () => {
             try {
                 const response = await getMaintenanceStatus();
-                setSwitchState(response.data?.inMaintenance!);
+                setSwitchState(response.data?.maintenanceMode!);
             } catch (error) {
-                message.success("Failed to fetch maintenance status");
+                message.error("Failed to fetch maintenance status");
             }
         };
 
         fetMaintenanceStatus();
     }, []);
+
+    const handleToggleMaintenance = async () => {
+        try {
+            const newState = !switchState;
+            const response = await toggleMaintenance(newState);
+            if (response && response.data) {
+                setSwitchState(newState);
+                message.success(`Maintenance is ${newState ? "On" : "Off"}`);
+            } else {
+                message.error("Failed to update maintenance status");
+            }
+        } catch (error) {
+            message.error("Failed to update maintenance status");
+        }
+    }   
 
     return (
         <>
@@ -26,7 +41,8 @@ const Maintenance = () => {
                 Maintenance
             </p>
             <Switch
-                checked={switchState} />
+                checked={switchState}
+                onChange={handleToggleMaintenance} />
         </>
     )
 }
