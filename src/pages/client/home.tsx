@@ -1,6 +1,6 @@
 import { getAllBooksClientV2API } from "@/services/api";
 import { FilterTwoTone, ReloadOutlined } from "@ant-design/icons";
-import { Button, Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Result, Row, Spin, Tabs } from "antd";
+import { Carousel, Checkbox, Col, Divider, Form, FormProps, Pagination, Row, Spin, Tabs } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import 'styles/home.scss';
