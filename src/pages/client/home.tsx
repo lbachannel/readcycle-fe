@@ -58,7 +58,7 @@ const HomePage = () => {
         if (response && response.data) {
             setListBook(response.data.result);
             setTotal(response.data.meta.total);
-        } else {
+        } else if (response.statusCode === 503) {
             navigate("/maintenance")
         }
         setIsloading(false);
