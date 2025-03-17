@@ -208,3 +208,13 @@ export const toggleMaintenance = (maintenanceMode: boolean) => {
     const urlBackend = `/api/admin/toggle-maintenance`;
     return axios.put<IBackendRes<IMaintenance>>(urlBackend, {maintenanceMode});
 }
+
+// Dashboard
+export const getDashboardStatsAPI = () => {
+    const urlBackend = `/api/v1/admin/dashboard`;
+    return axios.get<IBackendRes<{
+        countUser: number;
+        countAdmin: number;
+        countBook: number;
+    }>>(urlBackend)
+}
