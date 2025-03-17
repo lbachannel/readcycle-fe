@@ -73,18 +73,9 @@ const TableUser = () => {
             message.success("Delete user successfully");
             refreshTable();
         } else {
-            const errorMessage = Array.isArray(response.message) ? (
-                <ul style={{listStyle: 'inside ', textIndent: '-20px'}}>
-                    {response.message.map((msg, index) => (
-                        <li key={index}>{msg}</li>
-                    ))}
-                </ul>
-            ) : (
-                <div>{response.message}</div>
-            );
             api.open({
-                message: "Delete failed",
-                description: errorMessage,
+                message: "Unable to delete the account",
+                description: "This account is linked to important data. Please review and delete the related data before trying again.",
                 type: 'error',
                 showProgress: true,
                 pauseOnHover: true,
