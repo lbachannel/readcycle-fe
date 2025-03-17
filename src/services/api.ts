@@ -218,3 +218,8 @@ export const getDashboardStatsAPI = () => {
         countBook: number;
     }>>(urlBackend)
 }
+
+export const getStatsBooksAPI = () => {
+    const urlBackend = `/api/v1/admin/dashboard-books`;
+    return axios.get<IBackendRes<IStatsBooks>>(urlBackend);
+}

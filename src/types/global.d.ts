@@ -8,6 +8,16 @@ declare global {
         data?: T;
     }
 
+    interface IStatsBooks {
+        books: {
+            category: string;
+            title: string;
+            totalQty: number;
+            currentQty: number;
+            borrowQty: number;
+        }
+    }
+
     interface IModelPaginate<T> {
         meta: {
             current: number;
