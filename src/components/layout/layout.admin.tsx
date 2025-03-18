@@ -4,9 +4,10 @@ import {
     ExceptionOutlined,
     TeamOutlined,
     UserOutlined,
-    DollarCircleOutlined,
     MenuFoldOutlined,
     MenuUnfoldOutlined,
+    SettingOutlined,
+    ScheduleOutlined,
 } from '@ant-design/icons';
 import { Layout, Menu, Dropdown, Space, App } from 'antd';
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
@@ -70,12 +71,12 @@ const LayoutAdmin = () => {
         {
             label: <Link to='/admin/activity-logs'>Activity logs</Link>,
             key: '/admin/activity-logs',
-            icon: <ExceptionOutlined />
+            icon: <ScheduleOutlined />
         },
         {
             label: <Link to='/admin/maintenance'>Maintenance</Link>,
             key: '/admin/maintenance',
-            icon: <DollarCircleOutlined />
+            icon: <SettingOutlined />
         },
 
     ];
